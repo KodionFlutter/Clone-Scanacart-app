@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "129540397589",
+    "project_id": "scanacart-a86dc",
+    "storage_bucket": "scanacart-a86dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129540397589:android:edc54bd887fbd95d5a4c1c",
+        "android_client_info": {
+          "package_name": "com.enovate.scanacart"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEEet2KURKMGa2FYFDOft1wCsmg3is6tY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
