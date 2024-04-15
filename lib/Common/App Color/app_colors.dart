@@ -23,9 +23,12 @@ class AppColors {
   static var whiteBackgroundColor = Colors.white;
   static var blackBackgroundColor = const Color(0xFF010D49);
   static var greyBackgroundColor = Color(0xFFDDDDDD);
+  static var blackColor = Colors.black;
+
 
   //! Colors for text Colors
   static var txtWhiteColor = Colors.white;
   static var txtBlackColor = Color(0xFF010D49);
   static var txtScanProductColor = Color(0xFFB672FF);
+  static var txtErrorTxtColor = Color(0xFFE2050B);
 }

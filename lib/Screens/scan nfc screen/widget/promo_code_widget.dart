@@ -5,7 +5,8 @@ import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/controller/scan_nfc_
 import 'package:scan_cart_clone/Utils/constant.dart';
 
 class PromoCodetxtFeildWidget extends StatelessWidget {
-  const PromoCodetxtFeildWidget({super.key});
+   PromoCodetxtFeildWidget({super.key});
+  final textEditController = Get.put(ScanNFCController());
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +15,8 @@ class PromoCodetxtFeildWidget extends StatelessWidget {
         padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
         child: SizedBox(
           height: (AppConstant.size.height - 40) / 12,
-          child: TextField(
-            controller: Get.find<ScanNFCController>().promoCodeController.value,
+          child: TextFormField(
+            controller: textEditController.promoCodeController.value,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: "Montserrat",
@@ -24,7 +25,7 @@ class PromoCodetxtFeildWidget extends StatelessWidget {
             decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(10),
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderRadius:const BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(
                         width: 0.50, color: AppColors.greyBackgroundColor)),
                 filled: true,
@@ -32,6 +33,15 @@ class PromoCodetxtFeildWidget extends StatelessWidget {
                     fontFamily: "Montserrat", color: Color(0xFF75758B)),
                 hintText: "Enter Product Code",
                 fillColor: AppColors.txtWhiteColor),
+            onChanged: (value){
+              print("Promocode value :: ${textEditController.promoCodeController.value.text}");
+            },
+            validator: (value){
+              if(textEditController.promoCodeController.value.text.isEmpty){
+                // show the toast if TextEdit isEmpty..
+                print("Empty we can show the Toast");
+              }
+            },
           ),
         ),
       ),
