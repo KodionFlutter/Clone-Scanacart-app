@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/widgets/common_button.dart';
-import 'package:scan_cart_clone/Customer%20Portal/authentication/signin%20screen/controller/customer_auth_controller.dart';
-import 'package:scan_cart_clone/Customer%20Portal/authentication/signup%20screen/customer_signup_screen.dart';
-import 'package:scan_cart_clone/Customer%20Portal/widgets/common_TextField.dart';
-import 'package:scan_cart_clone/Customer%20Portal/widgets/common_header_widget.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/signin%20screen/controller/customer_auth_controller.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/signup%20screen/customer_signup_screen.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/widgets/common_TextField.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/widgets/common_header_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 
 class CustomerLoginPage extends StatelessWidget {

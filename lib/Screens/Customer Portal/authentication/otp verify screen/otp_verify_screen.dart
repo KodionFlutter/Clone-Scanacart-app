@@ -3,19 +3,21 @@ import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/common_services/common_services.dart';
 import 'package:scan_cart_clone/Common/widgets/common_button.dart';
-import 'package:scan_cart_clone/Customer%20Portal/authentication/otp%20verify%20screen/controller/otp_verify_controller.dart';
-import 'package:scan_cart_clone/Customer%20Portal/widgets/common_TextField.dart';
-import 'package:scan_cart_clone/Customer%20Portal/widgets/common_header_widget.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/otp%20verify%20screen/controller/otp_verify_controller.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/widgets/common_TextField.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/widgets/common_header_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 
 class OtpVerifyScreen extends StatelessWidget {
+  final int id;
+  var email;
 
-  OtpVerifyScreen({super.key});
-
-  final otpController = Get.put(OTPVrifyController());
+  OtpVerifyScreen({super.key, required this.id, this.email});
 
   @override
   Widget build(BuildContext context) {
+    final otpController = Get.put(OTPVrifyController(id: id));
+
     return Scaffold(
       body: Container(
         height: AppConstant.size.height,

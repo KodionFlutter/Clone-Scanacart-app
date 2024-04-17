@@ -9,7 +9,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:nfc_manager/nfc_manager.dart';
-import 'package:scan_cart_clone/Base%20service/services.dart';
 import 'package:scan_cart_clone/Models/admin_login_model.dart';
 import 'package:scan_cart_clone/Models/employee_data_model.dart';
 import 'package:scan_cart_clone/Screens/nfc%20loading/nfc_loading.dart';
@@ -17,6 +16,7 @@ import 'package:scan_cart_clone/Screens/product%20screen/product_screen.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/pages/ready_to_scan_page.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/widget/alert_dialobbox_widget.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/widget/nfc_enable_error_dailog_widget.dart';
+import 'package:scan_cart_clone/Utils/Base%20service/services.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,7 +38,6 @@ class ScanNFCController extends GetxController {
   RxString videoURL = ''.obs;
   RxInt serialNumber = 0.obs;
   EmployeeDataModel employeeDataModel = EmployeeDataModel();
-
 
   //! Calling onInit method
   @override
@@ -353,7 +352,7 @@ class ScanNFCController extends GetxController {
                   height: AppConstant.size.height * 0.5,
                 ));
       } else {
-        employeeDataModel=data;
+        employeeDataModel = data;
         logoPath.value = employeeDataModel.logoPath!;
         print("This is logo pathThis is logo path == ${logoPath.value}");
         employee_clientId.value = employeeDataModel.clientId.toString();

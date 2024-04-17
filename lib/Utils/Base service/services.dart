@@ -3,16 +3,16 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:scan_cart_clone/Base%20service/base_service.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/App%20Config/api_service_config.dart';
 import 'package:scan_cart_clone/Common/common_services/common_services.dart';
 import 'package:scan_cart_clone/Models/admin_login_model.dart';
 import 'package:scan_cart_clone/Models/customer_signup_model.dart';
 import 'package:scan_cart_clone/Models/employee_data_model.dart';
+import 'package:scan_cart_clone/Models/reward_model.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/widget/nfc_enable_error_dailog_widget.dart';
+import 'package:scan_cart_clone/Utils/Base%20service/base_service.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class APIServices {
   //! Admin Login
@@ -105,7 +105,6 @@ class APIServices {
   //! Customer SignUp..
 
   static Future customerSignUP(Map<String, dynamic> map) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     final url =
         "${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/registerCustomer";
     try {
@@ -113,7 +112,6 @@ class APIServices {
       print("Customer signup Response :: ${response.toString()}");
       if (response.statusCode == 200) {
         var decodedData = jsonDecode(response.body);
-        await prefs.setString("customer_id", decodedData["customer_id"]);
         print("decoded Data :: ${decodedData}");
         return CustomerSignUpModel.fromJson(decodedData);
       }
@@ -155,12 +153,9 @@ class APIServices {
 
   //! Customer Login Method ..
 
-  static Future customerLoginMethod(
-      String email, String phone ) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+  static Future customerLoginMethod(String email, String phone) async {
     String url =
-        '${ApiServiceConfig
-        .apiBaseUrl}?endpoint=/customer/loginCustomer&email=${email.toString()}&phone=${phone}';
+        '${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/loginCustomer&email=${email.toString()}&phone=${phone}';
     print("Login url :: ${url}");
     try {
       final response = await BaseService.getAPI(url);
@@ -168,13 +163,37 @@ class APIServices {
       log("message :: ${response}");
       if (response.statusCode == 200) {
         var decodedData = jsonDecode(response.body);
-        // await prefs.setInt("customerId", decodedData["customer_id"]);
         print("decoded Data :: ${decodedData}");
-        return decodedData;
+        return CustomerSignUpModel.fromJson(decodedData);
       }
-
     } on SocketException {
       throw Exception("No internet");
+    } catch (exception) {
+      log("Exception :: ${exception.toString()}");
+    }
+  }
+
+  //! Get Customer Rewards
+
+  static Future customerReward(int customerId) async {
+    String url =
+        "${ApiServiceConfig.apiBaseUrl}?endpoint=%2Frewards%2FcustomerRewards&customer_id=$customerId";
+    print("Customer Reward Point :: ${url}");
+
+    try {
+      final response = await BaseService.getAPI(url);
+      log("Reward response == ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodedData = json.decode(response.body);
+        log("Reward Decoded Data :: ${decodedData}");
+        if (decodedData['success'] == true) {
+          return RewardModel.fromJson(decodedData);
+        } else {
+          print("Error occure during the Reward API Fetching");
+        }
+      }
+    } on SocketException {
+      throw Exception("No Connection");
     } catch (exception) {
       log("Exception :: ${exception.toString()}");
     }

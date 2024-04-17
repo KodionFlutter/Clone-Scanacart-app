@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/common_services/common_services.dart';
-import 'package:scan_cart_clone/Customer%20Portal/authentication/signin%20screen/customer_login_page.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/signin%20screen/customer_login_page.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/reward_screen.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/controller/scan_nfc_controller.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/widget/client_login_widget.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/widget/promo_code_widget.dart';
@@ -10,9 +11,8 @@ import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/widget/reward_widget
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/widget/scan_product_btn_widget.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/widget/verify_button_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'pages/ready_to_scan_page.dart';
-import 'widget/nfc_enable_error_dailog_widget.dart';
 
 class ScanNFCScreen extends StatelessWidget {
   ScanNFCScreen({super.key});
@@ -35,8 +35,16 @@ class ScanNFCScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 //! Calling here reward widget
-                RewardWidget(onTap: () {
-                  Get.to(CustomerLoginPage());
+                RewardWidget(onTap: () async{
+                  final SharedPreferences prefs = await SharedPreferences.getInstance();
+                  var id= prefs.getInt("customer_id");
+                  if(id != null){
+                    Get.to(RewardScreen(customerId: id));
+                  }else{
+                    Get.to(CustomerLoginPage());
+
+                  }
+
                 }),
                 //! Calling Client Login section
                 ClientLoginWidget(onTap: () {}),

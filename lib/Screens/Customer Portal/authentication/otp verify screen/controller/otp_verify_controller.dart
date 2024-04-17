@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:scan_cart_clone/Base%20service/services.dart';
-import 'package:scan_cart_clone/Customer%20Portal/reward%20screen/reward_screen.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/reward_screen.dart';
+import 'package:scan_cart_clone/Utils/Base%20service/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OTPVrifyController extends GetxController {
+  final id;
+
+  OTPVrifyController({required this.id});
+
   Rx<TextEditingController> otpVerifyController = TextEditingController().obs;
 
   //! Verify the OTP ..
 
   Future<void> verifyotp(otp) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final id = prefs.getString("customer_id");
-    print("This is customer id :: ${id}");
     try {
       var data = await APIServices.verificationCode(otp, id.toString());
-      print("Comminf verify data :: ${data}");
+      print("verify data :: ${data}");
       if (data == true) {
-        Get.off(RewardScreen());
+        await prefs.setInt('customer_id', id);
+        Get.off(RewardScreen(customerId: id));
       } else {
         Get.back();
       }

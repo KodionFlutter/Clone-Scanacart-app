@@ -6,10 +6,10 @@ import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/common_services/common_services.dart';
 import 'package:scan_cart_clone/Common/widgets/common_button.dart';
-import 'package:scan_cart_clone/Customer%20Portal/authentication/signin%20screen/customer_login_page.dart';
-import 'package:scan_cart_clone/Customer%20Portal/authentication/signup%20screen/controller/customer_signup_controller.dart';
-import 'package:scan_cart_clone/Customer%20Portal/widgets/common_TextField.dart';
-import 'package:scan_cart_clone/Customer%20Portal/widgets/common_header_widget.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/signin%20screen/customer_login_page.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/signup%20screen/controller/customer_signup_controller.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/widgets/common_TextField.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/widgets/common_header_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 
 import '../otp verify screen/otp_verify_screen.dart';
@@ -136,7 +136,6 @@ class CustomerSignUpScreen extends StatelessWidget {
                             left: 20, bottom: 30, right: 20, top: 20),
                         child: CommonButtonWidget(
                           onPressed: () async {
-
                             log("${signUpController.customerPhoneController.value.text}");
 
                             if (signUpController.customerEmailController.value
@@ -155,17 +154,6 @@ class CustomerSignUpScreen extends StatelessWidget {
                                 "phone": signUpController
                                     .customerPhoneController.value.text,
                               });
-                              // if (customerSignupModel.message
-                              //     .toString()
-                              //     .contains("User already exist.")) {
-                              //   showMessage("${customerSignupModel.message}",
-                              //       Colors.white);
-                              // } else {
-                              //   print(
-                              //       " Customer id :: ${customerSignupModel.customerId!}");
-                              //
-                              // }
-                              Get.off(OtpVerifyScreen());
                             }
 
                             // Get.off(OtpVerifyScreen());

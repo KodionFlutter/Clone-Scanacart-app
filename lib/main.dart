@@ -5,8 +5,6 @@ import 'package:get/get.dart';
 import 'package:scan_cart_clone/Screens/splash%20screen/splash_screen.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 
-String? appName, packageName, version, buildNumber;
-
 void main() async {
   runApp(MyApp());
 }
