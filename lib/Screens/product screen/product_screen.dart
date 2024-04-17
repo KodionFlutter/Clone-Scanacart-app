@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,6 +31,8 @@ class ProductScreen extends StatelessWidget {
       serialNumber: serialNumber,
       responseData: responseData,
     ));
+    log("Video initlized => ${productController
+        .videoPlayerController?.value.isInitialized}");
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -41,81 +45,85 @@ class ProductScreen extends StatelessWidget {
             Obx(() {
               if (productController.videoUrl.value.endsWith("mp4")) {
                 return productController
-                        .videoPlayerController.value.isInitialized
+                    .videoPlayerController!.value.isInitialized
                     ? SizedBox(
-                        width: AppConstant.size.width,
-                        height: AppConstant.size.height,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            // Here display the video
-                            DisplayVideoWidget(
-                              controller:
-                                  productController.videoPlayerController,
-                            ),
-                          ],
-                        ),
-                      )
+
+                  width: AppConstant.size.width,
+                  height: AppConstant.size.height,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      // Here display the video
+                      // productController.getBOXFitted( productController.videoPlayerController)
+                      DisplayVideoWidget(
+                        controller:
+                        productController.videoPlayerController!,
+                      ),
+                    ],
+                  ),
+                )
                     : Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          Positioned(
-                            left: (AppConstant.size.width - 180) / 2,
-                            top: (AppConstant.size.height - 180) / 2.4,
-                            // Center vertically
-                            child: Image.asset(
-                              "assets/splash/img_splash_anim.gif",
-                              width: 180,
-                              height: 180,
-                            ),
-                          )
-                        ],
-                      );
-              } else {
+                  fit: StackFit.expand,
+                  children: [
+                    Positioned(
+                      left: (AppConstant.size.width - 180) / 2,
+                      top: (AppConstant.size.height - 180) / 2.4,
+                      // Center vertically
+                      child: Image.asset(
+                        "assets/splash/img_splash_anim.gif",
+                        width: 180,
+                        height: 180,
+                      ),
+                    )
+                  ],
+                );
+              }
+              else {
                 return Center(
                   child: Padding(
                     padding:
-                        const EdgeInsets.only(left: 10, right: 10, bottom: 130),
+                    const EdgeInsets.only(left: 10, right: 10, bottom: 130),
                     child: SizedBox(
+
                       height: 220,
                       width: AppConstant.size.width / 1.3,
                       child: productController.logoPath.value != null
                           ? CachedNetworkImage(
-                              imageUrl: productController.logoPath.value!,
-                              fit: BoxFit.contain,
-                              placeholder: (context, url) {
-                                return Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    Positioned(
-                                      left: (AppConstant.size.width - 180) / 2,
-                                      top:
-                                          (AppConstant.size.height - 180) / 2.4,
-                                      // Center vertically
-                                      child: Image.asset(
-                                        "assets/images/cropscana.png",
-                                        width: 180,
-                                        height: 180,
-                                      ),
-                                    )
-                                  ],
-                                );
-                              },
-                              errorWidget: (context, url, error) {
-                                return Material(
-                                  color: Colors.transparent.withOpacity(0.8),
-                                  child: const Center(
-                                    child: Text('Could\'t load image',
-                                        overflow: TextOverflow.visible,
-                                        textAlign: TextAlign.center,
-                                        maxLines: 2,
-                                        style: TextStyle(
-                                            color: Colors.black, fontSize: 22)),
-                                  ),
-                                );
-                              },
-                            )
-                          : SizedBox.shrink(),
+                        imageUrl: productController.logoPath.value!,
+                        fit: BoxFit.contain,
+                        placeholder: (context, url) {
+                          return Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              Positioned(
+                                left: (AppConstant.size.width - 180) / 2,
+                                top:
+                                (AppConstant.size.height - 180) / 2.4,
+                                // Center vertically
+                                child: Image.asset(
+                                  "assets/images/cropscana.png",
+                                  width: 180,
+                                  height: 180,
+                                ),
+                              )
+                            ],
+                          );
+                        },
+                        errorWidget: (context, url, error) {
+                          return Material(
+                            color: Colors.transparent.withOpacity(0.8),
+                            child: const Center(
+                              child: Text('Could\'t load image',
+                                  overflow: TextOverflow.visible,
+                                  textAlign: TextAlign.center,
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 22)),
+                            ),
+                          );
+                        },
+                      )
+                          : const  SizedBox.shrink(),
                     ),
                   ),
                 );
@@ -128,9 +136,9 @@ class ProductScreen extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: AppbarWidget(
-                      imagePath: productController.logoPath.value.toString(),
-                    ),
+                      child: Obx(() => AppbarWidget(
+                        imagePath: productController.logoPath.value,
+                      ),)
                   ),
                 ],
               ),
@@ -140,7 +148,8 @@ class ProductScreen extends StatelessWidget {
               right: 10,
               left: 10,
               child: Obx(
-                () => Container(
+
+                    () => Container(
                   width: AppConstant.size.width / 1.1,
                   padding: const EdgeInsets.only(top: 5, bottom: 15),
                   decoration: ShapeDecoration(
@@ -151,7 +160,7 @@ class ProductScreen extends StatelessWidget {
                   ),
                   child: Padding(
                     padding:
-                        const EdgeInsets.only(left: 15, right: 10, top: 15),
+                    const EdgeInsets.only(left: 15, right: 10, top: 15),
                     child: Column(
                       children: [
                         Text(
@@ -172,11 +181,12 @@ class ProductScreen extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(left: 10, right: 10),
                             child: SizedBox(
+
                               height: 90,
                               width: AppConstant.size.width * 0.7,
                               child: CachedNetworkImage(
                                 imageUrl:
-                                    productController.logoPath.value,
+                                productController.logoPath.value,
                                 fit: BoxFit.contain,
                                 errorWidget: (context, url, error) {
                                   return Material(

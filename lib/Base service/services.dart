@@ -4,7 +4,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:scan_cart_clone/Base%20service/base_service.dart';
+import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/App%20Config/api_service_config.dart';
+import 'package:scan_cart_clone/Common/common_services/common_services.dart';
 import 'package:scan_cart_clone/Models/admin_login_model.dart';
 import 'package:scan_cart_clone/Models/customer_signup_model.dart';
 import 'package:scan_cart_clone/Models/employee_data_model.dart';
@@ -20,7 +22,6 @@ class APIServices {
       log("Login URL :: ${url.toString()}");
       final response = await BaseService.postMethod(url, map);
       log("Login Response :: ${response.body}");
-
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
         log("Response Data :: ${responseData.toString()}");
@@ -128,6 +129,54 @@ class APIServices {
   static Future verificationCode(String otp, String customerID) async {
     String url =
         "${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/verifyLoginCode&code=${otp.toString()}&customer_id=${customerID.toString()}";
+
     log("Verification mail :: ${url}");
+    try {
+      final response = await BaseService.getAPI(url);
+      print("This is otp Response :: ${response}");
+      if (response.statusCode == 200) {
+        var decodeData = jsonDecode(response.body);
+        print("This is verify Decoded Data :: ${decodeData}");
+        var successflag = decodeData['success'];
+        if (successflag == true) {
+          showMessage("${decodeData['message']}", AppColors.txtErrorTxtColor);
+          return successflag;
+        } else {
+          showMessage("Incorrect code", AppColors.txtErrorTxtColor);
+        }
+        print("${decodeData}");
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    } catch (exception) {
+      log("Exception :: ${exception.toString()}");
+    }
+  }
+
+  //! Customer Login Method ..
+
+  static Future customerLoginMethod(
+      String email, String phone ) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String url =
+        '${ApiServiceConfig
+        .apiBaseUrl}?endpoint=/customer/loginCustomer&email=${email.toString()}&phone=${phone}';
+    print("Login url :: ${url}");
+    try {
+      final response = await BaseService.getAPI(url);
+      print("Customer signin Response :: ${response}");
+      log("message :: ${response}");
+      if (response.statusCode == 200) {
+        var decodedData = jsonDecode(response.body);
+        // await prefs.setInt("customerId", decodedData["customer_id"]);
+        print("decoded Data :: ${decodedData}");
+        return decodedData;
+      }
+
+    } on SocketException {
+      throw Exception("No internet");
+    } catch (exception) {
+      log("Exception :: ${exception.toString()}");
+    }
   }
 }

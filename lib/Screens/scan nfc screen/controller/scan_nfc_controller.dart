@@ -18,6 +18,7 @@ import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/pages/ready_to_scan_
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/widget/alert_dialobbox_widget.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/widget/nfc_enable_error_dailog_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ScanNFCController extends GetxController {
   //! Variable Declare
@@ -141,11 +142,14 @@ class ScanNFCController extends GetxController {
   Future adminLogin() async {
     String email = "admin@scanacart.com";
     String password = "Test@1234";
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     //! Calling adminModel
     try {
       var loginModel = AdminLoginModel();
       loginModel =
           await APIServices.login({"email": email, "password": password});
+      await prefs.setString("Token", loginModel.token!);
+
       adminTokenService.value = loginModel.token!;
       log("Admin token :: ${adminTokenService}");
       clientId.value = loginModel.clientId!;

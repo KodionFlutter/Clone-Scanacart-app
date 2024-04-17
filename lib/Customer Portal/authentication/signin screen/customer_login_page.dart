@@ -48,11 +48,12 @@ class CustomerLoginPage extends StatelessWidget {
                       icons: Icons.email,
                       textInputType: TextInputType.emailAddress,
                       hinText: "Email",
-                      preFixText: "", validator: (val){
-                      if(val.toString().isEmpty){
-                        return "Please enter email";
-                      }
-                    },
+                      preFixText: "",
+                      validator: (val) {
+                        if (val.toString().isEmpty) {
+                          return "Please enter email";
+                        }
+                      },
                     ),
                   ),
                   Padding(
@@ -97,8 +98,8 @@ class CustomerLoginPage extends StatelessWidget {
                       textInputType: TextInputType.phone,
                       hinText: "Phone",
                       preFixText: "+1 ",
-                      validator: (val){
-                        if(val.toString().isEmpty){
+                      validator: (val) {
+                        if (val.toString().isEmpty) {
                           return "Please enter phone number";
                         }
                       },
@@ -109,7 +110,15 @@ class CustomerLoginPage extends StatelessWidget {
                     padding: const EdgeInsets.only(
                         left: 30, bottom: 30, right: 30, top: 20),
                     child: CommonButtonWidget(
-                      onPressed: () {},
+                      onPressed: () async {
+                        //shi@yopmail.com
+                        await customerLoginController.customerLogin(
+                          customerLoginController
+                              .customerEmailController.value.text,
+                          customerLoginController
+                              .customerPhoneNumberController.value.text,
+                        );
+                      },
                       buttonTxt: 'Login',
                       btnHeight: AppConstant.size.height * 0.06,
                       btnWidth: AppConstant.size.width * 0.7,

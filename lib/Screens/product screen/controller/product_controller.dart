@@ -1,8 +1,10 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 import 'package:scan_cart_clone/Models/employee_data_model.dart';
+import 'package:scan_cart_clone/Utils/constant.dart';
 import 'package:video_player/video_player.dart';
 
 class ProductController extends GetxController {
@@ -25,41 +27,47 @@ class ProductController extends GetxController {
   RxString videoUrl = ''.obs;
   RxList productImages = [].obs;
   RxInt rewardPoint = 0.obs;
-  late VideoPlayerController videoPlayerController;
+  VideoPlayerController? videoPlayerController;
 
   @override
   void onInit() {
     Future.delayed(Duration.zero).then((value) => initializationVariable());
     super.onInit();
-    if(responseData.videoUrl!.endsWith("mp4")){
-      videoInitliz();
-    }
-    showPopUp();
   }
 
   @override
   void dispose() {
-    videoPlayerController.pause();
-    videoPlayerController.dispose();
+    videoPlayerController?.pause();
+    videoPlayerController?.dispose();
     super.dispose();
   }
 
   @override
   void onClose() {
-    videoPlayerController.pause();
+    videoPlayerController?.pause();
     super.onClose();
   }
 
 // Initialization the  values
-  void initializationVariable() {
-    logoPath.value = responseData.logoPath!;
-    print("Response logo path :: ${responseData.logoPath!}");
-    videoUrl.value = responseData.videoUrl!;
-    clientName.value = responseData.client!;
-    rewardPoint.value = responseData.rewards!;
-    clientUrl.value = responseData.clientURL!;
-    print("${rewardPoint.value}");
-    print(videoUrl.value);
+  Future<void> initializationVariable() async{
+    try {
+      logoPath.value = responseData.logoPath!;
+      print("Response logo path :: ${responseData.logoPath!}");
+      videoUrl.value = responseData.videoUrl!;
+      log("Video url path : ${videoUrl.value}");
+      clientName.value = responseData.client!;
+      rewardPoint.value = responseData.rewards!;
+      clientUrl.value = responseData.clientURL!;
+      print("${rewardPoint.value}");
+      print(videoUrl.value);
+      videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(videoUrl.value));
+      await videoPlayerController?.initialize();
+      videoPlayerController?.play();
+      videoPlayerController?.setLooping(true);
+
+    } catch (e) {
+      log("Error initializing video player: $e");
+    }
     update();
   }
 
@@ -76,14 +84,24 @@ class ProductController extends GetxController {
   }
 
   // Make a video play controller
-  void videoInitliz() async {
-    log("This is Video URL :: ${videoUrl.value}");
-    videoPlayerController =
-        await VideoPlayerController.networkUrl(Uri.parse(videoUrl.value))
-          ..initialize().then((v) {
-            videoPlayerController.play();
-            videoPlayerController.setLooping(true);
-          });
-    update();
+  // void videoInitliz() {
+  //   log("This is Video URL :: ${videoUrl.value}");
+  //
+  // }
+
+  ClipRect getBOXFitted(VideoPlayerController _controller) {
+    final size = MediaQuery.of(navigatorKey.currentState!.context).size;
+    return ClipRect(
+        child: SizedBox.expand(
+          child: FittedBox(
+
+              fit: BoxFit.fill,
+              alignment: Alignment.center,
+              child: Container(
+                //color: Colors.lightBlue,
+                  width: size.width,
+                  height: size.height,
+                  child: VideoPlayer(_controller))),
+        ));
   }
 }

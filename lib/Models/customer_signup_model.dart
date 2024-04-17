@@ -1,7 +1,7 @@
 class CustomerSignUpModel {
   String? message;
   bool? success;
-  String? customerId;
+  var customerId;
 
   CustomerSignUpModel({this.message, this.success, this.customerId});
 
