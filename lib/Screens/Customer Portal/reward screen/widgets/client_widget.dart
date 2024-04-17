@@ -18,19 +18,21 @@ class ClientWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: EdgeInsets.symmetric(
+          horizontal: AppConstant.size.width * 0.03,
+          vertical: AppConstant.size.height * 0.02),
       child: Container(
         width: AppConstant.size.width,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(AppConstant.size.width*0.03),
             color: Colors.white,
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                   color: Colors.black12, blurRadius: 2, offset: Offset(2, 2))
             ]),
         child: ListTile(
           leading: Padding(
-            padding: const EdgeInsets.all(1.0),
+            padding:  EdgeInsets.all(AppConstant.size.width*0.01),
             child: CircleAvatar(
               foregroundColor: Colors.black,
               backgroundColor: Colors.white,
@@ -58,24 +60,23 @@ class ClientWidget extends StatelessWidget {
           title: Text(
             "$clientName",
             style: TextStyle(
-              fontSize: 14,
+              fontSize: AppConstant.size.width*0.035,
               fontWeight: FontWeight.bold,
-              fontFamily: 'Montserrat',
               color: AppColors.blackColor,
             ),
           ),
           subtitle: Text("$rewardPoints points",
               style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
+                fontSize:  AppConstant.size.width*0.03,
+                fontWeight: FontWeight.w600,
                 fontFamily: 'Montserrat',
                 color: AppColors.blackColor,
               )),
           trailing: RedeemBtnWidget(
             onPressed: () {},
             buttonTxt: 'Redeem',
-            btnHeight: 35,
-            btnWidth: 120,
+            btnHeight: AppConstant.size.height*0.045,
+            btnWidth: AppConstant.size.width*0.3,
             txtColor: Colors.white,
             linearGradient: AppColors.verifyLinearGradientColor,
           ),

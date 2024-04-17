@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scan_cart_clone/Utils/constant.dart';
 
 class RedeemBtnWidget extends StatelessWidget {
   final VoidCallback onPressed;
@@ -41,8 +42,7 @@ class RedeemBtnWidget extends StatelessWidget {
               buttonTxt,
               style: TextStyle(
                 color: txtColor,
-                fontSize: 14,
-                fontFamily: 'Montserrat',
+                fontSize: AppConstant.size.width*0.040,
                 fontWeight: FontWeight.w500,
               ),
             )));

@@ -29,10 +29,11 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
         theme: ThemeData(
-            useMaterial3: false,
-            primarySwatch: Colors.lightBlue,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            fontFamily: 'Poppins'),
+          useMaterial3: false,
+          primarySwatch: Colors.lightBlue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          fontFamily: 'Montserrat',
+        ),
         home: SplashScreen());
   }
 }

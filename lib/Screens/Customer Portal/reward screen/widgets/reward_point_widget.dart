@@ -4,14 +4,14 @@ import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widget
 import 'package:scan_cart_clone/Utils/constant.dart';
 
 class RewardPointWidget extends StatelessWidget {
-  final String clinetName;
+  final String clientName;
   final int rewardPoints;
   final int maxRange;
   final int minRange;
 
   const RewardPointWidget(
       {super.key,
-      required this.clinetName,
+      required this.clientName,
       required this.rewardPoints,
       required this.maxRange,
       required this.minRange});
@@ -19,12 +19,17 @@ class RewardPointWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 0),
+      padding: EdgeInsets.only(
+        left: AppConstant.size.width * 0.03,
+        right: AppConstant.size.width * 0.03,
+        top: AppConstant.size.height * 0.02,
+        bottom: 0,
+      ),
       child: Container(
         width: AppConstant.size.width,
         decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(AppConstant.size.width * 0.03),
             boxShadow: [
               BoxShadow(
                   color: Colors.black12, blurRadius: 2, offset: Offset(2, 2))
@@ -38,89 +43,96 @@ class RewardPointWidget extends StatelessWidget {
               leading: CircleAvatar(
                 backgroundColor: Colors.black,
                 child: Padding(
-                  padding: const EdgeInsets.all(1.0),
+                  padding: EdgeInsets.all(AppConstant.size.width * 0.002),
                   child: CircleAvatar(
                     foregroundColor: Colors.black,
                     backgroundColor: Colors.white,
                     child: Text("S",
                         style: TextStyle(
                           color: AppColors.blackColor,
-                          fontSize: 18,
-                          fontFamily: 'Montserrat',
+                          fontSize: AppConstant.size.width * 0.05,
                           fontWeight: FontWeight.bold,
                         )),
                   ),
                 ),
               ),
-              title: Text(clinetName.toString(),
+              title: Text(clientName.toString(),
                   style: TextStyle(
                     color: AppColors.blackColor,
-                    fontSize: 16,
+                    fontSize: AppConstant.size.width * 0.04,
                     fontWeight: FontWeight.bold,
                   )),
               subtitle: Text("$rewardPoints points",
                   style: TextStyle(
                     color: AppColors.blackColor,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
+                    fontSize: AppConstant.size.width * 0.03,
+                    fontWeight: FontWeight.w600,
                   )),
               trailing: RedeemBtnWidget(
                 onPressed: () {},
                 buttonTxt: 'Redeem',
-                btnHeight: 35,
-                btnWidth: 120,
+                btnHeight: AppConstant.size.height * 0.045,
+                btnWidth: AppConstant.size.width * 0.30,
                 txtColor: Colors.white,
                 linearGradient: AppColors.verifyLinearGradientColor,
               ),
             ),
             // Progress Bar ..
-          const  Padding(
-              padding:  EdgeInsets.only(
-                  left: 10, right: 10, top: 0, bottom: 0),
-              child:  LinearProgressIndicator(
+            Padding(
+              padding: EdgeInsets.only(
+                left: AppConstant.size.width * 0.02,
+                right: AppConstant.size.width * 0.02,
+                top: 0,
+                bottom: 0,
+              ),
+              child: LinearProgressIndicator(
                 value: 0.1,
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
                 color: Colors.grey,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(
-                  left: 10, right: 10, top: 5, bottom: 0),
+              padding:  EdgeInsets.only(
+                left: AppConstant.size.width * 0.02,
+                right: AppConstant.size.width * 0.02,
+                top: AppConstant.size.height*0.01,
+                bottom: 0,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("${rewardPoints.toString()} Tier credits",
                       style: TextStyle(
                         color: AppColors.blackColor,
-                        fontSize: 12,
+                        fontSize: AppConstant.size.width*0.035,
                         fontWeight: FontWeight.bold,
                       )),
                   Text("${maxRange.toString()} to Platinum",
                       style: TextStyle(
                         color: AppColors.blackColor,
-                        fontSize: 12,
+                        fontSize:  AppConstant.size.width*0.035,
                         fontWeight: FontWeight.bold,
                       )),
                 ],
               ),
             ),
-           const SizedBox(height: 10),
+             SizedBox(height:  AppConstant.size.height*0.01),
             // Scan Cart
             Container(
-              height: 27,
-              width: 90,
+              height:  AppConstant.size.height*0.035,
+              width:  AppConstant.size.width*0.3,
               decoration: BoxDecoration(
                 gradient: AppColors.verifyLinearGradientColor,
                 borderRadius:
-                    BorderRadius.only(bottomLeft: Radius.circular(10)),
+                    BorderRadius.only(bottomLeft: Radius.circular(AppConstant.size.width*0.02)),
               ),
               child: Center(
                   child: Text(
-                "${clinetName}".toUpperCase(),
+                "${clientName}".toUpperCase(),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize:  AppConstant.size.width*0.035,
                   fontWeight: FontWeight.bold,
                   color: AppColors.txtWhiteColor,
                 ),

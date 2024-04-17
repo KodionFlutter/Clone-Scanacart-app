@@ -17,13 +17,16 @@ class RewardCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      padding: EdgeInsets.symmetric(
+        horizontal: AppConstant.size.width * 0.02,
+        vertical: AppConstant.size.height * 0.01,
+      ),
       child: Container(
           height: AppConstant.size.height * 0.22,
           width: AppConstant.size.width,
           decoration: BoxDecoration(
             color: Colors.black12,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(AppConstant.size.width * 0.05),
             image: DecorationImage(
               image: AssetImage(imagePath),
               fit: BoxFit.cover,
@@ -35,37 +38,36 @@ class RewardCardWidget extends StatelessWidget {
                 child: Text("${customerName.toString()}".toUpperCase(),
                     style: TextStyle(
                       color: AppColors.txtWhiteColor,
-                      fontSize: 25,
-                      fontFamily: 'Montserrat',
+                      fontSize: AppConstant.size.width * 0.06,
                       fontWeight: FontWeight.bold,
                     )),
               ),
               Positioned(
-                  top: 20,
-                  left: 20,
+                  top: AppConstant.size.height * 0.03,
+                  left: AppConstant.size.width * 0.03,
                   child: Text("${cartType.toString().toUpperCase()}",
                       style: TextStyle(
                         color: AppColors.txtWhiteColor,
-                        fontSize: 18,
+                        fontSize: AppConstant.size.width*0.045,
                         fontWeight: FontWeight.bold,
                       ))),
               Positioned(
-                  bottom: 20,
-                  right: 20,
+                  bottom: AppConstant.size.height*0.02,
+                  right: AppConstant.size.width*0.03,
                   child: Text("Scanacart\n    Rewards".toUpperCase(),
                       style: TextStyle(
                         color: AppColors.txtWhiteColor,
-                        fontSize: 16,
+                        fontSize: AppConstant.size.width*0.035,
                         fontWeight: FontWeight.bold,
                       ))),
               Positioned(
-                bottom: 20,
-                left: 20,
+                bottom: AppConstant.size.height*0.02,
+                left: AppConstant.size.width*0.03,
                 child: SvgPicture.asset(
                   'assets/images/bag.svg',
                   semanticsLabel: 'My SVG Image',
-                  height: 60,
-                  width: 60,
+                  height: AppConstant.size.height*0.08,
+                  width: AppConstant.size.width*0.15,
                 ),
               ),
             ],

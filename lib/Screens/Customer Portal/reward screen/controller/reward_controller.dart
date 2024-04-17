@@ -12,7 +12,8 @@ class RewardController extends GetxController
   RewardController({required this.id});
 
   RewardModel rewardModel = RewardModel();
-  List<Rewards> rewardata = [];
+  // List<Rewards> rewardata = [];
+  final rewardata = <Rewards>[].obs;
   RxString cardPath = "".obs;
 
   RxBool isExpanded = false.obs;
@@ -33,7 +34,7 @@ class RewardController extends GetxController
     }
   }
 
-  void getCardPath() {
+  getCardPath() async {
     cardPath.value = rewardata[1].cardDetail![0].cardName!;
     switch (cardPath.value) {
       case 'Gold':
@@ -56,14 +57,14 @@ class RewardController extends GetxController
 
     animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 400),
     );
     rotateAnimation = Tween<double>(
       begin: 0,
-      end: math.pi,
+      end: math.pi * 2,
     ).animate(CurvedAnimation(
       parent: animationController,
-      curve: Curves.elasticInOut,
+      curve: Curves.bounceInOut,
     ));
     super.onInit();
   }
