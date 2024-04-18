@@ -8,10 +8,12 @@ import 'package:scan_cart_clone/Common/widgets/common_button.dart';
 import 'package:scan_cart_clone/Common/widgets/common_web_view.dart';
 import 'package:scan_cart_clone/Models/employee_data_model.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/signin%20screen/customer_login_page.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/reward_screen.dart';
 import 'package:scan_cart_clone/Screens/product%20screen/controller/product_controller.dart';
 import 'package:scan_cart_clone/Screens/product%20screen/widget/app_bar_widget.dart';
 import 'package:scan_cart_clone/Screens/product%20screen/widget/display_videos_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductScreen extends StatelessWidget {
   final EmployeeDataModel responseData;
@@ -249,8 +251,15 @@ class ProductScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         CommonButtonWidget(
-                          onPressed: () {
-                            Get.off(CustomerLoginPage());
+                          onPressed: () async{
+                            final SharedPreferences prefs = await SharedPreferences.getInstance();
+                            var id= prefs.getInt("customer_id");
+                            if(id != null){
+                              Get.off(RewardScreen(customerId: id));
+                            }else{
+                              Get.off(CustomerLoginPage());
+
+                            }
                           },
                           buttonTxt: "Get Rewards ",
                           btnHeight: AppConstant.size.height * 0.06,

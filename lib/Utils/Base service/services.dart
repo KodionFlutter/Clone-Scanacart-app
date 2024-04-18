@@ -7,6 +7,7 @@ import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/App%20Config/api_service_config.dart';
 import 'package:scan_cart_clone/Common/common_services/common_services.dart';
 import 'package:scan_cart_clone/Models/admin_login_model.dart';
+import 'package:scan_cart_clone/Models/category_details_model.dart';
 import 'package:scan_cart_clone/Models/category_model.dart';
 import 'package:scan_cart_clone/Models/customer_signup_model.dart';
 import 'package:scan_cart_clone/Models/employee_data_model.dart';
@@ -237,6 +238,29 @@ class APIServices {
           return ViewCategoryModel.fromJson(decodedData);
         } else {
           print("Error occur during the View Category API Fetching");
+        }
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    } catch (exception) {
+      log("Exception :: ${exception.toString()}");
+    }
+  }
+
+  //! hit CategoryDetails
+  static hitCategoryDetails(clientId, productId) async {
+    String url =
+        "${ApiServiceConfig.apiBaseUrl}?endpoint=/rewards/clientProducts&client_id=${clientId}&product_id=${productId}";
+    print("This is Category details url :: ${url}");
+    try {
+      final response = await BaseService.getAPI(url);
+      log("This is Category Details response :: ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodedData = json.decode(response.body);
+        if (decodedData['success'] == true) {
+          return CategoryDetailsModel.fromJson(decodedData);
+        } else {
+          print("Error occur during the View Category Details API Fetching");
         }
       }
     } on SocketException {

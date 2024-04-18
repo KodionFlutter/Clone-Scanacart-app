@@ -1,17 +1,26 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/controller/view_category_controller.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/common_view_category_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
+
+import 'category_details_page.dart';
 
 class ViewCategoryPage extends StatelessWidget {
   final int categoryId;
   final int clientId;
+  final String categoryName;
+  final String clientName;
 
   const ViewCategoryPage({
     super.key,
     required this.categoryId,
     required this.clientId,
+    required this.categoryName,
+    required this.clientName,
   });
 
   @override
@@ -21,26 +30,93 @@ class ViewCategoryPage extends StatelessWidget {
       clientId: clientId,
     ));
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.blackColor,
-        foregroundColor: AppColors.whiteBackgroundColor,
-        title: Text("Product Details"),
-        centerTitle: true,
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: AppConstant.size.width * 0.03),
-            child: Icon(
-              Icons.shopping_cart_rounded,
-              color: AppColors.whiteBackgroundColor,
-            ),
-          )
-        ],
-      ),
-      body: Container(
-        height: AppConstant.size.height * 1,
-        width: AppConstant.size.width,
-        decoration: BoxDecoration(color: Colors.lightBlueAccent),
-      ),
-    );
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          foregroundColor: AppColors.blackColor,
+          elevation: 0,
+          title: Text("$clientName"),
+          centerTitle: true,
+          actions: [
+            Padding(
+              padding: EdgeInsets.only(right: AppConstant.size.width * 0.03),
+              child: Icon(
+                Icons.shopping_cart_rounded,
+                color: AppColors.whiteBackgroundColor,
+              ),
+            )
+          ],
+        ),
+        body: Obx(() {
+          if (viewCategoryController.isLoad.value == true) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (viewCategoryController.viewCategoryList.isEmpty) {
+            return Column(
+              children: [
+                SizedBox(height: AppConstant.size.height * 0.1),
+                Image.asset(
+                  "assets/images/record.webp",
+                  fit: BoxFit.contain,
+                  height: AppConstant.size.height * 0.3,
+                  width: AppConstant.size.width,
+                ),
+                SizedBox(height: AppConstant.size.height * 0.01),
+                Text(
+                  "No ${categoryName} Found".toUpperCase(),
+                  style: TextStyle(
+                      fontSize: AppConstant.size.height * 0.020,
+                      fontWeight: FontWeight.bold),
+                )
+              ],
+            );
+          } else {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: AppConstant.size.width * 0.04),
+                  child: Text(
+                    "$categoryName",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Expanded(
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.8,
+                      mainAxisSpacing: AppConstant.size.height*0.02,
+                      crossAxisSpacing: AppConstant.size.width*0.03,
+                    ),
+
+                    padding: EdgeInsets.all(8.0),
+                    // padding around the grid
+                    itemCount: viewCategoryController.viewCategoryList.length,
+                    // total number of items
+                    itemBuilder: (context, index) {
+                      return CommonViewCategoryWidget(
+                        categoryName: viewCategoryController.categoryName.value,
+                        productRewardPoints: viewCategoryController
+                            .viewCategoryList[index].productRewardPoints!,
+                        productTitle: viewCategoryController
+                            .viewCategoryList[index].productTitle!,
+                        productImage: viewCategoryController
+                            .viewCategoryList[index].productImage!,
+                        onTap: () {
+                          Get.to(CategoryDetailsPage(
+                            productId: viewCategoryController
+                                .viewCategoryList[index].productId!,
+                            clientId: clientId,
+                          ));
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          }
+        }));
   }
 }

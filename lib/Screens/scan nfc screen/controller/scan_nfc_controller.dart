@@ -39,6 +39,12 @@ class ScanNFCController extends GetxController {
   RxInt serialNumber = 0.obs;
   EmployeeDataModel employeeDataModel = EmployeeDataModel();
 
+  @override
+  void dispose() {
+    promoCodeController.value.dispose();
+    super.dispose();
+  }
+
   //! Calling onInit method
   @override
   void onInit() {
@@ -48,6 +54,10 @@ class ScanNFCController extends GetxController {
     super.onInit();
     adminLogin();
   }
+
+
+
+
 
   //! Check the inter net Connection
   Future<bool> isInternetConnected() async {
@@ -351,6 +361,7 @@ class ScanNFCController extends GetxController {
                       "Code not found. This product is not valid. Please contact your vendor",
                   height: AppConstant.size.height * 0.5,
                 ));
+        promoCodeController.value.clear();
       } else {
         employeeDataModel = data;
         logoPath.value = employeeDataModel.logoPath!;
@@ -373,6 +384,7 @@ class ScanNFCController extends GetxController {
               couponCode: couponCode,
             ),
           );
+          promoCodeController.value.clear();
         }
       }
     } catch (exception) {

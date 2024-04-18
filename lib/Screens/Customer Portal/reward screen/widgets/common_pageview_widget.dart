@@ -32,29 +32,26 @@ class CommonPageViewWidget extends StatelessWidget {
               imageUrl: categoryImage,
               fit: BoxFit.cover,
               placeholder: (context, url) {
-                return Text("S");
+                return Center(child: CupertinoActivityIndicator(),);
               },
               errorWidget: (context, url, error) {
-                return Material(
-                  color: Colors.transparent.withOpacity(0.8),
-                  child: const Center(
-                    child: Text('Could\'t load image',
-                        overflow: TextOverflow.visible,
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        style: TextStyle(color: Colors.black, fontSize: 10)),
-                  ),
+                return const Center(
+                  child: Text('Could\'t load image',
+                      overflow: TextOverflow.visible,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      style: TextStyle(color: Colors.black, fontSize: 10)),
                 );
               },
             ),
           ),
-          Container(
-            height: AppConstant.size.height,
-            width: AppConstant.size.width,
-            decoration: BoxDecoration(
-              color: Colors.black38
-            ),
-          ),
+          // Container(
+          //   height: AppConstant.size.height,
+          //   width: AppConstant.size.width,
+          //   decoration: BoxDecoration(
+          //     color: Colors.black38
+          //   ),
+          // ),
           Positioned(
             top: AppConstant.size.height * 0.03,
             left: AppConstant.size.width * 0.05,

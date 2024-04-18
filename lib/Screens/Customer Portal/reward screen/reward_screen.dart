@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/widgets/common_web_view.dart';
+import 'package:scan_cart_clone/Common/widgets/shimmer_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/controller/reward_controller.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/category_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/client_widget.dart';
@@ -12,6 +13,7 @@ import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widget
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/reward_card_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/reward_point_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
+import 'package:shimmer/shimmer.dart';
 
 class RewardScreen extends StatelessWidget {
   final int customerId;
@@ -23,7 +25,7 @@ class RewardScreen extends StatelessWidget {
     final rewardController = Get.put(RewardController(id: customerId));
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.whiteBackgroundColor,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Center(child: Text("Rewards")),
         actions: [
@@ -32,8 +34,25 @@ class RewardScreen extends StatelessWidget {
       ),
       body: Obx(() {
         if (rewardController.rewardata.isEmpty) {
-          return Center(
-            child: CircularProgressIndicator(),
+          return Column(
+            children: [
+              ShimmerWidget(
+                height: AppConstant.size.height * 0.3,
+                width: AppConstant.size.width,
+              ),
+              ShimmerWidget(
+                height: AppConstant.size.height * 0.2,
+                width: AppConstant.size.width,
+              ),
+              ShimmerWidget(
+                height: AppConstant.size.height * 0.1,
+                width: AppConstant.size.width,
+              ),
+              ShimmerWidget(
+                height: AppConstant.size.height * 0.1,
+                width: AppConstant.size.width,
+              ),
+            ],
           );
         } else {
           return ListView.builder(
@@ -63,7 +82,8 @@ class RewardScreen extends StatelessWidget {
                       onPressed: () {
                         Get.to(CategoryPage(
                           clientId: rewardController.rewardata[1].clientId!,
-                          clientName:  rewardController.rewardata[1].clientName.toString(),
+                          clientName: rewardController.rewardata[1].clientName
+                              .toString(),
                         ));
                       },
                     ),
@@ -77,7 +97,8 @@ class RewardScreen extends StatelessWidget {
                       onPressed: () {
                         Get.to(CategoryPage(
                           clientId: rewardController.rewardata[0].clientId!,
-                          clientName:   rewardController.rewardata[0].clientName.toString(),
+                          clientName: rewardController.rewardata[0].clientName
+                              .toString(),
                         ));
                       },
                     ),
