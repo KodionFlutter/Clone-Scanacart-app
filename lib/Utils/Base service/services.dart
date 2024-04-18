@@ -7,9 +7,11 @@ import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/App%20Config/api_service_config.dart';
 import 'package:scan_cart_clone/Common/common_services/common_services.dart';
 import 'package:scan_cart_clone/Models/admin_login_model.dart';
+import 'package:scan_cart_clone/Models/category_model.dart';
 import 'package:scan_cart_clone/Models/customer_signup_model.dart';
 import 'package:scan_cart_clone/Models/employee_data_model.dart';
 import 'package:scan_cart_clone/Models/reward_model.dart';
+import 'package:scan_cart_clone/Models/view_category_model.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/widget/nfc_enable_error_dailog_widget.dart';
 import 'package:scan_cart_clone/Utils/Base%20service/base_service.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
@@ -190,6 +192,51 @@ class APIServices {
           return RewardModel.fromJson(decodedData);
         } else {
           print("Error occure during the Reward API Fetching");
+        }
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    } catch (exception) {
+      log("Exception :: ${exception.toString()}");
+    }
+  }
+
+  static Future hitProductCategory(clientId) async {
+    String url =
+        "${ApiServiceConfig.apiBaseUrl}?endpoint=/rewards/categories&client_id=$clientId";
+    print("Product Category :: ${url}");
+    try {
+      final response = await BaseService.getAPI(url);
+      log("Category List :: ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodedData = json.decode(response.body);
+        if (decodedData['success'] == true) {
+          return CategoryModel.fromJson(decodedData);
+        } else {
+          print("Error occur during the Category API Fetching");
+        }
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    } catch (exception) {
+      log("Exception :: ${exception.toString()}");
+    }
+  }
+
+  //! Hit view Category ..
+  static Future hitViewCategory(categoryId, clientId) async {
+    String url =
+        "${ApiServiceConfig.apiBaseUrl}?endpoint=/rewards/categoryProducts&category_id=${categoryId}&client_id=${clientId}";
+    print("HitView Category url:: $url");
+    try {
+      final response = await BaseService.getAPI(url);
+      log("ViewCategory response :: ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodedData = json.decode(response.body);
+        if (decodedData['success'] == true) {
+          return ViewCategoryModel.fromJson(decodedData);
+        } else {
+          print("Error occur during the View Category API Fetching");
         }
       }
     } on SocketException {

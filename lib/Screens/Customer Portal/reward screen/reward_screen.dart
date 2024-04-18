@@ -3,7 +3,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
+import 'package:scan_cart_clone/Common/widgets/common_web_view.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/controller/reward_controller.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/category_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/client_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/custome_floating_button.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/logout_widget.dart';
@@ -23,7 +25,7 @@ class RewardScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.whiteBackgroundColor,
         elevation: 0,
-        title: Center(child: Text("Rewards")),
+        title: const Center(child: Text("Rewards")),
         actions: [
           LogoutWidget(),
         ],
@@ -58,6 +60,12 @@ class RewardScreen extends StatelessWidget {
                           .rewardata[1].cardDetail![0].maxRange!,
                       minRange: rewardController
                           .rewardata[1].cardDetail![0].minRange!,
+                      onPressed: () {
+                        Get.to(CategoryPage(
+                          clientId: rewardController.rewardata[1].clientId!,
+                          clientName:  rewardController.rewardata[1].clientName.toString(),
+                        ));
+                      },
                     ),
                     //! calling  here client widget
                     ClientWidget(
@@ -66,6 +74,12 @@ class RewardScreen extends StatelessWidget {
                       rewardPoints: rewardController.rewardata[0].rewardPoints!,
                       clientName:
                           rewardController.rewardata[0].clientName.toString(),
+                      onPressed: () {
+                        Get.to(CategoryPage(
+                          clientId: rewardController.rewardata[0].clientId!,
+                          clientName:   rewardController.rewardata[0].clientName.toString(),
+                        ));
+                      },
                     ),
                     //! WebView Link ..
                     Padding(
@@ -116,7 +130,15 @@ class RewardScreen extends StatelessWidget {
                                       fontWeight: FontWeight.w600,
                                     ),
                                     recognizer: TapGestureRecognizer()
-                                      ..onTap = () {}),
+                                      ..onTap = () {
+                                        Get.to(CommonWebView(
+                                          title: rewardController
+                                              .rewardata[1].clientName
+                                              .toString(),
+                                          url: rewardController
+                                              .rewardata[1].clientLogo!,
+                                        ));
+                                      }),
                               ],
                             ),
                           ),
@@ -127,52 +149,11 @@ class RewardScreen extends StatelessWidget {
                 );
               });
         }
-      })
+      }),
 
       // Floating Animated Button ..
-
-      ,
-      // floatingActionButton: Obx(
-      //   () => Stack(
-      //     clipBehavior: Clip.none,
-      //     children: [
-      //       Positioned(
-      //         bottom: 0,
-      //         right: 0,
-      //         child: AnimatedBuilder(
-      //           animation: rewardController.rotateAnimation,
-      //           builder: (context, child) {
-      //             return Transform.rotate(
-      //               angle: rewardController.rotateAnimation.value,
-      //               child: child,
-      //             );
-      //           },
-      //           child: Column(
-      //             crossAxisAlignment: CrossAxisAlignment.end,
-      //             mainAxisAlignment: MainAxisAlignment.end,
-      //             children: [
-      //               if (rewardController.isExpanded.value)
-      //                 _buildMenuButton(0, Icons.add),
-      //               if (rewardController.isExpanded.value)
-      //                 _buildMenuButton(1, Icons.edit),
-      //               if (rewardController.isExpanded.value)
-      //                 _buildMenuButton(2, Icons.delete),
-      //             ],
-      //           ),
-      //         ),
-      //       ),
-      //       FloatingActionButton(
-      //         onPressed: rewardController.toggleExpand,
-      //         child: AnimatedIcon(
-      //           icon: AnimatedIcons.menu_close,
-      //           progress: rewardController.animationController,
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // ),
       floatingActionButton: CustomeFloatingButtonWidget(),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      //floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

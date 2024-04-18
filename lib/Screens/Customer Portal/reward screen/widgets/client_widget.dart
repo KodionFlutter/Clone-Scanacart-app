@@ -8,12 +8,12 @@ class ClientWidget extends StatelessWidget {
   final String imageUrl;
   final int rewardPoints;
   final String clientName;
-
+  final VoidCallback onPressed;
   const ClientWidget(
       {super.key,
       required this.imageUrl,
       required this.rewardPoints,
-      required this.clientName});
+      required this.clientName, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +73,7 @@ class ClientWidget extends StatelessWidget {
                 color: AppColors.blackColor,
               )),
           trailing: RedeemBtnWidget(
-            onPressed: () {},
+            onPressed: onPressed,
             buttonTxt: 'Redeem',
             btnHeight: AppConstant.size.height*0.045,
             btnWidth: AppConstant.size.width*0.3,

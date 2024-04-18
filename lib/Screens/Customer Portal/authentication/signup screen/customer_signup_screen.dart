@@ -8,8 +8,8 @@ import 'package:scan_cart_clone/Common/common_services/common_services.dart';
 import 'package:scan_cart_clone/Common/widgets/common_button.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/signin%20screen/customer_login_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/signup%20screen/controller/customer_signup_controller.dart';
-import 'package:scan_cart_clone/Screens/Customer%20Portal/widgets/common_TextField.dart';
-import 'package:scan_cart_clone/Screens/Customer%20Portal/widgets/common_header_widget.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/widgets/common_TextField.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/widgets/common_header_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 
 import '../otp verify screen/otp_verify_screen.dart';

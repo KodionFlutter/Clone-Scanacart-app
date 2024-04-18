@@ -22,7 +22,7 @@ class RewardCardWidget extends StatelessWidget {
         vertical: AppConstant.size.height * 0.01,
       ),
       child: Container(
-          height: AppConstant.size.height * 0.22,
+          height: AppConstant.size.height * 0.3,
           width: AppConstant.size.width,
           decoration: BoxDecoration(
             color: Colors.black12,

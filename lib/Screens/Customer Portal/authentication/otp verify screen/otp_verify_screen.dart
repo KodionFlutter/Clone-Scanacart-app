@@ -4,8 +4,8 @@ import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/common_services/common_services.dart';
 import 'package:scan_cart_clone/Common/widgets/common_button.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/otp%20verify%20screen/controller/otp_verify_controller.dart';
-import 'package:scan_cart_clone/Screens/Customer%20Portal/widgets/common_TextField.dart';
-import 'package:scan_cart_clone/Screens/Customer%20Portal/widgets/common_header_widget.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/widgets/common_TextField.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/widgets/common_header_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 
 class OtpVerifyScreen extends StatelessWidget {

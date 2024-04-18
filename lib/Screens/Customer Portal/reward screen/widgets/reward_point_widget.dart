@@ -8,13 +8,14 @@ class RewardPointWidget extends StatelessWidget {
   final int rewardPoints;
   final int maxRange;
   final int minRange;
+  final VoidCallback onPressed;
 
   const RewardPointWidget(
       {super.key,
       required this.clientName,
       required this.rewardPoints,
       required this.maxRange,
-      required this.minRange});
+      required this.minRange, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +70,7 @@ class RewardPointWidget extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   )),
               trailing: RedeemBtnWidget(
-                onPressed: () {},
+                onPressed: onPressed,
                 buttonTxt: 'Redeem',
                 btnHeight: AppConstant.size.height * 0.045,
                 btnWidth: AppConstant.size.width * 0.30,
