@@ -17,7 +17,6 @@ class CategoryDetailsController extends GetxController {
   //! Variable declare
   CategoryDetailsModel categoryDetailsModel = CategoryDetailsModel();
 
-
   var deatilsImageList = [].obs;
   var productDescription = ''.obs;
   var productTitle = ''.obs;
@@ -32,6 +31,12 @@ class CategoryDetailsController extends GetxController {
   RxInt currentImageIndex = 0.obs;
   var colorDropdownvalue = 'White'.obs;
   var sizeDropdownValue = ''.obs;
+
+  var imgList = [
+    "https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "https://images.pexels.com/photos/757889/pexels-photo-757889.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "https://images.pexels.com/photos/1067562/pexels-photo-1067562.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+  ].obs;
 
   //! Make a function  to get CategoryDetails
   Future<void> getCategoryDetails() async {
@@ -60,7 +65,7 @@ class CategoryDetailsController extends GetxController {
         colorList.value = du.map((e) => '"$e"').toList();
         print("Color :: ${colorList}");
         // print("ColorLength :: ${colorList.toString().length}");
-        size.value = categoryDetailsData['data']['variants']['size'] ;
+        size.value = categoryDetailsData['data']['variants']['size'];
         var duu = size.value.split(',');
         sizeList.value = duu.map((e) => '"$e"').toList();
         print("Size :: ${sizeList}");

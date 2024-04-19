@@ -50,11 +50,11 @@ class CategoryDetailsPage extends StatelessWidget {
                   children: [
                     SizedBox(height: 20),
                     CarouselSlider.builder(
-                      itemCount: categoryDeController.deatilsImageList.length,
+                      itemCount: categoryDeController.imgList.length,
                       options: CarouselOptions(
                         height: AppConstant.size.height * 0.45,
                         enableInfiniteScroll:
-                            categoryDeController.deatilsImageList.length == 1
+                            categoryDeController.imgList.length == 1
                                 ? false
                                 : true,
                         viewportFraction: 1,
@@ -70,9 +70,8 @@ class CategoryDetailsPage extends StatelessWidget {
                               width: AppConstant.size.width,
                               height: 300,
                               fit: BoxFit.contain,
-                              imageUrl: categoryDeController
-                                  .deatilsImageList[index]['image_path']
-                                  .toString(),
+                              imageUrl:
+                                  categoryDeController.imgList![index].toString(),
                               placeholder: (context, url) {
                                 return Center(
                                   child: CupertinoActivityIndicator(),
@@ -96,9 +95,9 @@ class CategoryDetailsPage extends StatelessWidget {
                     SizedBox(height: AppConstant.size.height * 0.05),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: categoryDeController.deatilsImageList
-                          .map((categoryImages) {
-                        int index = categoryDeController.deatilsImageList
+                      children:
+                          categoryDeController.imgList.map((categoryImages) {
+                        int index = categoryDeController.imgList
                             .indexOf(categoryImages);
                         return Container(
                           width: categoryDeController.currentImageIndex.value ==
@@ -163,37 +162,37 @@ class CategoryDetailsPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text("Color : "),
-                               // DropdownButton<String>(
-                               //   value: categoryDeController
-                               //       .colorDropdownvalue.value,
-                               //   icon: const Icon(Icons.keyboard_arrow_down),
-                               //   // Array list of items
-                               //   items: categoryDeController.colorList.value
-                               //       .map<DropdownMenuItem<String>>((String items) {
-                               //     return DropdownMenuItem<String>(
-                               //       value: items,
-                               //       child: Text(items),
-                               //     );
-                               //   }).toList(),
-                               //   onChanged: (String? newValue) {
-                               //     categoryDeController
-                               //         .colorDropdownvalue.value = newValue!;
-                               //   },
-                               // ),
-                               //  DropdownButton<String>(
-                               //    value:categoryDeController.colorDropdownvalue.value,
-                               //    onChanged: (String? newValue) {
-                               //      categoryDeController.colorDropdownvalue.value = newValue!;
-                               //    },
-                               //    items: categoryDeController.colorList.map<DropdownMenuItem<String>>(
-                               //          (String value) {
-                               //        return DropdownMenuItem<String>(
-                               //          value: value,
-                               //          child: Text(value),
-                               //        );
-                               //      },
-                               //    ).toList(),
-                               //  ),
+                                // DropdownButton<String>(
+                                //   value: categoryDeController
+                                //       .colorDropdownvalue.value,
+                                //   icon: const Icon(Icons.keyboard_arrow_down),
+                                //   // Array list of items
+                                //   items: categoryDeController.colorList.value
+                                //       .map<DropdownMenuItem<String>>((String items) {
+                                //     return DropdownMenuItem<String>(
+                                //       value: items,
+                                //       child: Text(items),
+                                //     );
+                                //   }).toList(),
+                                //   onChanged: (String? newValue) {
+                                //     categoryDeController
+                                //         .colorDropdownvalue.value = newValue!;
+                                //   },
+                                // ),
+                                //  DropdownButton<String>(
+                                //    value:categoryDeController.colorDropdownvalue.value,
+                                //    onChanged: (String? newValue) {
+                                //      categoryDeController.colorDropdownvalue.value = newValue!;
+                                //    },
+                                //    items: categoryDeController.colorList.map<DropdownMenuItem<String>>(
+                                //          (String value) {
+                                //        return DropdownMenuItem<String>(
+                                //          value: value,
+                                //          child: Text(value),
+                                //        );
+                                //      },
+                                //    ).toList(),
+                                //  ),
                               ],
                             ),
                           )
