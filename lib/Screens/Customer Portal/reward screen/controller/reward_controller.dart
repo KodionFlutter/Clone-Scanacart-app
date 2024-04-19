@@ -19,6 +19,8 @@ class RewardController extends GetxController
   RxBool isExpanded = false.obs;
   late AnimationController animationController;
   late Animation<double> rotateAnimation;
+  RxBool isPopupVisible = false.obs;
+  RxString customerName = ''.obs;
 
 //! Get Reward
   Future<void> getReward() async {
@@ -26,6 +28,7 @@ class RewardController extends GetxController
     try {
       rewardModel = await APIServices.customerReward(id);
       rewardata.addAll(rewardModel.data!.rewards!);
+      customerName.value = rewardModel.data!.customerName!;
       // rewardata.assignAll(rewardModel.data!.rewards!);
       update();
       // print("reward list :: ${rewardata[1].cardDetail![0].cardName}");
@@ -40,14 +43,22 @@ class RewardController extends GetxController
       case 'Gold':
         cardPath.value = "assets/images/gold.png";
       case 'Platinum':
-        cardPath.value = "assets/images/gold.png";
+        cardPath.value = "assets/images/platinum.png";
       case 'Diamond':
-        cardPath.value = "assets/images/gold.png";
+        cardPath.value = "assets/images/Diamond.png";
       case 'Diamond Plus':
-        cardPath.value = "assets/images/gold.png";
+        cardPath.value = "assets/images/Diamond.png";
       case 'Diamond Elite':
-        cardPath.value = "assets/images/gold.png";
+        cardPath.value = "assets/images/Diamond.png";
     }
+  }
+  void hidePopUp() {
+    isPopupVisible.value = false;
+  }
+
+  // Make a function to show the PopUp
+  void showPopUp() {
+    isPopupVisible.value = true;
   }
 
   @override

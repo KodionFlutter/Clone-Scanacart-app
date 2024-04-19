@@ -29,7 +29,7 @@ class LogoutWidget extends StatelessWidget {
                     onPressed: () async {
                       SharedPreferences preferences =
                           await SharedPreferences.getInstance();
-                      preferences.remove("customer_id");
+                      var data = preferences.remove("customer_id");
                       // Navigator.of(context).pop(true); // Yes button pressed
                       Get.off(ScanNFCScreen());
                     },

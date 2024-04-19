@@ -12,6 +12,7 @@ import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/reward
 import 'package:scan_cart_clone/Screens/product%20screen/controller/product_controller.dart';
 import 'package:scan_cart_clone/Screens/product%20screen/widget/app_bar_widget.dart';
 import 'package:scan_cart_clone/Screens/product%20screen/widget/display_videos_widget.dart';
+import 'package:scan_cart_clone/Screens/product%20screen/widget/reward_collect_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,8 +34,7 @@ class ProductScreen extends StatelessWidget {
       serialNumber: serialNumber,
       responseData: responseData,
     ));
-    log("Video initlized => ${productController
-        .videoPlayerController?.value.isInitialized}");
+    log("Video initlized => ${productController.videoPlayerController?.value.isInitialized}");
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -47,85 +47,82 @@ class ProductScreen extends StatelessWidget {
             Obx(() {
               if (productController.videoUrl.value.endsWith("mp4")) {
                 return productController
-                    .videoPlayerController!.value.isInitialized
+                        .videoPlayerController!.value.isInitialized
                     ? SizedBox(
-
-                  width: AppConstant.size.width,
-                  height: AppConstant.size.height,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      // Here display the video
-                      // productController.getBOXFitted( productController.videoPlayerController)
-                      DisplayVideoWidget(
-                        controller:
-                        productController.videoPlayerController!,
-                      ),
-                    ],
-                  ),
-                )
+                        width: AppConstant.size.width,
+                        height: AppConstant.size.height,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            // Here display the video
+                            // productController.getBOXFitted( productController.videoPlayerController)
+                            DisplayVideoWidget(
+                              controller:
+                                  productController.videoPlayerController!,
+                            ),
+                          ],
+                        ),
+                      )
                     : Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Positioned(
-                      left: (AppConstant.size.width - 180) / 2,
-                      top: (AppConstant.size.height - 180) / 2.4,
-                      // Center vertically
-                      child: Image.asset(
-                        "assets/splash/img_splash_anim.gif",
-                        width: 180,
-                        height: 180,
-                      ),
-                    )
-                  ],
-                );
-              }
-              else {
+                        fit: StackFit.expand,
+                        children: [
+                          Positioned(
+                            left: (AppConstant.size.width - 180) / 2,
+                            top: (AppConstant.size.height - 180) / 2.4,
+                            // Center vertically
+                            child: Image.asset(
+                              "assets/splash/img_splash_anim.gif",
+                              width: 180,
+                              height: 180,
+                            ),
+                          )
+                        ],
+                      );
+              } else {
                 return Center(
                   child: Padding(
                     padding:
-                    const EdgeInsets.only(left: 10, right: 10, bottom: 130),
+                        const EdgeInsets.only(left: 10, right: 10, bottom: 130),
                     child: SizedBox(
-
                       height: 220,
                       width: AppConstant.size.width / 1.3,
                       child: productController.logoPath.value != null
                           ? CachedNetworkImage(
-                        imageUrl: productController.logoPath.value!,
-                        fit: BoxFit.contain,
-                        placeholder: (context, url) {
-                          return Stack(
-                            fit: StackFit.expand,
-                            children: [
-                              Positioned(
-                                left: (AppConstant.size.width - 180) / 2,
-                                top:
-                                (AppConstant.size.height - 180) / 2.4,
-                                // Center vertically
-                                child: Image.asset(
-                                  "assets/images/cropscana.png",
-                                  width: 180,
-                                  height: 180,
-                                ),
-                              )
-                            ],
-                          );
-                        },
-                        errorWidget: (context, url, error) {
-                          return Material(
-                            color: Colors.transparent.withOpacity(0.8),
-                            child: const Center(
-                              child: Text('Could\'t load image',
-                                  overflow: TextOverflow.visible,
-                                  textAlign: TextAlign.center,
-                                  maxLines: 2,
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 22)),
-                            ),
-                          );
-                        },
-                      )
-                          : const  SizedBox.shrink(),
+                              imageUrl: productController.logoPath.value!,
+                              fit: BoxFit.contain,
+                              placeholder: (context, url) {
+                                return Stack(
+                                  fit: StackFit.expand,
+                                  children: [
+                                    Positioned(
+                                      left: (AppConstant.size.width - 180) / 2,
+                                      top:
+                                          (AppConstant.size.height - 180) / 2.4,
+                                      // Center vertically
+                                      child: Image.asset(
+                                        "assets/images/cropscana.png",
+                                        width: 180,
+                                        height: 180,
+                                      ),
+                                    )
+                                  ],
+                                );
+                              },
+                              errorWidget: (context, url, error) {
+                                return Material(
+                                  color: Colors.transparent.withOpacity(0.8),
+                                  child: const Center(
+                                    child: Text('Could\'t load image',
+                                        overflow: TextOverflow.visible,
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        style: TextStyle(
+                                            color: Colors.black, fontSize: 22)),
+                                  ),
+                                );
+                              },
+                            )
+                          : const SizedBox.shrink(),
                     ),
                   ),
                 );
@@ -138,10 +135,11 @@ class ProductScreen extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                      child: Obx(() => AppbarWidget(
-                        imagePath: productController.logoPath.value,
-                      ),)
-                  ),
+                      child: Obx(
+                    () => AppbarWidget(
+                      imagePath: productController.logoPath.value,
+                    ),
+                  )),
                 ],
               ),
             ),
@@ -150,8 +148,7 @@ class ProductScreen extends StatelessWidget {
               right: 10,
               left: 10,
               child: Obx(
-
-                    () => Container(
+                () => Container(
                   width: AppConstant.size.width / 1.1,
                   padding: const EdgeInsets.only(top: 5, bottom: 15),
                   decoration: ShapeDecoration(
@@ -162,7 +159,7 @@ class ProductScreen extends StatelessWidget {
                   ),
                   child: Padding(
                     padding:
-                    const EdgeInsets.only(left: 15, right: 10, top: 15),
+                        const EdgeInsets.only(left: 15, right: 10, top: 15),
                     child: Column(
                       children: [
                         Text(
@@ -183,12 +180,10 @@ class ProductScreen extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(left: 10, right: 10),
                             child: SizedBox(
-
                               height: 90,
                               width: AppConstant.size.width * 0.7,
                               child: CachedNetworkImage(
-                                imageUrl:
-                                productController.logoPath.value,
+                                imageUrl: productController.logoPath.value,
                                 fit: BoxFit.contain,
                                 errorWidget: (context, url, error) {
                                   return Material(
@@ -251,14 +246,29 @@ class ProductScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         CommonButtonWidget(
-                          onPressed: () async{
-                            final SharedPreferences prefs = await SharedPreferences.getInstance();
-                            var id= prefs.getInt("customer_id");
-                            if(id != null){
-                              Get.off(RewardScreen(customerId: id));
-                            }else{
+                          onPressed: () async {
+                            final SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            var id = prefs.getInt("customer_id");
+                            if (id != null) {
+                              productController.showPopUp();
+                              Get.off(RewardScreen(
+                                customerId: id,
+                              ));
+                              showDialog(
+                                  barrierDismissible: true,
+                                  context: context,
+                                  builder: (c) {
+                                    return RewardCollectWidget(
+                                      onTap: () {
+                                        productController.hidePopUp();
+                                      },
+                                    );
+                                  });
+                              productController.videoPlayerController!.pause();
+                            } else {
                               Get.off(CustomerLoginPage());
-
+                              productController.videoPlayerController!.pause();
                             }
                           },
                           buttonTxt: "Get Rewards ",
@@ -266,7 +276,6 @@ class ProductScreen extends StatelessWidget {
                           btnWidth: AppConstant.size.width,
                           colors: Colors.lightBlueAccent.shade200,
                           txtColor: AppColors.txtWhiteColor,
-
                         ),
                       ],
                     ),

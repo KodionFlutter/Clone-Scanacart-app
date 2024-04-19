@@ -31,4 +31,6 @@ class AppColors {
   static var txtBlackColor = Color(0xFF010D49);
   static var txtScanProductColor = Color(0xFFB672FF);
   static var txtErrorTxtColor = Color(0xFFE2050B);
+
+  static var greyWithOpacity = Colors.grey.withOpacity(0.9);
 }

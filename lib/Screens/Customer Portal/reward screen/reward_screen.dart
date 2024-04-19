@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/widgets/common_web_view.dart';
+import 'package:scan_cart_clone/Common/widgets/custom_container.dart';
 import 'package:scan_cart_clone/Common/widgets/shimmer_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/controller/reward_controller.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/category_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/client_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/custome_floating_button.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/loading_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/logout_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/reward_card_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/reward_point_widget.dart';
@@ -34,26 +36,7 @@ class RewardScreen extends StatelessWidget {
       ),
       body: Obx(() {
         if (rewardController.rewardata.isEmpty) {
-          return Column(
-            children: [
-              ShimmerWidget(
-                height: AppConstant.size.height * 0.3,
-                width: AppConstant.size.width,
-              ),
-              ShimmerWidget(
-                height: AppConstant.size.height * 0.2,
-                width: AppConstant.size.width,
-              ),
-              ShimmerWidget(
-                height: AppConstant.size.height * 0.1,
-                width: AppConstant.size.width,
-              ),
-              ShimmerWidget(
-                height: AppConstant.size.height * 0.1,
-                width: AppConstant.size.width,
-              ),
-            ],
-          );
+          return LoadingWidget();
         } else {
           return ListView.builder(
               itemCount: 1,
@@ -66,7 +49,7 @@ class RewardScreen extends StatelessWidget {
                         cartType: rewardController
                             .rewardata[1].cardDetail![0].cardName
                             .toString(),
-                        customerName: "shaim",
+                        customerName: rewardController.customerName.value,
                         imagePath: rewardController.cardPath.value,
                       ),
                     ),

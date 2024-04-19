@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
+import 'package:scan_cart_clone/Common/widgets/custom_container.dart';
+import 'package:scan_cart_clone/Common/widgets/shimmer_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/controller/view_category_controller.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/common_view_category_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
@@ -41,16 +43,69 @@ class ViewCategoryPage extends StatelessWidget {
               padding: EdgeInsets.only(right: AppConstant.size.width * 0.03),
               child: Icon(
                 Icons.shopping_cart_rounded,
-                color: AppColors.whiteBackgroundColor,
               ),
             )
           ],
         ),
         body: Obx(() {
           if (viewCategoryController.isLoad.value == true) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return ShimmerWidget(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CustomContainer(
+                    height: AppConstant.size.height * 0.02,
+                    width: AppConstant.size.width * 0.5,
+                    radius: 10,
+                  ),
+                ),
+                Expanded(
+                  child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.8,
+                        mainAxisSpacing: AppConstant.size.height * 0.02,
+                        crossAxisSpacing: AppConstant.size.width * 0.03,
+                      ),
+                      itemCount: 10,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomContainer(
+                              height: 150,
+                              width: AppConstant.size.width,
+                              radius: 10,
+                            ),
+                            SizedBox(height: AppConstant.size.width * 0.01),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                  left: AppConstant.size.width * 0.03,
+                                ),
+                                child: CustomContainer(
+                                  height: 20,
+                                  width: AppConstant.size.width,
+                                  radius: 10,
+                                )),
+                            SizedBox(height: AppConstant.size.width * 0.01),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: AppConstant.size.width * 0.03,
+                                  bottom: 5),
+                              child: CustomContainer(
+                                height: 20,
+                                width: 70,
+                                radius: 10,
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
+                ),
+              ],
+            ));
           } else if (viewCategoryController.viewCategoryList.isEmpty) {
             return Column(
               children: [
@@ -86,8 +141,8 @@ class ViewCategoryPage extends StatelessWidget {
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 0.8,
-                      mainAxisSpacing: AppConstant.size.height*0.02,
-                      crossAxisSpacing: AppConstant.size.width*0.03,
+                      mainAxisSpacing: AppConstant.size.height * 0.02,
+                      crossAxisSpacing: AppConstant.size.width * 0.03,
                     ),
 
                     padding: EdgeInsets.all(8.0),
@@ -103,6 +158,8 @@ class ViewCategoryPage extends StatelessWidget {
                             .viewCategoryList[index].productTitle!,
                         productImage: viewCategoryController
                             .viewCategoryList[index].productImage!,
+                        product_id: viewCategoryController
+                            .viewCategoryList[index].productId,
                         onTap: () {
                           Get.to(CategoryDetailsPage(
                             productId: viewCategoryController
@@ -110,6 +167,7 @@ class ViewCategoryPage extends StatelessWidget {
                             clientId: clientId,
                           ));
                         },
+
                       );
                     },
                   ),

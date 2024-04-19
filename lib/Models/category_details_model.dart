@@ -1,117 +1,175 @@
 class CategoryDetailsModel {
-  CategoryDetailsModel({
-     this.success,
-     this.data,
-  });
-    bool? success;
-    Data? data;
+  bool? success;
+  Data? data;
 
-  CategoryDetailsModel.fromJson(Map<String, dynamic> json){
+  CategoryDetailsModel({this.success, this.data});
+
+  CategoryDetailsModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    data = Data.fromJson(json['data']);
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['success'] = success;
-    _data['data'] = data?.toJson();
-    return _data;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['success'] = this.success;
+    if (this.data != null) {
+      data['data'] = this.data!.toJson();
+    }
+    return data;
   }
 }
 
 class Data {
-  Data({
-    required this.categoryId,
-    required this.createdAt,
-    required this.variants,
-    required this.productId,
-    required this.productImage,
-    required this.productDescription,
-    required this.rewardPoints,
-    required this.productStatus,
-    required this.clientId,
-    required this.images,
-    required this.productTitle,
-    required this.variantsData,
-    required this.tags,
-  });
-  late final String categoryId;
-  late final String createdAt;
-  late final Variants variants;
-  late final int productId;
-  late final String productImage;
-  late final String productDescription;
-  late final int rewardPoints;
-  late final String productStatus;
-  late final String clientId;
-  late final List<Images> images;
-  late final String productTitle;
-  late final List<dynamic> variantsData;
-  late final String tags;
+  String? categoryId;
+  String? createdAt;
+  Variants? variants;
+  int? productId;
+  String? productImage;
+  String? productDescription;
+  int? rewardPoints;
+  String? productStatus;
+  String? clientId;
+  List<Images>? images;
+  String? productTitle;
+  List<VariantsData>? variantsData;
+  String? tags;
 
-  Data.fromJson(Map<String, dynamic> json){
+  Data(
+      {this.categoryId,
+        this.createdAt,
+        this.variants,
+        this.productId,
+        this.productImage,
+        this.productDescription,
+        this.rewardPoints,
+        this.productStatus,
+        this.clientId,
+        this.images,
+        this.productTitle,
+        this.variantsData,
+        this.tags});
+
+  Data.fromJson(Map<String, dynamic> json) {
     categoryId = json['category_id'];
     createdAt = json['created_at'];
-    variants = Variants.fromJson(json['variants']);
+    variants = json['variants'] != null
+        ? new Variants.fromJson(json['variants'])
+        : null;
     productId = json['product_id'];
     productImage = json['product_image'];
     productDescription = json['product_description'];
     rewardPoints = json['reward_points'];
     productStatus = json['product_status'];
     clientId = json['client_id'];
-    images = List.from(json['images']).map((e)=>Images.fromJson(e)).toList();
+    if (json['images'] != null) {
+      images = <Images>[];
+      json['images'].forEach((v) {
+        images!.add(new Images.fromJson(v));
+      });
+    }
     productTitle = json['product_title'];
-    variantsData = List.castFrom<dynamic, dynamic>(json['variantsData']);
+    if (json['variantsData'] != null) {
+      variantsData = <VariantsData>[];
+      json['variantsData'].forEach((v) {
+        variantsData!.add(new VariantsData.fromJson(v));
+      });
+    }
     tags = json['tags'];
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['category_id'] = categoryId;
-    _data['created_at'] = createdAt;
-    _data['variants'] = variants.toJson();
-    _data['product_id'] = productId;
-    _data['product_image'] = productImage;
-    _data['product_description'] = productDescription;
-    _data['reward_points'] = rewardPoints;
-    _data['product_status'] = productStatus;
-    _data['client_id'] = clientId;
-    _data['images'] = images.map((e)=>e.toJson()).toList();
-    _data['product_title'] = productTitle;
-    _data['variantsData'] = variantsData;
-    _data['tags'] = tags;
-    return _data;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['category_id'] = this.categoryId;
+    data['created_at'] = this.createdAt;
+    if (this.variants != null) {
+      data['variants'] = this.variants!.toJson();
+    }
+    data['product_id'] = this.productId;
+    data['product_image'] = this.productImage;
+    data['product_description'] = this.productDescription;
+    data['reward_points'] = this.rewardPoints;
+    data['product_status'] = this.productStatus;
+    data['client_id'] = this.clientId;
+    if (this.images != null) {
+      data['images'] = this.images!.map((v) => v.toJson()).toList();
+    }
+    data['product_title'] = this.productTitle;
+    if (this.variantsData != null) {
+      data['variantsData'] = this.variantsData!.map((v) => v.toJson()).toList();
+    }
+    data['tags'] = this.tags;
+    return data;
   }
 }
 
 class Variants {
-  Variants();
+  String? color;
 
-  Variants.fromJson(Map json);
+  Variants({this.color});
+
+  Variants.fromJson(Map<String, dynamic> json) {
+    color = json['color'];
+  }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    return _data;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['color'] = this.color;
+    return data;
   }
 }
 
 class Images {
-  Images({
-    required this.imagePath,
-    required this.imageId,
-  });
-  late final String imagePath;
-  late final int imageId;
+  String? imagePath;
+  int? imageId;
 
-  Images.fromJson(Map<String, dynamic> json){
+  Images({this.imagePath, this.imageId});
+
+  Images.fromJson(Map<String, dynamic> json) {
     imagePath = json['image_path'];
     imageId = json['image_id'];
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['image_path'] = imagePath;
-    _data['image_id'] = imageId;
-    return _data;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['image_path'] = this.imagePath;
+    data['image_id'] = this.imageId;
+    return data;
+  }
+}
+
+class VariantsData {
+  int? variantId;
+  String? quantity;
+  String? color;
+  String? size;
+  String? style;
+  String? material;
+
+  VariantsData(
+      {this.variantId,
+        this.quantity,
+        this.color,
+        this.size,
+        this.style,
+        this.material});
+
+  VariantsData.fromJson(Map<String, dynamic> json) {
+    variantId = json['variant_id'];
+    quantity = json['quantity'];
+    color = json['color'];
+    size = json['size'];
+    style = json['style'];
+    material = json['material'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['variant_id'] = this.variantId;
+    data['quantity'] = this.quantity;
+    data['color'] = this.color;
+    data['size'] = this.size;
+    data['style'] = this.style;
+    data['material'] = this.material;
+    return data;
   }
 }

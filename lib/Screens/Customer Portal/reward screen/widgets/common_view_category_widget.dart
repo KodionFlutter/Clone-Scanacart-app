@@ -11,6 +11,7 @@ class CommonViewCategoryWidget extends StatelessWidget {
   final String productTitle;
   final String productImage;
   final VoidCallback onTap;
+  final product_id;
 
   const CommonViewCategoryWidget(
       {super.key,
@@ -18,7 +19,7 @@ class CommonViewCategoryWidget extends StatelessWidget {
       required this.productRewardPoints,
       required this.productTitle,
       required this.productImage,
-      required this.onTap});
+      required this.onTap, required this.product_id});
 
   @override
   Widget build(BuildContext context) {
@@ -44,25 +45,28 @@ class CommonViewCategoryWidget extends StatelessWidget {
                   topLeft: Radius.circular(AppConstant.size.width * 0.02),
                   topRight: Radius.circular(AppConstant.size.width * 0.02),
                 ),
-                child: CachedNetworkImage(
-                  imageUrl: productImage,
-                  // height: AppConstant.size.height * 0.16,
-                  width: AppConstant.size.width,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) {
-                    return Center(
-                      child: CupertinoActivityIndicator(),
-                    );
-                  },
-                  errorWidget: (context, url, error) {
-                    return const Center(
-                      child: Text('Could\'t load image',
-                          overflow: TextOverflow.visible,
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                          style: TextStyle(color: Colors.black, fontSize: 10)),
-                    );
-                  },
+                child: Hero(
+                  tag: product_id,
+                  child: CachedNetworkImage(
+                    imageUrl: productImage,
+                    // height: AppConstant.size.height * 0.16,
+                    width: AppConstant.size.width,
+                    fit: BoxFit.contain,
+                    placeholder: (context, url) {
+                      return Center(
+                        child: CupertinoActivityIndicator(),
+                      );
+                    },
+                    errorWidget: (context, url, error) {
+                      return const Center(
+                        child: Text('Could\'t load image',
+                            overflow: TextOverflow.visible,
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            style: TextStyle(color: Colors.black, fontSize: 10)),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),

@@ -258,7 +258,9 @@ class APIServices {
       if (response.statusCode == 200) {
         var decodedData = json.decode(response.body);
         if (decodedData['success'] == true) {
-          return CategoryDetailsModel.fromJson(decodedData);
+          return decodedData;
+          // We do not bind Data into the Model..
+          // return CategoryDetailsModel.fromJson(decodedData);
         } else {
           print("Error occur during the View Category Details API Fetching");
         }

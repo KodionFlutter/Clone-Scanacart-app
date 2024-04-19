@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Models/view_category_model.dart';
@@ -39,7 +40,7 @@ class CategoryDetailsPage extends StatelessWidget {
         ],
       ),
       body: Obx(
-        () => categoryDeController.deatilsImageList.isEmpty
+        () => categoryDeController.productTitle.value.isEmpty
             ? Center(
                 child: CircularProgressIndicator(),
               )
@@ -63,31 +64,36 @@ class CategoryDetailsPage extends StatelessWidget {
                       ),
                       itemBuilder: (BuildContext context, int index, j) {
                         return Center(
-                          child: CachedNetworkImage(
-                            width: 500,
-                            height: 300,
-                            fit: BoxFit.contain,
-                            imageUrl: categoryDeController
-                                .deatilsImageList[index].imagePath,
-                            placeholder: (context, url) {
-                              return Center(
-                                child: CupertinoActivityIndicator(),
-                              );
-                            },
-                            errorWidget: (context, url, error) {
-                              return const Center(
-                                child: Text('Could\'t load image',
-                                    overflow: TextOverflow.visible,
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 10)),
-                              );
-                            },
+                          child: Hero(
+                            tag: productId,
+                            child: CachedNetworkImage(
+                              width: AppConstant.size.width,
+                              height: 300,
+                              fit: BoxFit.contain,
+                              imageUrl: categoryDeController
+                                  .deatilsImageList[index]['image_path']
+                                  .toString(),
+                              placeholder: (context, url) {
+                                return Center(
+                                  child: CupertinoActivityIndicator(),
+                                );
+                              },
+                              errorWidget: (context, url, error) {
+                                return const Center(
+                                  child: Text('Could\'t load image',
+                                      overflow: TextOverflow.visible,
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 10)),
+                                );
+                              },
+                            ),
                           ),
                         );
                       },
                     ),
+                    SizedBox(height: AppConstant.size.height * 0.05),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: categoryDeController.deatilsImageList
@@ -95,7 +101,10 @@ class CategoryDetailsPage extends StatelessWidget {
                         int index = categoryDeController.deatilsImageList
                             .indexOf(categoryImages);
                         return Container(
-                          width: 8.0,
+                          width: categoryDeController.currentImageIndex.value ==
+                                  index
+                              ? 15.0
+                              : 8.0,
                           height: 8.0,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
@@ -108,30 +117,139 @@ class CategoryDetailsPage extends StatelessWidget {
                         );
                       }).toList(),
                     ),
+                    SizedBox(height: AppConstant.size.height * 0.03),
                     Padding(
                       padding:
                           EdgeInsets.only(left: AppConstant.size.width * 0.03),
                       child: Text(
-                        "${categoryDeController.categoryDetailsModel.data?.productTitle}",
+                        "${categoryDeController.productTitle.value}",
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: AppColors.blackColor,
                         ),
                       ),
                     ),
+                    SizedBox(height: AppConstant.size.height * 0.01),
                     Padding(
                       padding:
                           EdgeInsets.only(left: AppConstant.size.width * 0.03),
-                      child: Text(
-                        "Price: ${categoryDeController.categoryDetailsModel.data?.rewardPoints} Ponts",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.blackColor,
+                      child: RichText(
+                        text: TextSpan(
+                          text: "Points : ",
+                          style: TextStyle(
+                              color: AppColors.blackColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400),
+                          children: [
+                            TextSpan(
+                                text: "${categoryDeController.rewardPoints}",
+                                style: TextStyle(
+                                    color: AppColors.blackColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400)),
+                          ],
                         ),
                       ),
                     ),
+                    //! display here the product variantsData
+                    SizedBox(height: AppConstant.size.height * 0.01),
+                    // Disply the Color :
+                    categoryDeController.colorList.isNotEmpty
+                        ? Padding(
+                            padding: EdgeInsets.only(
+                                left: AppConstant.size.width * 0.03),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text("Color : "),
+                               // DropdownButton<String>(
+                               //   value: categoryDeController
+                               //       .colorDropdownvalue.value,
+                               //   icon: const Icon(Icons.keyboard_arrow_down),
+                               //   // Array list of items
+                               //   items: categoryDeController.colorList.value
+                               //       .map<DropdownMenuItem<String>>((String items) {
+                               //     return DropdownMenuItem<String>(
+                               //       value: items,
+                               //       child: Text(items),
+                               //     );
+                               //   }).toList(),
+                               //   onChanged: (String? newValue) {
+                               //     categoryDeController
+                               //         .colorDropdownvalue.value = newValue!;
+                               //   },
+                               // ),
+                               //  DropdownButton<String>(
+                               //    value:categoryDeController.colorDropdownvalue.value,
+                               //    onChanged: (String? newValue) {
+                               //      categoryDeController.colorDropdownvalue.value = newValue!;
+                               //    },
+                               //    items: categoryDeController.colorList.map<DropdownMenuItem<String>>(
+                               //          (String value) {
+                               //        return DropdownMenuItem<String>(
+                               //          value: value,
+                               //          child: Text(value),
+                               //        );
+                               //      },
+                               //    ).toList(),
+                               //  ),
+                              ],
+                            ),
+                          )
+                        : SizedBox(),
+
+                    categoryDeController.sizeList.value.isNotEmpty
+                        ? Padding(
+                            padding: EdgeInsets.only(
+                                left: AppConstant.size.width * 0.03),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text("Size : "),
+                                // DropdownButton(
+                                //   value: categoryDeController.sizeDropdownValue.value,
+                                //   isExpanded: false,
+                                //   icon: const Icon(Icons.keyboard_arrow_down),
+                                //   // Array list of items
+                                //   items: categoryDeController.sizeList
+                                //       .map((items) {
+                                //     return DropdownMenuItem(
+                                //       enabled: true,
+                                //       onTap: () {},
+                                //       value: items,
+                                //       child: Text(items),
+                                //     );
+                                //   }).toList(),
+                                //   onChanged: (newValue) {
+                                //     categoryDeController.sizeDropdownValue.value = !newValue;
+                                //   },
+                                // ),
+                              ],
+                            ),
+                          )
+                        : SizedBox(),
+                    SizedBox(height: AppConstant.size.height * 0.01),
+                    // Disply the Size :
+                    // Padding(
+                    //   padding:  EdgeInsets.only(left: AppConstant.size.width*0.03),
+                    //   child: RichText(
+                    //     text: TextSpan(
+                    //       text: "Size : ",
+                    //       style: TextStyle(
+                    //           color: AppColors.blackColor,
+                    //           fontSize: 16,
+                    //           fontWeight: FontWeight.w400),
+                    //       children: [
+                    //         TextSpan(
+                    //             text:
+                    //             "${categoryDeController.categoryDetailsModel.data!.variants!.color}",
+                    //             style: TextStyle(color: AppColors.blackColor ,  fontSize: 14,
+                    //                 fontWeight: FontWeight.w400)),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                     SizedBox(height: 20),
                     Divider(
                       height: 2,
@@ -139,31 +257,40 @@ class CategoryDetailsPage extends StatelessWidget {
                       endIndent: AppConstant.size.width * 0.03,
                       indent: AppConstant.size.width * 0.03,
                     ),
-                    SizedBox(height: 20),
+                    //! Product Description ..
+
+                    SizedBox(height: AppConstant.size.height * 0.03),
                     Padding(
                       padding:
                           EdgeInsets.only(left: AppConstant.size.width * 0.03),
                       child: Text(
                         "Description",
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: AppColors.blackColor,
                         ),
                       ),
                     ),
+                    SizedBox(height: AppConstant.size.height * 0.01),
                     Padding(
                       padding:
                           EdgeInsets.only(left: AppConstant.size.width * 0.03),
-                      child: Text(
-                        "${categoryDeController.categoryDetailsModel.data?.productTitle}",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.blackColor,
-                        ),
+                      // child: Text(
+                      //   "${categoryDeController.categoryDetailsModel.data?.productTitle}",
+                      //   style: TextStyle(
+                      //     fontSize: 16,
+                      //     fontWeight: FontWeight.w500,
+                      //     color: AppColors.blackColor,
+                      //   ),
+                      // ),
+                      child: Html(
+                        shrinkWrap: true,
+                        data:
+                            "${categoryDeController.productDescription.value}",
                       ),
                     ),
+
                     SizedBox(height: 20),
                   ],
                 ),
