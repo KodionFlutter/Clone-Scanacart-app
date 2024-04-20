@@ -5,13 +5,13 @@ import 'package:scan_cart_clone/Utils/constant.dart';
 
 class SplashScreen extends StatelessWidget {
   SplashScreen({super.key});
-  var splashController = Get.put(SplashController());
+  final splashController = Get.put(SplashController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
-      // Expand stack to cover entire screen
-      fit: StackFit.expand,
+      // todo :  Expand stack to cover entire screen
+      fit: StackFit.expand ,
       children: [
         Image.asset('assets/splash/splash_image.png',
             // This is for background image
