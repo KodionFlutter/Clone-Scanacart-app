@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 
+//! For showing a message .
+
 void showMessage(String message, Color color) {
   ScaffoldMessenger.of(navigatorKey.currentState!.context).showSnackBar(
     SnackBar(

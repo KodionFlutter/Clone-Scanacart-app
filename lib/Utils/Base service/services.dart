@@ -65,7 +65,7 @@ class APIServices {
               builder: (_) {
                 return NotAvailableWidget(
                   message: '${decodedData['message']}',
-                  height: AppConstant.size.height * 0.5,
+                  // height: AppConstant.size.height * 0.5,
                 );
               });
         }
@@ -134,16 +134,16 @@ class APIServices {
     log("Verification mail :: ${url}");
     try {
       final response = await BaseService.getAPI(url);
-      print("This is otp Response :: ${response}");
+      print("This is otp Response :: ${response.body.toString()}");
       if (response.statusCode == 200) {
         var decodeData = jsonDecode(response.body);
         print("This is verify Decoded Data :: ${decodeData}");
         var successflag = decodeData['success'];
         if (successflag == true) {
-          showMessage("${decodeData['message']}", AppColors.txtErrorTxtColor);
+          showMessage("${decodeData['message']}", AppColors.whiteBackgroundColor);
           return successflag;
         } else {
-          showMessage("Incorrect code", AppColors.txtErrorTxtColor);
+          showMessage("Invalid code", AppColors.whiteBackgroundColor);
         }
         print("${decodeData}");
       }

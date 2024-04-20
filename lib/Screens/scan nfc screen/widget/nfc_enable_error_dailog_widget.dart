@@ -2,60 +2,71 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
+import 'package:scan_cart_clone/Utils/constant.dart';
 
 class NotAvailableWidget extends StatelessWidget {
   final String message;
-  final double height;
 
   const NotAvailableWidget({
     super.key,
     required this.message,
-    required this.height,
   });
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.only(left: 15, right: 15),
+        padding: EdgeInsets.only(
+            left: AppConstant.size.width * 0.05,
+            right: AppConstant.size.width * 0.05),
         child: Container(
-          height: height,
           decoration: BoxDecoration(
               color: AppColors.whiteBackgroundColor,
-              borderRadius: BorderRadius.all(Radius.circular(20))),
+              borderRadius: BorderRadius.all(
+                  Radius.circular(AppConstant.size.width * 0.05))),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
+              // Cancel button
               Row(
                 children: [
                   const Expanded(child: SizedBox()),
                   Padding(
-                    padding: const EdgeInsets.only(left: 0, right: 15, top: 15),
+                    padding: EdgeInsets.only(
+                        left: 0,
+                        right: AppConstant.size.width * 0.04,
+                        top: AppConstant.size.width * 0.04),
                     child: GestureDetector(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: const Icon(Icons.cancel_outlined, size: 28),
-                    ),
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Icon(Icons.cancel_outlined,
+                            size: AppConstant.size.height * 0.035)),
                   ),
                 ],
               ),
+              //! Error image
               CircleAvatar(
                 backgroundColor:
                     AppColors.blackBackgroundColor.withOpacity(0.3),
-                radius: 50,
-                child: const Image(
+                radius: AppConstant.size.height * 0.06,
+                child: Image(
                     image: AssetImage('assets/images/2error.png'),
-                    width: 130,
-                    height: 100),
+                    width: AppConstant.size.width * 0.8,
+                    height: AppConstant.size.height * 0.15),
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: AppConstant.size.height * 0.02),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Material(
                       color: Colors.transparent,
                       child: Padding(
-                          padding: const EdgeInsets.only(left: 20, right: 20),
+                          padding: EdgeInsets.only(
+                            left: AppConstant.size.width * 0.03,
+                            right: AppConstant.size.width * 0.03,
+                            bottom: AppConstant.size.height*0.01,
+                          ),
                           child: Html(
                             data: message,
                             style: {
@@ -65,7 +76,6 @@ class NotAvailableWidget extends StatelessWidget {
                                 fontSize: FontSize(20, Unit.px),
                                 color: AppColors.txtErrorTxtColor,
                                 display: Display.block,
-                                fontFamily: 'Montserrat',
                               ),
                               "b": Style(
                                 textAlign: TextAlign.center,
@@ -74,7 +84,6 @@ class NotAvailableWidget extends StatelessWidget {
                                 fontSize: FontSize(25, Unit.px),
                                 display: Display.block,
                                 fontWeight: FontWeight.bold,
-                                fontFamily: 'Montserrat',
                               ),
                             },
                           ))),

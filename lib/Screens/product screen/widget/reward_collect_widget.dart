@@ -6,6 +6,7 @@ import 'package:scan_cart_clone/Utils/constant.dart';
 
 class RewardCollectWidget extends StatelessWidget {
   final VoidCallback onTap;
+
   const RewardCollectWidget({super.key, required this.onTap});
 
   @override
@@ -54,6 +55,7 @@ class RewardCollectWidget extends StatelessWidget {
                   ),
                   SizedBox(height: 40.0),
                   CommonButtonWidget(
+                    isEnabled: true,
                     onPressed: () {},
                     buttonTxt: 'Redeem',
                     btnHeight: AppConstant.size.height * 0.05,

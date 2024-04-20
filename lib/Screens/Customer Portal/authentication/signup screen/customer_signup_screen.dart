@@ -4,7 +4,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
+import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/common_services/common_services.dart';
+import 'package:scan_cart_clone/Common/validator_form.dart';
 import 'package:scan_cart_clone/Common/widgets/common_button.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/signin%20screen/customer_login_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/signup%20screen/controller/customer_signup_controller.dart';
@@ -36,6 +38,9 @@ class CustomerSignUpScreen extends StatelessWidget {
                 title: 'Sign Up to account',
                 subtitle: 'Welcome back to Scanacart!',
                 voidCallback: () {
+                  signUpController.customerEmailController.value.clear();
+                  signUpController.customerNameController.value.clear();
+                  signUpController.customerPhoneController.value.clear();
                   Get.back();
                 },
               ),
@@ -57,8 +62,9 @@ class CustomerSignUpScreen extends StatelessWidget {
                           preFixText: "",
                           validator: (val) {
                             if (val.toString().isEmpty) {
-                              return "Please enter name";
+                              return FormValidator.txtName;
                             }
+                            return null;
                           },
                         ),
                       ),
@@ -73,10 +79,12 @@ class CustomerSignUpScreen extends StatelessWidget {
                           hinText: "Email",
                           preFixText: "",
                           validator: (val) {
-                            if (signUpController
-                                .customerEmailController.value.text.isEmpty) {
-                              return "Please enter your email";
+                            if (val!.isEmpty) {
+                              return FormValidator.txtMail;
+                            } else if (!signUpController.reg.hasMatch(val)) {
+                              return FormValidator.txtValidMail;
                             }
+                            return null;
                           },
                         ),
                       ),
@@ -99,7 +107,6 @@ class CustomerSignUpScreen extends StatelessWidget {
                               style: TextStyle(
                                 color: AppColors.txtWhiteColor,
                                 fontSize: 16,
-                                fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -120,12 +127,16 @@ class CustomerSignUpScreen extends StatelessWidget {
                               signUpController.customerPhoneController.value,
                           textInputType: TextInputType.phone,
                           icons: Icons.phone,
+                          maxLength: 10,
                           hinText: "Phone",
                           preFixText: "+1 ",
                           validator: (val) {
-                            if (val.toString().isEmpty) {
-                              return "Please enter Phone number or email";
+                            if (val!.isEmpty) {
+                              return FormValidator.txtPhoneNumber;
+                            } else if (val.length < 10) {
+                              return FormValidator.txtValidPhoneNumber;
                             }
+                            return null;
                           },
                         ),
                       ),
@@ -135,16 +146,21 @@ class CustomerSignUpScreen extends StatelessWidget {
                         padding: const EdgeInsets.only(
                             left: 20, bottom: 30, right: 20, top: 20),
                         child: CommonButtonWidget(
+                          isEnabled: true,
                           onPressed: () async {
                             log("${signUpController.customerPhoneController.value.text}");
 
-                            if (signUpController.customerEmailController.value
-                                    .text.isEmpty &&
+                            if (signUpController
+                                .customerNameController.value.text.isEmpty) {
+                              showMessage("Name field is required!\n${FormValidator.txtName}",
+                                  AppColors.txtWhiteColor);
+                            } else if (signUpController.customerEmailController
+                                    .value.text.isEmpty &&
                                 signUpController.customerPhoneController.value
                                     .text.isEmpty) {
                               showMessage("Required email or Phone number",
                                   Colors.white);
-                              print("object");
+                              // print("object");
                             } else {
                               await signUpController.signUPCustomer({
                                 "name": signUpController

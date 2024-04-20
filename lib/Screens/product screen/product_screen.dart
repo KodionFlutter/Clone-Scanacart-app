@@ -228,6 +228,7 @@ class ProductScreen extends StatelessWidget {
                           ),
                         const SizedBox(height: 10),
                         CommonButtonWidget(
+                          isEnabled: true,
                           onPressed: () {
                             Get.back();
                             Get.to(CommonWebView(
@@ -246,6 +247,7 @@ class ProductScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 10),
                         CommonButtonWidget(
+                          isEnabled: true,
                           onPressed: () async {
                             final SharedPreferences prefs =
                                 await SharedPreferences.getInstance();

@@ -75,7 +75,7 @@ class ReadyToScanWidget extends StatelessWidget {
                         btnHeight: AppConstant.size.height * 0.1,
                         btnWidth: AppConstant.size.width,
                         linearGradient: AppColors.verifyLinearGradientColor,
-                        txtColor: AppColors.txtWhiteColor,
+                        txtColor: AppColors.txtWhiteColor, isEnabled: true,
                       )),
                 ),
               ),

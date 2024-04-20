@@ -90,6 +90,7 @@ class CommonPageViewWidget extends StatelessWidget {
             child: Align(
               alignment: Alignment.bottomCenter,
               child: CommonButtonWidget(
+                isEnabled: true,
                 onPressed: onPressed,
                 buttonTxt: 'View Product',
                 btnHeight: AppConstant.size.height * 0.08,

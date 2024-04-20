@@ -33,4 +33,5 @@ class AppColors {
   static var txtErrorTxtColor = Color(0xFFE2050B);
 
   static var greyWithOpacity = Colors.grey.withOpacity(0.9);
+  static  var orTxtColor = Color(0xFFDDDDDD);
 }

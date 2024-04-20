@@ -9,6 +9,7 @@ class CommonButtonWidget extends StatelessWidget {
   final LinearGradient? linearGradient;
   final Color? colors;
   final Color txtColor;
+  final bool isEnabled;
 
   const CommonButtonWidget({
     super.key,
@@ -17,7 +18,9 @@ class CommonButtonWidget extends StatelessWidget {
     required this.btnHeight,
     required this.btnWidth,
     this.linearGradient,
-    this.colors, required this.txtColor,
+    this.colors,
+    required this.txtColor,
+    required this.isEnabled,
   });
 
   @override
@@ -26,11 +29,12 @@ class CommonButtonWidget extends StatelessWidget {
         height: btnHeight,
         width: btnWidth,
         decoration: BoxDecoration(
-            color: colors,
-            gradient: linearGradient,
+            color: isEnabled ? colors : Colors.transparent,
+            // Use disabledColor when isEnabled is false
+            gradient: isEnabled ? linearGradient : null,
             borderRadius: BorderRadius.circular(10)),
         child: ElevatedButton(
-            onPressed: onPressed,
+            onPressed: isEnabled ? onPressed : null,
             style: ElevatedButton.styleFrom(
               elevation: 0,
               backgroundColor: Colors.transparent,

@@ -8,6 +8,7 @@ class CommonTxtFieldWidget extends StatelessWidget {
   final IconData icons;
   final String hinText;
   final String? preFixText;
+  final int? maxLength;
   final String? Function(String?)? validator;
 
   CommonTxtFieldWidget({
@@ -18,20 +19,22 @@ class CommonTxtFieldWidget extends StatelessWidget {
     required this.hinText,
     this.preFixText,
     required this.validator,
+    this.maxLength,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       style: TextStyle(
-        fontFamily: "Montserrat",
         color: Colors.black,
       ),
       controller: textEditController,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: textInputType,
-      validator:  validator,
+      validator: validator,
+      maxLength: maxLength,
       decoration: InputDecoration(
+        counter: SizedBox(),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: Colors.white),

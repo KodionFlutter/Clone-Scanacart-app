@@ -13,7 +13,6 @@ import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/widget/verify_button
 import 'package:scan_cart_clone/Utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class ScanNFCScreen extends StatelessWidget {
   ScanNFCScreen({super.key});
 
@@ -21,30 +20,34 @@ class ScanNFCScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final height = AppConstant.size.height;
+    final width = AppConstant.size.width;
+
     return Scaffold(
         body: Container(
       decoration: BoxDecoration(gradient: AppColors.linearGradientColor),
       child: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
-          // This is profile and reward section
+          // This is Custom profile and reward section
           Padding(
             padding:
                 const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                //! Calling here reward widget
-                RewardWidget(onTap: () async{
-                  final SharedPreferences prefs = await SharedPreferences.getInstance();
-                  var id= prefs.getInt("customer_id");
-                  if(id != null){
+                //! Calling here reward widget♥
+                RewardWidget(onTap: () async {
+                  //Save the customer id
+                  final SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  var id = prefs.getInt("customer_id");
+                  scanNfcController.promoCodeController.value.clear();
+                  if (id != null) {
                     Get.to(RewardScreen(customerId: id));
-                  }else{
+                  } else {
                     Get.to(CustomerLoginPage());
-
                   }
-
                 }),
                 //! Calling Client Login section
                 ClientLoginWidget(onTap: () {}),
@@ -53,43 +56,40 @@ class ScanNFCScreen extends StatelessWidget {
           ),
 
           //! Show Scanacart Text
-          Padding(
-            padding: EdgeInsets.only(top: 0),
-            child: Text('Scanacart',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: AppColors.txtWhiteColor,
-                  fontSize: 32,
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.bold,
-                )),
-          ),
+          Text('Scanacart',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: AppColors.txtWhiteColor,
+                fontSize: AppConstant.size.width * 0.09,
+                fontWeight: FontWeight.bold,
+              )),
 
-          //! Showing here roted logo
-          const SizedBox(height: 20),
-          Image.asset("assets/images/imgpsh_fullsize_anim.gif",
-              height: 180, width: 180),
-          const SizedBox(height: 20),
-          //!
-          const Text(
+          //! Showing here Gif logo image
+          SizedBox(height: AppConstant.size.height * 0.02),
+          Image.asset(
+            "assets/images/imgpsh_fullsize_anim.gif",
+            height: height * 0.20,
+            width: width * 0.3,
+          ),
+          SizedBox(height: AppConstant.size.height * 0.02),
+
+          Text(
             'Protect Your Brand',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,
-              fontSize: 30,
-              fontFamily: 'Montserrat',
+              fontSize: AppConstant.size.width * 0.08,
               fontWeight: FontWeight.w600,
             ),
           ),
-          const Padding(
-            padding: const EdgeInsets.only(top: 10),
+          Padding(
+            padding: EdgeInsets.only(top: width * 0.02),
             child: Text(
               'Welcome back to Scanacart!',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 16,
-                fontFamily: 'Montserrat',
+                fontSize: width * 0.045,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -97,12 +97,15 @@ class ScanNFCScreen extends StatelessWidget {
 
           //! Card
           Padding(
-            padding:
-                const EdgeInsets.only(top: 25, left: 15, right: 15, bottom: 0),
+            padding: EdgeInsets.only(
+                top: height * 0.03,
+                left: width * 0.04,
+                right: width * 0.04,
+                bottom: 0),
             child: Container(
                 width: AppConstant.size.width,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(width * 0.04),
                   color: AppColors.whiteBackgroundColor,
                 ),
                 child: Form(
@@ -125,31 +128,33 @@ class ScanNFCScreen extends StatelessWidget {
                               !scanNfcController.selected.value;
                           scanNfcController.promoCode.value =
                               scanNfcController.promoCodeController.value.text;
-                          scanNfcController.getEmployee(scanNfcController.promoCode.value);
+                          scanNfcController
+                              .getEmployee(scanNfcController.promoCode.value);
                         }
                       }),
+
                       //! This is OR section ..
                       Padding(
-                        padding:
-                            const EdgeInsets.only(top: 20, left: 15, right: 15),
+                        padding: EdgeInsets.only(
+                            top: height * 0.02,
+                            left: width * 0.025,
+                            right: width * 0.025),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(
                               child: Container(
                                 height: 1,
-                                decoration: const BoxDecoration(
-                                    color: Color(0xFFDDDDDD)),
+                                decoration:
+                                    BoxDecoration(color: AppColors.orTxtColor),
                               ),
                             ),
                             Text(
                               'Or',
                               style: TextStyle(
-                                color: AppColors.txtBlackColor,
-                                fontSize: 16,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                              ),
+                                  color: AppColors.txtBlackColor,
+                                  fontSize: width * 0.04,
+                                  fontWeight: FontWeight.w600),
                             ),
                             Expanded(
                               child: Container(
@@ -169,7 +174,7 @@ class ScanNFCScreen extends StatelessWidget {
           ),
           // Here showing the App Versions..
           Padding(
-            padding: const EdgeInsets.only(right: 20, top: 5),
+            padding:  EdgeInsets.only(right: width*0.04, top: height*0.01),
             child: Text(
               "v.9.0.4",
               textAlign: TextAlign.end,

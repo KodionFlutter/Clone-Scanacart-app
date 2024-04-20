@@ -55,10 +55,6 @@ class ScanNFCController extends GetxController {
     adminLogin();
   }
 
-
-
-
-
   //! Check the inter net Connection
   Future<bool> isInternetConnected() async {
     try {
@@ -82,68 +78,75 @@ class ScanNFCController extends GetxController {
   Future NFCscan(enable) async {
     if (Platform.isAndroid) {
       log("Platform :: Android");
-      NfcManager.instance.startSession(onDiscovered: (NfcTag nfcTag) async {
-        if (enable && !isShowingAnimationScreen.value) {
-          final ndefTag = await Ndef.from(nfcTag);
-          String nfcURL = "";
-          log("Ndef message :: ${ndefTag!.cachedMessage}");
-          if (ndefTag?.cachedMessage != null) {
-            var ndefMessage = ndefTag?.cachedMessage;
-            var buffer = StringBuffer();
-            try {
-              final ndefRecords = ndefMessage!.records;
-              for (int i = 0; i < ndefRecords!.length; i++) {
-                final nPalyload = ndefRecords[i].payload;
-                String decodedData = utf8.decode(nPalyload.toList());
-                log("DecodedData :: ${decodedData}");
-                if (decodedData.isNotEmpty) {
-                  if (decodedData.contains("scanacart.com/nfc")) {
-                    log("Yes this contain");
-                    nfcURL = decodedData.substring(1);
-                    log("NFC URL :: $nfcURL");
-                  } else {
-                    log("This is Not contain to :: ");
-                    buffer.writeln(
-                        "Record " + (i + 1).toString() + ". " + decodedData);
-                    log("Buffer Write :: ${buffer}");
-                  }
-                } else {
-                  log("$decodedData Is Empty");
-                }
-              }
-            } catch (exception) {
-              log("Exceptions :: ${exception.toString()}");
-            }
-          }
+     try{
+       NfcManager.instance.startSession(onDiscovered: (NfcTag nfcTag) async {
+         if (enable && !isShowingAnimationScreen.value) {
+           final ndefTag = await Ndef.from(nfcTag);
+           String nfcURL = "";
+           log("Ndef message :: ${ndefTag!.cachedMessage}");
+           if (ndefTag.cachedMessage != null) {
+             var ndefMessage = ndefTag.cachedMessage;
+             var buffer = StringBuffer();
+             try {
+               final ndefRecords = ndefMessage!.records;
+               for (int i = 0; i < ndefRecords.length; i++) {
+                 final nPalyload = ndefRecords[i].payload;
+                 String decodedData = utf8.decode(nPalyload.toList());
+                 log("DecodedData :: ${decodedData}");
+                 if (decodedData.isNotEmpty) {
+                   if (decodedData.contains("scanacart.com/nfc")) {
+                     log("Yes this contain");
+                     nfcURL = decodedData.substring(1);
+                     log("NFC URL :: $nfcURL");
+                   } else {
+                     log("This is Not contain to :: ");
+                     buffer.writeln(
+                         "Record " + (i + 1).toString() + ". " + decodedData);
+                     log("Buffer Write :: ${buffer}");
+                   }
+                 } else {
+                   log("$decodedData Is Empty");
+                 }
+               }
+             } catch (exception) {
+               log("Exceptions :: ${exception.toString()}");
+             }
+           }
 
-          //! Here we need to check and perform
-          if (await isInternetConnected()) {
-            showNFCLoadingScreen(navigatorKey.currentState!.context);
-            log("Internet is Connected");
-            if (adminTokenService.isEmpty) {
-              await adminLogin();
-              log("adminServiceToken isAvailable :: ${adminTokenService.value}");
-              validateNFCTag(navigatorKey.currentState!.context,
-                  getSerialNumberFromTag(nfcTag), nfcURL);
-            } else {
-              log("userServiceToken :: ${adminTokenService.value}");
-              validateNFCTag(navigatorKey.currentState!.context,
-                  getSerialNumberFromTag(nfcTag), nfcURL);
-            }
-          } else {
-            showDialog(
-                context: navigatorKey.currentState!.context,
-                builder: (_) {
-                  return AlertDialogBoxWidget(
-                    title: 'Alert',
-                    message: 'You are offline',
-                  );
-                });
-          }
-        }
-      }, onError: (NfcError error) async {
-        log("NFC Error :: $error");
-      });
+           //! Here we need to check and perform
+           if (await isInternetConnected()) {
+             showNFCLoadingScreen(navigatorKey.currentState!.context);
+             log("Internet is Connected");
+             if (adminTokenService.isEmpty) {
+               await adminLogin();
+               log("adminServiceToken isAvailable :: ${adminTokenService.value}");
+               validateNFCTag(navigatorKey.currentState!.context,
+                   getSerialNumberFromTag(nfcTag), nfcURL);
+             } else {
+               log("userServiceToken :: ${adminTokenService.value}");
+               validateNFCTag(navigatorKey.currentState!.context,
+                   getSerialNumberFromTag(nfcTag), nfcURL);
+             }
+           } else {
+             showDialog(
+                 context: navigatorKey.currentState!.context,
+                 builder: (_) {
+                   return AlertDialogBoxWidget(
+                     title: 'Alert',
+                     message: 'You are offline',
+                   );
+                 });
+           }
+         }
+       }, onError: (NfcError error) async {
+         log("NFC Error :: $error");
+       }
+       );
+     }on PlatformException {
+       throw Exception("NFC is not available for device.");
+     }catch(exception) {
+        "Exception : ${exception.toString()}";
+      }
     }
   }
 
@@ -230,8 +233,9 @@ class ScanNFCController extends GetxController {
     if (isShowingAnimationScreen.value) {
       hideNFCLoadingScreen(navigatorKey.currentState!.context);
     }
-    await APIServices.nfcValidateTagMethod(
+    var isData =await APIServices.nfcValidateTagMethod(
         queryParameter, adminTokenService.value.toString());
+    print("Is Data :: $isData");
   }
 
   // to check the NFC is Available or Not
@@ -244,10 +248,10 @@ class ScanNFCController extends GetxController {
           context: navigatorKey.currentState!.context,
           builder: (builder) {
             return NotAvailableWidget(
-              height: MediaQuery.of(navigatorKey.currentState!.context)
-                      .size
-                      .height *
-                  0.3,
+              // height: MediaQuery.of(navigatorKey.currentState!.context)
+              //         .size
+              //         .height *
+              //     0.3,
               message: "Please enable NFC in settings",
             );
           });
@@ -276,12 +280,12 @@ class ScanNFCController extends GetxController {
         final ndefTag = await Ndef.from(nfcTag);
         String nfcURL = "";
         log("Ndef message :: ${ndefTag!.cachedMessage}");
-        if (ndefTag?.cachedMessage != null) {
-          var ndefMessage = ndefTag?.cachedMessage;
+        if (ndefTag.cachedMessage != null) {
+          var ndefMessage = ndefTag.cachedMessage;
           var buffer = StringBuffer();
           try {
             final ndefRecords = ndefMessage!.records;
-            for (int i = 0; i < ndefRecords!.length; i++) {
+            for (int i = 0; i < ndefRecords.length; i++) {
               final nPalyload = ndefRecords[i].payload;
               String decodedData = utf8.decode(nPalyload.toList());
               log("DecodedData :: ${decodedData}");
@@ -359,7 +363,7 @@ class ScanNFCController extends GetxController {
             builder: (_) => NotAvailableWidget(
                   message:
                       "Code not found. This product is not valid. Please contact your vendor",
-                  height: AppConstant.size.height * 0.5,
+                  // height: AppConstant.size.height * 0.5,
                 ));
         promoCodeController.value.clear();
       } else {

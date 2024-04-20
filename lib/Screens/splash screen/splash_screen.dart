@@ -10,19 +10,17 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
-      // todo :  Expand stack to cover entire screen
+      // Expand stack to cover entire screen
       fit: StackFit.expand ,
       children: [
         Image.asset('assets/splash/splash_image.png',
             // This is for background image
             fit: BoxFit.cover),
-        Positioned(
-          left: (AppConstant.size.width - 250) / 2, // Center horizontally
-          top: (AppConstant.size.height - 180) / 2, // Center vertically
+        Center(
           child: Image.asset(
               'assets/splash/img_splash_anim.gif', // This is gif image
-              width: 250,
-              height: 180),
+              width: AppConstant.size.height*0.5,
+              height: AppConstant.size.width*0.5),
         )
       ],
     ));
