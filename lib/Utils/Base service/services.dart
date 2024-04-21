@@ -112,14 +112,14 @@ class APIServices {
         "${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/registerCustomer";
     try {
       final response = await BaseService.postMethod(url, map);
-      print("Customer signup Response :: ${response.toString()}");
+      print("Customer signup Response :: ${response.body.toString()}");
       if (response.statusCode == 200) {
         var decodedData = jsonDecode(response.body);
         print("decoded Data :: ${decodedData}");
         return CustomerSignUpModel.fromJson(decodedData);
       }
     } on SocketException {
-      throw Exception("No internet");
+      throw Exception("No Connection");
     } catch (exception) {
       log("Exception :: ${exception.toString()}");
     }
@@ -140,7 +140,8 @@ class APIServices {
         print("This is verify Decoded Data :: ${decodeData}");
         var successflag = decodeData['success'];
         if (successflag == true) {
-          showMessage("${decodeData['message']}", AppColors.whiteBackgroundColor);
+          showMessage(
+              "${decodeData['message']}", AppColors.whiteBackgroundColor);
           return successflag;
         } else {
           showMessage("Invalid code", AppColors.whiteBackgroundColor);
@@ -162,7 +163,7 @@ class APIServices {
     print("Login url :: ${url}");
     try {
       final response = await BaseService.getAPI(url);
-      print("Customer signin Response :: ${response}");
+      print("Customer signin Response :: ${response.body.toString()}");
       log("message :: ${response}");
       if (response.statusCode == 200) {
         var decodedData = jsonDecode(response.body);
@@ -190,9 +191,9 @@ class APIServices {
         var decodedData = json.decode(response.body);
         log("Reward Decoded Data :: ${decodedData}");
         if (decodedData['success'] == true) {
-          return RewardModel.fromJson(decodedData);
+          return decodedData;
         } else {
-          print("Error occure during the Reward API Fetching");
+          print("Error occur during the Reward API Fetching");
         }
       }
     } on SocketException {

@@ -29,7 +29,7 @@ class CategoryDetailsController extends GetxController {
   var size = ''.obs;
 
   RxInt currentImageIndex = 0.obs;
-  var colorDropdownvalue = 'White'.obs;
+  var colorDropdownvalue = ''.obs;
   var sizeDropdownValue = ''.obs;
 
   var imgList = [
@@ -61,13 +61,17 @@ class CategoryDetailsController extends GetxController {
         //
         // }
         color.value = categoryDetailsData['data']['variants']['color'];
-        var du = color.value.split(',');
-        colorList.value = du.map((e) => '"$e"').toList();
+        colorList.value= color.value.split(',');
+        //Covert into string form "String"
+        // colorList.value = du.map((e) => '"$e"').toList();
+        // sizeList.value = duu.map((e) => '"$e"').toList();
+
         print("Color :: ${colorList}");
+        colorDropdownvalue.value = colorList[0];
         // print("ColorLength :: ${colorList.toString().length}");
         size.value = categoryDetailsData['data']['variants']['size'];
-        var duu = size.value.split(',');
-        sizeList.value = duu.map((e) => '"$e"').toList();
+        sizeList.value= size.value.split(',');
+        sizeDropdownValue.value = sizeList[0];
         print("Size :: ${sizeList}");
       }
       // print("L = ${data.toString()}");

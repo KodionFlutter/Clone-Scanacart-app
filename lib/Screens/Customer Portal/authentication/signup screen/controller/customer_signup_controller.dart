@@ -22,6 +22,7 @@ class CustomerSignupController extends GetxController {
   var reg = RegExp(FormValidator.emailReg);
   RxBool isShowingAnimationScreen = false.obs;
   var context = navigatorKey.currentState!.context;
+  CustomerSignUpModel customerSignUpModel = CustomerSignUpModel();
 
   showLoadingScreen(BuildContext context) {
     isShowingAnimationScreen.value = true;
@@ -43,24 +44,29 @@ class CustomerSignupController extends GetxController {
   //! Here we make a signUp
 
   Future signUPCustomer(Map<String, dynamic> map) async {
-    CustomerSignUpModel customerSignUpModel = CustomerSignUpModel();
     try {
       showLoadingScreen(context);
       var customerData = await APIServices.customerSignUP(map);
       customerSignUpModel = customerData;
       if (customerSignUpModel.success == true) {
         print("Login success :: true");
-        customerEmailController.value.clear();
-        customerNameController.value.clear();
-        customerPhoneController.value.clear();
-        hideLoadingScreen(context);
-        Get.off(OtpVerifyScreen(
-          id: customerSignUpModel.customerId!,
-          email: customerEmailController.value,
-        ));
 
-        showMessage(
-            "${customerSignUpModel.message}", AppColors.whiteBackgroundColor);
+        if (customerSignUpModel.message == "User already exist.") {
+          showMessage("User already exist.", AppColors.txtWhiteColor);
+          hideLoadingScreen(context);
+        } else {
+          hideLoadingScreen(context);
+          Get.off(OtpVerifyScreen(
+            id: customerSignUpModel.customerId!,
+            email: customerEmailController.value,
+          ));
+          customerEmailController.value.clear();
+          customerNameController.value.clear();
+          customerPhoneController.value.clear();
+
+          showMessage(
+              "${customerSignUpModel.message}", AppColors.whiteBackgroundColor);
+        }
       } else {
         showMessage(
             "${customerSignUpModel.message}", AppColors.whiteBackgroundColor);

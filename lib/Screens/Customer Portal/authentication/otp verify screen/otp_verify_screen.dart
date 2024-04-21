@@ -10,7 +10,7 @@ import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/widgets
 import 'package:scan_cart_clone/Utils/constant.dart';
 
 class OtpVerifyScreen extends StatelessWidget {
-  final int id;
+  var id;
   var email;
 
   OtpVerifyScreen({super.key, required this.id, this.email});

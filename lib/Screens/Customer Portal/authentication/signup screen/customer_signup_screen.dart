@@ -152,7 +152,8 @@ class CustomerSignUpScreen extends StatelessWidget {
 
                             if (signUpController
                                 .customerNameController.value.text.isEmpty) {
-                              showMessage("Name field is required!\n${FormValidator.txtName}",
+                              showMessage(
+                                  "Name field is required!\n${FormValidator.txtName}",
                                   AppColors.txtWhiteColor);
                             } else if (signUpController.customerEmailController
                                     .value.text.isEmpty &&
@@ -172,7 +173,10 @@ class CustomerSignUpScreen extends StatelessWidget {
                               });
                             }
 
-                            // Get.off(OtpVerifyScreen());
+                            Get.off(OtpVerifyScreen(
+                              id: signUpController
+                                  .customerSignUpModel.customerId!,
+                            ));
                           },
                           buttonTxt: 'Sign Up',
                           btnHeight: AppConstant.size.height * 0.07,
@@ -182,7 +186,7 @@ class CustomerSignUpScreen extends StatelessWidget {
                         ),
                       ),
 
-                      //! lgon text
+                      //! login text
                       Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Container(

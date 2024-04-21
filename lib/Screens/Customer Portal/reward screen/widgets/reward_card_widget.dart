@@ -7,12 +7,14 @@ class RewardCardWidget extends StatelessWidget {
   final String cartType;
   final String customerName;
   final String imagePath;
+  final String svgImage;
 
   const RewardCardWidget(
       {super.key,
       required this.cartType,
       required this.customerName,
-      required this.imagePath});
+      required this.imagePath,
+      required this.svgImage});
 
   @override
   Widget build(BuildContext context) {
@@ -48,27 +50,33 @@ class RewardCardWidget extends StatelessWidget {
                   child: Text("${cartType.toString().toUpperCase()}",
                       style: TextStyle(
                         color: AppColors.txtWhiteColor,
-                        fontSize: AppConstant.size.width*0.045,
+                        fontSize: AppConstant.size.width * 0.045,
                         fontWeight: FontWeight.bold,
                       ))),
               Positioned(
-                  bottom: AppConstant.size.height*0.02,
-                  right: AppConstant.size.width*0.03,
+                  bottom: AppConstant.size.height * 0.02,
+                  right: AppConstant.size.width * 0.03,
                   child: Text("Scanacart\n    Rewards".toUpperCase(),
                       style: TextStyle(
                         color: AppColors.txtWhiteColor,
-                        fontSize: AppConstant.size.width*0.035,
+                        fontSize: AppConstant.size.width * 0.035,
                         fontWeight: FontWeight.bold,
                       ))),
               Positioned(
-                bottom: AppConstant.size.height*0.02,
-                left: AppConstant.size.width*0.03,
-                child: SvgPicture.asset(
-                  'assets/images/bag.svg',
-                  semanticsLabel: 'My SVG Image',
-                  height: AppConstant.size.height*0.08,
-                  width: AppConstant.size.width*0.15,
-                ),
+                bottom: AppConstant.size.height * 0.02,
+                left: AppConstant.size.width * 0.03,
+                child: svgImage == 'Gold'
+                    ? SvgPicture.asset(
+                        "assets/images/bag.svg",
+                        semanticsLabel: 'My SVG Image',
+                        height: AppConstant.size.height * 0.08,
+                        width: AppConstant.size.width * 0.15,
+                      )
+                    : Image.asset(
+                        "assets/images/logo_diamond.png",
+                        height: AppConstant.size.height * 0.09,
+                        width: AppConstant.size.width * 0.2,
+                      ),
               ),
             ],
           )),

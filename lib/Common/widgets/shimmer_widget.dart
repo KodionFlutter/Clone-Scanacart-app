@@ -15,3 +15,5 @@ class ShimmerWidget extends StatelessWidget {
     );
   }
 }
+//Color(0xFFBE6EFF),
+//       Color(0xFF44AAFF),

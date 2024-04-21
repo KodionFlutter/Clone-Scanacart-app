@@ -16,12 +16,11 @@ class OTPVrifyController extends GetxController {
   RxBool isShowingAnimationScreen = false.obs;
   var context = navigatorKey.currentState!.context;
 
-
   showLoadingScreen(BuildContext context) {
     isShowingAnimationScreen.value = true;
     showDialog(
       barrierDismissible: false,
-      context:context,
+      context: context,
       builder: (BuildContext context) {
         return NfcLoadingScreen();
       },
@@ -44,10 +43,10 @@ class OTPVrifyController extends GetxController {
       print("verify data :: ${data}");
       if (data == true) {
         await prefs.setInt('customer_id', id);
-        otpVerifyController.value.clear();
-        Get.off(RewardScreen(customerId: id));
         hideLoadingScreen(context);
 
+        Get.off(RewardScreen(customerId: id));
+        otpVerifyController.value.clear();
       } else {
         Get.back();
       }

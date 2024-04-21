@@ -22,7 +22,6 @@ class ScanNFCScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = AppConstant.size.height;
     final width = AppConstant.size.width;
-
     return Scaffold(
         body: Container(
       decoration: BoxDecoration(gradient: AppColors.linearGradientColor),
@@ -112,7 +111,9 @@ class ScanNFCScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       // PromoCode Text Filed section ..
-                      PromoCodetxtFeildWidget(),
+                      PromoCodetxtFeildWidget(
+                        focusNode: scanNfcController.focusNode,
+                      ),
                       //! This is VerifyButton section ..
                       VerifyButtonWidget(onPressed: () {
                         scanNfcController.NFCscan(false);
@@ -174,7 +175,7 @@ class ScanNFCScreen extends StatelessWidget {
           ),
           // Here showing the App Versions..
           Padding(
-            padding:  EdgeInsets.only(right: width*0.04, top: height*0.01),
+            padding: EdgeInsets.only(right: width * 0.04, top: height * 0.01),
             child: Text(
               "v.9.0.4",
               textAlign: TextAlign.end,

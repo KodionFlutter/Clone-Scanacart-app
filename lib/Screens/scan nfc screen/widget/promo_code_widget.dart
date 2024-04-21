@@ -5,7 +5,10 @@ import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/controller/scan_nfc_
 import 'package:scan_cart_clone/Utils/constant.dart';
 
 class PromoCodetxtFeildWidget extends StatelessWidget {
-   PromoCodetxtFeildWidget({super.key});
+  final FocusNode focusNode;
+
+  PromoCodetxtFeildWidget({super.key, required this.focusNode});
+
   final textEditController = Get.put(ScanNFCController());
 
   @override
@@ -16,6 +19,8 @@ class PromoCodetxtFeildWidget extends StatelessWidget {
         child: SizedBox(
           height: (AppConstant.size.height - 40) / 12,
           child: TextFormField(
+            keyboardType: TextInputType.text,
+            focusNode: focusNode,
             controller: textEditController.promoCodeController.value,
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -25,7 +30,7 @@ class PromoCodetxtFeildWidget extends StatelessWidget {
             decoration: InputDecoration(
                 contentPadding: const EdgeInsets.all(10),
                 border: OutlineInputBorder(
-                    borderRadius:const BorderRadius.all(Radius.circular(10)),
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(
                         width: 0.50, color: AppColors.greyBackgroundColor)),
                 filled: true,
@@ -33,14 +38,17 @@ class PromoCodetxtFeildWidget extends StatelessWidget {
                     fontFamily: "Montserrat", color: Color(0xFF75758B)),
                 hintText: "Enter Product Code",
                 fillColor: AppColors.txtWhiteColor),
-            onChanged: (value){
-              print("Promocode value :: ${textEditController.promoCodeController.value.text}");
+            onChanged: (value) {
+              print(
+                  "PromoCode value :: ${textEditController.promoCodeController.value.text}");
             },
-            validator: (value){
-              if(textEditController.promoCodeController.value.text.isEmpty){
+            validator: (value) {
+              if (textEditController.promoCodeController.value.text.isEmpty) {
                 // show the toast if TextEdit isEmpty..
                 print("Empty we can show the Toast");
+                return "Please enter a promoCode";
               }
+              return null;
             },
           ),
         ),

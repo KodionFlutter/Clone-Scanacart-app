@@ -18,9 +18,9 @@ class ClientWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: AppConstant.size.width * 0.03,
-          vertical: AppConstant.size.height * 0.02),
+      padding: EdgeInsets.only(
+          left: AppConstant.size.width * 0.03 , right: AppConstant.size.width * 0.03,
+          top: AppConstant.size.height * 0.01 , bottom:AppConstant.size.height * 0.005 ),
       child: Container(
         width: AppConstant.size.width,
         decoration: BoxDecoration(

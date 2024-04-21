@@ -38,6 +38,7 @@ class ScanNFCController extends GetxController {
   RxString videoURL = ''.obs;
   RxInt serialNumber = 0.obs;
   EmployeeDataModel employeeDataModel = EmployeeDataModel();
+  final focusNode = FocusNode();
 
   @override
   void dispose() {
@@ -48,6 +49,7 @@ class ScanNFCController extends GetxController {
   //! Calling onInit method
   @override
   void onInit() {
+
     Timer(Duration.zero, () {
       NFCscan(true);
     });
