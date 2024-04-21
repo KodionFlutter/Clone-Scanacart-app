@@ -41,56 +41,74 @@ class RewardScreen extends StatelessWidget {
             behavior: CommonScrollBehaveWidget(),
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
-              child:  Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch, // Ensure children expand to fill the available width
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                // Ensure children expand to fill the available width
 
                 children: [
                   // ! Calling Reward card widget
-                  RewardCardWidget(
-                      cartType: rewardController.cardName.value,
-                      customerName: rewardController.customerName.value,
-                      imagePath: rewardController.cardPath.value,
-                      svgImage:rewardController.cardName.value,
-                    ),
+                  Obx(() => RewardCardWidget(
+                    cartType: rewardController.cardName.value,
+                    customerName: rewardController.customerName.value,
+                    imagePath: rewardController.cardPath.value,
+                    svgImage: rewardController.cardName.value,
+                  ),
+                  ),
+                  //! Start
+
+                  // for (int i = 0; i <
+                  //     rewardController.data['rewards'].length; i++)
 
                   // Calling reward point widget
-                  RewardPointWidget(
-                    clientName:
-                    rewardController.clientName2.value.toString(),
-                    rewardPoints: rewardController.rewardPoints2.value,
-                    maxRange: rewardController.maxRange.value,
-                    minRange: rewardController.minRange.value,
-                    onPressed: () {
-                      Get.to(CategoryPage(
-                        clientId: rewardController.clientId2.value,
-                        clientName: rewardController.clientName2.value,
-                      ));
-                    },
+                  // String clientName = rewardController.data['rewards'][i]['client_name'];
+                  // String cardDetail = rewardController.data['rewards'][i]['card_detail'];
+
+                  Column(
+                    children: [
+                      // First, display widgets for rewards with card_detail
+                      for (var reward in rewardController.data['rewards'])
+                        if (reward.containsKey('card_detail'))
+                          _buildRewardWidget(reward),
+                      // Then, display widgets for rewards without card_detail
+                      for (var reward in rewardController.data['rewards'])
+                        if (!reward.containsKey('card_detail'))
+                          _buildRewardWidget(reward),
+                    ],
                   ),
-                  ScrollConfiguration(
-                    behavior: CommonScrollBehaveWidget(),
-                    child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: 1, // Assuming you want to display only one ClientWidget
-                      itemBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          width: AppConstant.size.width,
-                          child: ClientWidget(
-                            imageUrl: rewardController.clientLogo1.value,
-                            rewardPoints: rewardController.rewardPoints1.value,
-                            clientName: rewardController.clientName1.value,
-                            onPressed: () {
-                              Get.to(CategoryPage(
-                                clientId: rewardController.clientId1.value,
-                                clientName: rewardController.clientName1.value,
-                              ));
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+
+                  // ScrollConfiguration(
+                  //   behavior: CommonScrollBehaveWidget(),
+                  //   child: ListView.builder(
+                  //     scrollDirection: Axis.vertical,
+                  //     shrinkWrap: true,
+                  //     itemCount: 2,
+                  //     // Assuming you want to display only one ClientWidget
+                  //     itemBuilder: (BuildContext context, int index) {
+                  //       return SizedBox(
+                  //         width: AppConstant.size.width,
+                  //         child: Column(
+                  //           children: [
+                  //             ClientWidget(
+                  //               imageUrl: rewardController.clientLogo1.value,
+                  //               rewardPoints:
+                  //                   rewardController.rewardPoints1.value,
+                  //               clientName: rewardController.clientName1.value,
+                  //               onPressed: () {
+                  //                 Get.to(CategoryPage(
+                  //                   clientId: rewardController.clientId1.value,
+                  //                   clientName:
+                  //                       rewardController.clientName1.value,
+                  //                 ));
+                  //               },
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
+
+                  //! End
 
                   //! WebView Link ..
                   Padding(
@@ -126,7 +144,7 @@ class RewardScreen extends StatelessWidget {
                             children: [
                               TextSpan(
                                 text:
-                                "Our amazing rewads platform allows our customers enjoy reward points from their favorite brands while also earning Scanacart reward points!",
+                                    "Our amazing rewads platform allows our customers enjoy reward points from their favorite brands while also earning Scanacart reward points!",
                                 style: TextStyle(
                                   color: Colors.black87,
                                   fontSize: AppConstant.size.width * 0.035,
@@ -143,7 +161,8 @@ class RewardScreen extends StatelessWidget {
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
                                       Get.to(CommonWebView(
-                                        title: rewardController.clientName2.value
+                                        title: rewardController
+                                            .clientName2.value
                                             .toString(),
                                         url: rewardController.clientLogo2.value,
                                       ));
@@ -161,10 +180,41 @@ class RewardScreen extends StatelessWidget {
         }
       }),
 
-
       // Floating Animated Button ..
       floatingActionButton: CustomeFloatingButtonWidget(),
       //floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+  }
+
+  Widget _buildRewardWidget(Map<String, dynamic> reward) {
+    String clientName = reward['client_name'];
+    dynamic cardDetail = reward['card_detail'];
+
+    if (cardDetail != null && cardDetail.isNotEmpty) {
+      return RewardPointWidget(
+        clientName: clientName,
+        rewardPoints: reward['reward_points'],
+        maxRange: cardDetail[0]['max_range'],
+        minRange: cardDetail[0]['min_range'],
+        onPressed: () {
+          Get.to(CategoryPage(
+            clientId: reward['client_id'],
+            clientName: clientName,
+          ));
+        },
+      );
+    } else {
+      return ClientWidget(
+        imageUrl: reward['client_logo'],
+        rewardPoints: reward['reward_points'],
+        clientName: clientName,
+        onPressed: () {
+          Get.to(CategoryPage(
+            clientId: reward['client_id'],
+            clientName: clientName,
+          ));
+        },
+      );
+    }
   }
 }
