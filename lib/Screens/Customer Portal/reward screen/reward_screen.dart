@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
+import 'package:scan_cart_clone/Common/widgets/common_scroll_behav_widget.dart';
 import 'package:scan_cart_clone/Common/widgets/common_web_view.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/controller/reward_controller.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/category_page.dart';
@@ -35,134 +37,125 @@ class RewardScreen extends StatelessWidget {
         if (rewardController.data.values.isEmpty) {
           return LoadingWidget();
         } else {
-          return SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child:  Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch, // Ensure children expand to fill the available width
+          return ScrollConfiguration(
+            behavior: CommonScrollBehaveWidget(),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child:  Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch, // Ensure children expand to fill the available width
 
-              children: [
-                // ! Calling Reward card widget
-                RewardCardWidget(
-                    cartType: rewardController.cardName.value,
-                    customerName: rewardController.customerName.value,
-                    imagePath: rewardController.cardPath.value,
-                    svgImage:rewardController.cardName.value,
+                children: [
+                  // ! Calling Reward card widget
+                  RewardCardWidget(
+                      cartType: rewardController.cardName.value,
+                      customerName: rewardController.customerName.value,
+                      imagePath: rewardController.cardPath.value,
+                      svgImage:rewardController.cardName.value,
+                    ),
+
+                  // Calling reward point widget
+                  RewardPointWidget(
+                    clientName:
+                    rewardController.clientName2.value.toString(),
+                    rewardPoints: rewardController.rewardPoints2.value,
+                    maxRange: rewardController.maxRange.value,
+                    minRange: rewardController.minRange.value,
+                    onPressed: () {
+                      Get.to(CategoryPage(
+                        clientId: rewardController.clientId2.value,
+                        clientName: rewardController.clientName2.value,
+                      ));
+                    },
+                  ),
+                  ScrollConfiguration(
+                    behavior: CommonScrollBehaveWidget(),
+                    child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: 1, // Assuming you want to display only one ClientWidget
+                      itemBuilder: (BuildContext context, int index) {
+                        return SizedBox(
+                          width: AppConstant.size.width,
+                          child: ClientWidget(
+                            imageUrl: rewardController.clientLogo1.value,
+                            rewardPoints: rewardController.rewardPoints1.value,
+                            clientName: rewardController.clientName1.value,
+                            onPressed: () {
+                              Get.to(CategoryPage(
+                                clientId: rewardController.clientId1.value,
+                                clientName: rewardController.clientName1.value,
+                              ));
+                            },
+                          ),
+                        );
+                      },
+                    ),
                   ),
 
-                // Calling reward point widget
-                RewardPointWidget(
-                  clientName:
-                  rewardController.clientName2.value.toString(),
-                  rewardPoints: rewardController.rewardPoints2.value,
-                  maxRange: rewardController.maxRange.value,
-                  minRange: rewardController.minRange.value,
-                  onPressed: () {
-                    Get.to(CategoryPage(
-                      clientId: rewardController.clientId2.value,
-                      clientName: rewardController.clientName2.value,
-                    ));
-                  },
-                ),
-                //
-                // //! calling  here client widget
-                // ClientWidget(
-                //   imageUrl:
-                //   rewardController.clientLogo1.value,
-                //   rewardPoints: rewardController.rewardPoints1.value,
-                //   clientName:
-                //   rewardController.clientName1.value,
-                //   onPressed: () {
-                //     Get.to(CategoryPage(
-                //       clientId: rewardController.clientId1.value,
-                //       clientName: rewardController.clientName1.value,
-                //     ));
-                //   },
-                // ),
-                ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: 1, // Assuming you want to display only one ClientWidget
-                  itemBuilder: (BuildContext context, int index) {
-                    return SizedBox(
+                  //! WebView Link ..
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: AppConstant.size.width * 0.03,
+                        right: AppConstant.size.width * 0.03),
+                    child: Container(
                       width: AppConstant.size.width,
-                      child: ClientWidget(
-                        imageUrl: rewardController.clientLogo1.value,
-                        rewardPoints: rewardController.rewardPoints1.value,
-                        clientName: rewardController.clientName1.value,
-                        onPressed: () {
-                          Get.to(CategoryPage(
-                            clientId: rewardController.clientId1.value,
-                            clientName: rewardController.clientName1.value,
-                          ));
-                        },
-                      ),
-                    );
-                  },
-                ),
-
-                //! WebView Link ..
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: AppConstant.size.width * 0.03,
-                      right: AppConstant.size.width * 0.03),
-                  child: Container(
-                    width: AppConstant.size.width,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                            AppConstant.size.width * 0.03),
-                        color: AppColors.whiteBackgroundColor,
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 2,
-                              offset: Offset(2, 2))
-                        ]),
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          left: AppConstant.size.width * 0.03,
-                          right: AppConstant.size.width * 0.01,
-                          top: AppConstant.size.height * 0.015,
-                          bottom: AppConstant.size.height * 0.015),
-                      child: RichText(
-                        text: TextSpan(
-                          text: "What is Scanacart Rewards?\n",
-                          style: TextStyle(
-                            fontSize: AppConstant.size.width * 0.04,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          children: [
-                            TextSpan(
-                              text:
-                              "Our amazing rewads platform allows our customers enjoy reward points from their favorite brands while also earning Scanacart reward points!",
-                              style: TextStyle(
-                                color: Colors.black87,
-                                fontSize: AppConstant.size.width * 0.035,
-                                fontWeight: FontWeight.w400,
-                              ),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                              AppConstant.size.width * 0.03),
+                          color: AppColors.whiteBackgroundColor,
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 2,
+                                offset: Offset(2, 2))
+                          ]),
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: AppConstant.size.width * 0.03,
+                            right: AppConstant.size.width * 0.01,
+                            top: AppConstant.size.height * 0.015,
+                            bottom: AppConstant.size.height * 0.015),
+                        child: RichText(
+                          text: TextSpan(
+                            text: "What is Scanacart Rewards?\n",
+                            style: TextStyle(
+                              fontSize: AppConstant.size.width * 0.04,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
                             ),
-                            TextSpan(
-                                text: "\nMore Info",
+                            children: [
+                              TextSpan(
+                                text:
+                                "Our amazing rewads platform allows our customers enjoy reward points from their favorite brands while also earning Scanacart reward points!",
                                 style: TextStyle(
-                                  color: Colors.blue,
+                                  color: Colors.black87,
                                   fontSize: AppConstant.size.width * 0.035,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w400,
                                 ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    Get.to(CommonWebView(
-                                      title: rewardController.clientName2.value
-                                          .toString(),
-                                      url: rewardController.clientLogo2.value,
-                                    ));
-                                  }),
-                          ],
+                              ),
+                              TextSpan(
+                                  text: "\nMore Info",
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: AppConstant.size.width * 0.035,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Get.to(CommonWebView(
+                                        title: rewardController.clientName2.value
+                                            .toString(),
+                                        url: rewardController.clientLogo2.value,
+                                      ));
+                                    }),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         }

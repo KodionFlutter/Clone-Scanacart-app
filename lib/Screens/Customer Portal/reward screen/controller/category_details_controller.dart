@@ -33,8 +33,8 @@ class CategoryDetailsController extends GetxController {
   var sizeDropdownValue = ''.obs;
 
   var imgList = [
-    "https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    "https://images.pexels.com/photos/757889/pexels-photo-757889.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
+    "https://cdn.create.vista.com/api/media/small/58244841/stock-photo-colourful-flying-parrot-in-tropical-landscape",
     "https://images.pexels.com/photos/1067562/pexels-photo-1067562.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
   ].obs;
 
@@ -61,7 +61,7 @@ class CategoryDetailsController extends GetxController {
         //
         // }
         color.value = categoryDetailsData['data']['variants']['color'];
-        colorList.value= color.value.split(',');
+        colorList.value = color.value.split(',');
         //Covert into string form "String"
         // colorList.value = du.map((e) => '"$e"').toList();
         // sizeList.value = duu.map((e) => '"$e"').toList();
@@ -70,7 +70,7 @@ class CategoryDetailsController extends GetxController {
         colorDropdownvalue.value = colorList[0];
         // print("ColorLength :: ${colorList.toString().length}");
         size.value = categoryDetailsData['data']['variants']['size'];
-        sizeList.value= size.value.split(',');
+        sizeList.value = size.value.split(',');
         sizeDropdownValue.value = sizeList[0];
         print("Size :: ${sizeList}");
       }

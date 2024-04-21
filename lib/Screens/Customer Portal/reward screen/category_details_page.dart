@@ -47,8 +47,8 @@ class CategoryDetailsPage extends StatelessWidget {
                 child: CircularProgressIndicator(),
               )
             : ScrollConfiguration(
-          behavior: CommonScrollBehaveWidget(),
-              child: SingleChildScrollView(
+                behavior: CommonScrollBehaveWidget(),
+                child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -56,12 +56,15 @@ class CategoryDetailsPage extends StatelessWidget {
                       CarouselSlider.builder(
                         itemCount: categoryDeController.imgList.length,
                         options: CarouselOptions(
+                          animateToClosest: true,
+                          aspectRatio: 16 / 9,
+                          viewportFraction: 0.9,
                           height: AppConstant.size.height * 0.45,
+                          enlargeCenterPage: true,
                           enableInfiniteScroll:
                               categoryDeController.imgList.length == 1
                                   ? false
                                   : true,
-                          viewportFraction: 1,
                           onPageChanged: (i, _) {
                             categoryDeController.currentImageIndex.value = i;
                           },
@@ -72,7 +75,7 @@ class CategoryDetailsPage extends StatelessWidget {
                               tag: productId,
                               child: CachedNetworkImage(
                                 width: AppConstant.size.width,
-                                height: 300,
+                                // height: 300,
                                 fit: BoxFit.contain,
                                 imageUrl: categoryDeController.imgList![index]
                                     .toString(),
@@ -103,27 +106,32 @@ class CategoryDetailsPage extends StatelessWidget {
                             categoryDeController.imgList.map((categoryImages) {
                           int index = categoryDeController.imgList
                               .indexOf(categoryImages);
-                          return Container(
-                            width: categoryDeController.currentImageIndex.value ==
-                                    index
-                                ? 15.0
-                                : 8.0,
-                            height: 8.0,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color:
-                                  categoryDeController.currentImageIndex.value ==
-                                          index
-                                      ? Colors.blue
-                                      : Colors.black12,
+                          return Padding(
+                            padding: EdgeInsets.only(left: 1, right: 1),
+                            child: Container(
+                              width: categoryDeController
+                                          .currentImageIndex.value ==
+                                      index
+                                  ? 15.0
+                                  : 8.0,
+                              height: 8.0,
+                              decoration: BoxDecoration(
+                                // shape: BoxShape.circle,
+                                borderRadius: BorderRadius.circular(10),
+                                color: categoryDeController
+                                            .currentImageIndex.value ==
+                                        index
+                                    ? Colors.blue
+                                    : Colors.black12,
+                              ),
                             ),
                           );
                         }).toList(),
                       ),
                       SizedBox(height: AppConstant.size.height * 0.03),
                       Padding(
-                        padding:
-                            EdgeInsets.only(left: AppConstant.size.width * 0.03),
+                        padding: EdgeInsets.only(
+                            left: AppConstant.size.width * 0.03),
                         child: Text(
                           "${categoryDeController.productTitle.value}",
                           style: TextStyle(
@@ -135,8 +143,8 @@ class CategoryDetailsPage extends StatelessWidget {
                       ),
                       SizedBox(height: AppConstant.size.height * 0.01),
                       Padding(
-                        padding:
-                            EdgeInsets.only(left: AppConstant.size.width * 0.03),
+                        padding: EdgeInsets.only(
+                            left: AppConstant.size.width * 0.03),
                         child: RichText(
                           text: TextSpan(
                             text: "Points : ",
@@ -216,26 +224,7 @@ class CategoryDetailsPage extends StatelessWidget {
                             )
                           : SizedBox(),
                       SizedBox(height: AppConstant.size.height * 0.01),
-                      // Disply the Size :
-                      // Padding(
-                      //   padding:  EdgeInsets.only(left: AppConstant.size.width*0.03),
-                      //   child: RichText(
-                      //     text: TextSpan(
-                      //       text: "Size : ",
-                      //       style: TextStyle(
-                      //           color: AppColors.blackColor,
-                      //           fontSize: 16,
-                      //           fontWeight: FontWeight.w400),
-                      //       children: [
-                      //         TextSpan(
-                      //             text:
-                      //             "${categoryDeController.categoryDetailsModel.data!.variants!.color}",
-                      //             style: TextStyle(color: AppColors.blackColor ,  fontSize: 14,
-                      //                 fontWeight: FontWeight.w400)),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
+                      // Display the Size :
                       SizedBox(height: 20),
                       Divider(
                         height: 2,
@@ -247,8 +236,8 @@ class CategoryDetailsPage extends StatelessWidget {
 
                       SizedBox(height: AppConstant.size.height * 0.03),
                       Padding(
-                        padding:
-                            EdgeInsets.only(left: AppConstant.size.width * 0.03),
+                        padding: EdgeInsets.only(
+                            left: AppConstant.size.width * 0.03),
                         child: Text(
                           "Description",
                           style: TextStyle(
@@ -260,8 +249,8 @@ class CategoryDetailsPage extends StatelessWidget {
                       ),
                       SizedBox(height: AppConstant.size.height * 0.01),
                       Padding(
-                        padding:
-                            EdgeInsets.only(left: AppConstant.size.width * 0.03),
+                        padding: EdgeInsets.only(
+                            left: AppConstant.size.width * 0.03),
                         child: Html(
                           shrinkWrap: true,
                           data:
@@ -272,6 +261,7 @@ class CategoryDetailsPage extends StatelessWidget {
                               textAlign: TextAlign.start,
                               fontSize: FontSize(16, Unit.px),
                               color: AppColors.blackColor,
+                              padding: HtmlPaddings.only(bottom: 5),
                             ),
                           },
                         ),
@@ -281,7 +271,7 @@ class CategoryDetailsPage extends StatelessWidget {
                     ],
                   ),
                 ),
-            ),
+              ),
       ),
       bottomNavigationBar: ElevatedButton(
           onPressed: () {},

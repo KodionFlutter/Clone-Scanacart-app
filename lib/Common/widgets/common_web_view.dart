@@ -28,12 +28,15 @@ class _CommonWebViewState extends State<CommonWebView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
         title: Text(
           widget.title.toString(),
         ),
       ),
       body: WebViewWidget(
         controller: webViewController,
+
       ),
     );
   }
