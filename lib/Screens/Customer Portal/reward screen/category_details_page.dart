@@ -6,7 +6,6 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/widgets/common_scroll_behav_widget.dart';
-import 'package:scan_cart_clone/Models/view_category_model.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/controller/category_details_controller.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/common_drop_down_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
@@ -29,13 +28,13 @@ class CategoryDetailsPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
+        title: const Text(
           "Product Details",
         ),
         actions: [
           Padding(
             padding: EdgeInsets.only(right: AppConstant.size.width * 0.03),
-            child: Icon(
+            child:const Icon(
               Icons.shopping_cart_rounded,
             ),
           )
@@ -43,7 +42,7 @@ class CategoryDetailsPage extends StatelessWidget {
       ),
       body: Obx(
         () => categoryDeController.productTitle.value.isEmpty
-            ? Center(
+            ? const Center(
                 child: CircularProgressIndicator(),
               )
             : ScrollConfiguration(
@@ -54,17 +53,18 @@ class CategoryDetailsPage extends StatelessWidget {
                     children: [
                       SizedBox(height: 20),
                       CarouselSlider.builder(
-                        itemCount: categoryDeController.imgList.length,
+                        itemCount: categoryDeController.deatilsImageList.length,
                         options: CarouselOptions(
                           animateToClosest: true,
                           aspectRatio: 16 / 9,
                           viewportFraction: 0.9,
                           height: AppConstant.size.height * 0.45,
                           enlargeCenterPage: true,
-                          enableInfiniteScroll:
-                              categoryDeController.imgList.length == 1
-                                  ? false
-                                  : true,
+                          enableInfiniteScroll: categoryDeController
+                                      .deatilsImageList.length ==
+                                  1
+                              ? false
+                              : true,
                           onPageChanged: (i, _) {
                             categoryDeController.currentImageIndex.value = i;
                           },
@@ -77,8 +77,8 @@ class CategoryDetailsPage extends StatelessWidget {
                                 width: AppConstant.size.width,
                                 // height: 300,
                                 fit: BoxFit.contain,
-                                imageUrl: categoryDeController.imgList![index]
-                                    .toString(),
+                                imageUrl: categoryDeController
+                                    .deatilsImageList[index]['image_path'],
                                 placeholder: (context, url) {
                                   return Center(
                                     child: CupertinoActivityIndicator(),
@@ -102,9 +102,9 @@ class CategoryDetailsPage extends StatelessWidget {
                       SizedBox(height: AppConstant.size.height * 0.05),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children:
-                            categoryDeController.imgList.map((categoryImages) {
-                          int index = categoryDeController.imgList
+                        children: categoryDeController.deatilsImageList
+                            .map((categoryImages) {
+                          int index = categoryDeController.deatilsImageList
                               .indexOf(categoryImages);
                           return Padding(
                             padding: EdgeInsets.only(left: 1, right: 1),

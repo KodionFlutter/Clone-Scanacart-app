@@ -22,7 +22,7 @@ class AppColors {
   // Here is use for background color
   static var whiteBackgroundColor = Colors.white;
   static var blackBackgroundColor = const Color(0xFF010D49);
-  static var greyBackgroundColor = Color(0xFFDDDDDD);
+  static var greyBackgroundColor = const Color(0xFFDDDDDD);
   static var blackColor = Colors.black;
 
 
@@ -35,3 +35,5 @@ class AppColors {
   static var greyWithOpacity = Colors.grey.withOpacity(0.9);
   static  var orTxtColor = Color(0xFFDDDDDD);
 }
+
+//pak578

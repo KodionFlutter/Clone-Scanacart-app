@@ -13,6 +13,7 @@ import 'package:scan_cart_clone/Models/admin_login_model.dart';
 import 'package:scan_cart_clone/Models/employee_data_model.dart';
 import 'package:scan_cart_clone/Screens/nfc%20loading/nfc_loading.dart';
 import 'package:scan_cart_clone/Screens/product%20screen/product_screen.dart';
+import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/pages/product_image_widget.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/pages/ready_to_scan_page.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/widget/alert_dialobbox_widget.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/widget/nfc_enable_error_dailog_widget.dart';
@@ -444,7 +445,66 @@ class ScanNFCController extends GetxController
             ),
           );
           promoCodeController.value.clear();
+        }else if(employeeDataModel.clientId == 1966 ||
+            employeeDataModel.is360 == 1){
+            Future.delayed(Duration.zero).then((value) => null);
         }
+        else {
+          showDialog(
+              context: navigatorKey.currentState!.context,
+              builder: (_) {
+                return ProductImageWidget(
+                  responseData: employeeDataModel,
+                  serialNumber: employeeDataModel.serialNum.toString(),
+                  couponCode: couponCode,
+                );
+              });
+          promoCodeController.value.clear();
+        }
+
+        //! Conditon
+        // if (text == null) {
+        //   String videoUrl = responseData["video_url"];
+        //   selected = false;
+        //   hideNFCLoadingScreen(context);
+        //   if (responseData["client_id"] == 1966 ||
+        //       responseData["is_360"] == 1) {
+        //     print(responseData['is_360']);
+        //     Future.delayed(Duration.zero).then((_) async {
+        //       var back = await Navigator.push(
+        //         context,
+        //         MaterialPageRoute(
+        //           builder: (context) => ExtraProductScreen(
+        //               responseData: responseData,
+        //               code: Codee,
+        //               validateModel: null),
+        //         ),
+        //       );
+        //       if (back) {
+        //         NFCScan(true);
+        //       }
+        //     });
+        //   } else if (videoUrl.isNotEmpty) {
+        //     Future.delayed(Duration.zero).then((_) async {
+        //       var back = await Navigator.push(
+        //         context,
+        //         MaterialPageRoute(
+        //           builder: (context) => VideoScreen(
+        //               responseData: responseData,
+        //               code: Codee,
+        //               validateModel: null),
+        //         ),
+        //       );
+        //       if (back) {
+        //         NFCScan(true);
+        //       }
+        //     });
+        //   } else {
+        //     NFCScan(true);
+        //     alertdialogorange(
+        //         productcode.text, responseData['rewards_active']);
+        //   }
+
       }
     } catch (exception) {
       log("Exception :: ${exception.toString()}");

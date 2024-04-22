@@ -154,9 +154,9 @@ class CustomerLoginPage extends StatelessWidget {
                                   customerLoginController
                                       .customerPhoneNumberController.value.text,
                                 );
-                                if (customerLoginController
-                                    .formKey.currentState!
-                                    .validate()) {}
+                                // if (customerLoginController
+                                //     .formKey.currentState!
+                                //     .validate()) {}
                               }
                             },
                             buttonTxt: 'Login',
