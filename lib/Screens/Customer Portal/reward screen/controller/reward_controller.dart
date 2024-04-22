@@ -51,31 +51,31 @@ class RewardController extends GetxController
       customerName.value = rewardData['data']['customer_name'];
       print("Customer Name :=> $customerName");
 
-      // for (var item in rewardData['data']['rewards']) {
-      //   if (item['card_detail'] == null) {
-      //     clientId1.value = item['client_id'];
-      //     clientName1.value = item['client_name'];
-      //     clientLogo1.value = item['client_logo'];
-      //     rewardPoints1.value = item['reward_points'];
-      //     print(
-      //         "client 1 :=> $clientId1 \n name : $clientName1 \n Logo :$clientLogo1 \n rePoints : $rewardPoints1");
-      //   }
-      //
-      //   if (item['card_detail'] != null) {
-      //     for (var cardDetail in item['card_detail']) {
-      //       clientId2.value = item['client_id'];
-      //       clientName2.value = item['client_name'];
-      //       rewardPoints2.value = item['reward_points'];
-      //       clientLogo2.value = item['client_logo'];
-      //       maxRange.value = cardDetail['max_range'];
-      //       minRange.value = cardDetail['min_range'];
-      //       cardName.value = cardDetail['card_name'];
-      //
-      //       print("clientId2 :=> $clientId2");
-      //       print("MaxRange :=> $maxRange");
-      //     }
-      //   }
-      // }
+      for (var item in rewardData['data']['rewards']) {
+        if (item['card_detail'] == null) {
+          clientId1.value = item['client_id'];
+          clientName1.value = item['client_name'];
+          clientLogo1.value = item['client_logo'];
+          rewardPoints1.value = item['reward_points'];
+          print(
+              "client 1 :=> $clientId1 \n name : $clientName1 \n Logo :$clientLogo1 \n rePoints : $rewardPoints1");
+        }
+
+        if (item['card_detail'] != null) {
+          for (var cardDetail in item['card_detail']) {
+            clientId2.value = item['client_id'];
+            clientName2.value = item['client_name'];
+            rewardPoints2.value = item['reward_points'];
+            clientLogo2.value = item['client_logo'];
+            maxRange.value = cardDetail['max_range'];
+            minRange.value = cardDetail['min_range'];
+            cardName.value = cardDetail['card_name'];
+
+            print("clientId2 :=> $clientId2");
+            print("MaxRange :=> $maxRange");
+          }
+        }
+      }
 
       update();
     } catch (error) {
