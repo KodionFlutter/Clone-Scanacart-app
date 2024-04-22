@@ -20,7 +20,15 @@ import 'package:scan_cart_clone/Utils/Base%20service/services.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ScanNFCController extends GetxController {
+class ScanNFCController extends GetxController
+    with GetTickerProviderStateMixin {
+  late AnimationController animationController;
+  late Animation<double> animation;
+  late AnimationController dashBoardController;
+  late Animation<double> dashanimation;
+  late AnimationController textController;
+  late Animation<double> textanimation;
+
   //! Variable Declare
   Rx<TextEditingController> promoCodeController = TextEditingController().obs;
   RxBool isAvailable = false.obs;
@@ -49,12 +57,58 @@ class ScanNFCController extends GetxController {
   //! Calling onInit method
   @override
   void onInit() {
-
+    startFadeAnimation();
     Timer(Duration.zero, () {
       NFCscan(true);
     });
     super.onInit();
     adminLogin();
+  }
+
+  //!
+  void startFadeAnimation() {
+    animationController = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    );
+
+    animation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: Curves.easeIn,
+      ),
+    );
+
+    dashBoardController = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    );
+
+    dashanimation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: dashBoardController,
+        curve: Curves.easeIn,
+      ),
+    );
+
+    //! Text
+    textController = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    );
+
+    textanimation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: textController,
+        curve: Curves.easeIn,
+      ),
+    );
+
+    animationController.forward().whenComplete(() {
+      dashBoardController.forward().whenComplete(() {
+        textController.forward();
+      });
+    });
   }
 
   //! Check the inter net Connection
@@ -80,73 +134,72 @@ class ScanNFCController extends GetxController {
   Future NFCscan(enable) async {
     if (Platform.isAndroid) {
       log("Platform :: Android");
-     try{
-       NfcManager.instance.startSession(onDiscovered: (NfcTag nfcTag) async {
-         if (enable && !isShowingAnimationScreen.value) {
-           final ndefTag = await Ndef.from(nfcTag);
-           String nfcURL = "";
-           log("Ndef message :: ${ndefTag!.cachedMessage}");
-           if (ndefTag.cachedMessage != null) {
-             var ndefMessage = ndefTag.cachedMessage;
-             var buffer = StringBuffer();
-             try {
-               final ndefRecords = ndefMessage!.records;
-               for (int i = 0; i < ndefRecords.length; i++) {
-                 final nPalyload = ndefRecords[i].payload;
-                 String decodedData = utf8.decode(nPalyload.toList());
-                 log("DecodedData :: ${decodedData}");
-                 if (decodedData.isNotEmpty) {
-                   if (decodedData.contains("scanacart.com/nfc")) {
-                     log("Yes this contain");
-                     nfcURL = decodedData.substring(1);
-                     log("NFC URL :: $nfcURL");
-                   } else {
-                     log("This is Not contain to :: ");
-                     buffer.writeln(
-                         "Record " + (i + 1).toString() + ". " + decodedData);
-                     log("Buffer Write :: ${buffer}");
-                   }
-                 } else {
-                   log("$decodedData Is Empty");
-                 }
-               }
-             } catch (exception) {
-               log("Exceptions :: ${exception.toString()}");
-             }
-           }
+      try {
+        NfcManager.instance.startSession(onDiscovered: (NfcTag nfcTag) async {
+          if (enable && !isShowingAnimationScreen.value) {
+            final ndefTag = await Ndef.from(nfcTag);
+            String nfcURL = "";
+            log("Ndef message :: ${ndefTag!.cachedMessage}");
+            if (ndefTag.cachedMessage != null) {
+              var ndefMessage = ndefTag.cachedMessage;
+              var buffer = StringBuffer();
+              try {
+                final ndefRecords = ndefMessage!.records;
+                for (int i = 0; i < ndefRecords.length; i++) {
+                  final nPalyload = ndefRecords[i].payload;
+                  String decodedData = utf8.decode(nPalyload.toList());
+                  log("DecodedData :: ${decodedData}");
+                  if (decodedData.isNotEmpty) {
+                    if (decodedData.contains("scanacart.com/nfc")) {
+                      log("Yes this contain");
+                      nfcURL = decodedData.substring(1);
+                      log("NFC URL :: $nfcURL");
+                    } else {
+                      log("This is Not contain to :: ");
+                      buffer.writeln(
+                          "Record " + (i + 1).toString() + ". " + decodedData);
+                      log("Buffer Write :: ${buffer}");
+                    }
+                  } else {
+                    log("$decodedData Is Empty");
+                  }
+                }
+              } catch (exception) {
+                log("Exceptions :: ${exception.toString()}");
+              }
+            }
 
-           //! Here we need to check and perform
-           if (await isInternetConnected()) {
-             showNFCLoadingScreen(navigatorKey.currentState!.context);
-             log("Internet is Connected");
-             if (adminTokenService.isEmpty) {
-               await adminLogin();
-               log("adminServiceToken isAvailable :: ${adminTokenService.value}");
-               validateNFCTag(navigatorKey.currentState!.context,
-                   getSerialNumberFromTag(nfcTag), nfcURL);
-             } else {
-               log("userServiceToken :: ${adminTokenService.value}");
-               validateNFCTag(navigatorKey.currentState!.context,
-                   getSerialNumberFromTag(nfcTag), nfcURL);
-             }
-           } else {
-             showDialog(
-                 context: navigatorKey.currentState!.context,
-                 builder: (_) {
-                   return AlertDialogBoxWidget(
-                     title: 'Alert',
-                     message: 'You are offline',
-                   );
-                 });
-           }
-         }
-       }, onError: (NfcError error) async {
-         log("NFC Error :: $error");
-       }
-       );
-     }on PlatformException {
-       throw Exception("NFC is not available for device.");
-     }catch(exception) {
+            //! Here we need to check and perform
+            if (await isInternetConnected()) {
+              showNFCLoadingScreen(navigatorKey.currentState!.context);
+              log("Internet is Connected");
+              if (adminTokenService.isEmpty) {
+                await adminLogin();
+                log("adminServiceToken isAvailable :: ${adminTokenService.value}");
+                validateNFCTag(navigatorKey.currentState!.context,
+                    getSerialNumberFromTag(nfcTag), nfcURL);
+              } else {
+                log("userServiceToken :: ${adminTokenService.value}");
+                validateNFCTag(navigatorKey.currentState!.context,
+                    getSerialNumberFromTag(nfcTag), nfcURL);
+              }
+            } else {
+              showDialog(
+                  context: navigatorKey.currentState!.context,
+                  builder: (_) {
+                    return AlertDialogBoxWidget(
+                      title: 'Alert',
+                      message: 'You are offline',
+                    );
+                  });
+            }
+          }
+        }, onError: (NfcError error) async {
+          log("NFC Error :: $error");
+        });
+      } on PlatformException {
+        throw Exception("NFC is not available for device.");
+      } catch (exception) {
         "Exception : ${exception.toString()}";
       }
     }
@@ -235,7 +288,7 @@ class ScanNFCController extends GetxController {
     if (isShowingAnimationScreen.value) {
       hideNFCLoadingScreen(navigatorKey.currentState!.context);
     }
-    var isData =await APIServices.nfcValidateTagMethod(
+    var isData = await APIServices.nfcValidateTagMethod(
         queryParameter, adminTokenService.value.toString());
     print("Is Data :: $isData");
   }
