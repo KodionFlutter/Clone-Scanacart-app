@@ -6,6 +6,7 @@ import 'package:get/get_navigation/src/routes/default_transitions.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/common_services/common_services.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/signin%20screen/customer_login_page.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/signup%20screen/customer_signup_screen.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/reward_screen.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/controller/scan_nfc_controller.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/widget/client_login_widget.dart';
@@ -50,7 +51,7 @@ class ScanNFCScreen extends StatelessWidget {
                     if (id != null) {
                       Get.to(RewardScreen(customerId: id));
                     } else {
-                      Get.to(CustomerLoginPage());
+                      Get.to(CustomerSignUpScreen());
                     }
                   }),
                   //! Calling Client Login section

@@ -20,6 +20,24 @@ class BaseService {
     return data;
   }
 
+  //!
+  //! BaseService Post Method
+  static Future postRewardMethod(
+      String baseUrl, Map<String, dynamic> map, token) async {
+    var data = await http
+        .post(
+          Uri.parse(baseUrl),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'authorization': token.toString(),
+          },
+          body: jsonEncode(map),
+        )
+        .timeout(const Duration(seconds: 20));
+    log("Data is :: ${data}");
+    return data;
+  }
+
   //! BaseService Get and replace Method
 
   static Future getReplaceMethod(String baseUrl, String token,
@@ -44,8 +62,6 @@ class BaseService {
     log("GetMethod Data :: ${data}");
     return data;
   }
-
-
 
   static Future getAPI(String baseUrl) async {
     var data = await http.get(Uri.parse(baseUrl), headers: {

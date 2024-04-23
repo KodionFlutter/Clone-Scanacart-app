@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
@@ -9,7 +10,7 @@ import 'package:scan_cart_clone/Models/employee_data_model.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/signin%20screen/customer_login_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/reward_screen.dart';
 import 'package:scan_cart_clone/Screens/product%20screen/controller/product_controller.dart';
-import 'package:scan_cart_clone/Screens/product%20screen/widget/reward_collect_widget.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/reward_collect_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,7 +30,7 @@ class ProductImageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final productController = Get.put(ProductController(
       serialNumber: serialNumber,
-      responseData: responseData!,
+      responseData: responseData,
     ));
     return Center(
       child: Padding(
@@ -38,7 +39,7 @@ class ProductImageWidget extends StatelessWidget {
             right: AppConstant.size.width * 0.05),
         child: Container(
           decoration: BoxDecoration(
-              color:Colors.white.withOpacity(0.7),
+              color: Colors.white.withOpacity(0.7),
               borderRadius: BorderRadius.all(
                   Radius.circular(AppConstant.size.width * 0.05))),
           child: Column(
@@ -86,17 +87,15 @@ class ProductImageWidget extends StatelessWidget {
                   padding:
                       const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                   child: SizedBox(
-                    height: AppConstant.size.height*0.22,
+                    height: AppConstant.size.height * 0.22,
                     width: AppConstant.size.width / 1.3,
                     child: productController.logoPath.value != null
                         ? CachedNetworkImage(
                             imageUrl: productController.logoPath.value!,
                             fit: BoxFit.contain,
                             placeholder: (context, url) {
-                              return Image.asset(
-                                "assets/images/cropscana.png",
-                                width: 180,
-                                height: 180,
+                              return Center(
+                                child: CupertinoActivityIndicator(),
                               );
                             },
                             errorWidget: (context, url, error) {
@@ -122,7 +121,9 @@ class ProductImageWidget extends StatelessWidget {
               //! Here are button for
 
               Padding(
-                padding:  EdgeInsets.only(left: AppConstant.size.width*0.03 ,  right:AppConstant.size.width*0.03 ),
+                padding: EdgeInsets.only(
+                    left: AppConstant.size.width * 0.03,
+                    right: AppConstant.size.width * 0.03),
                 child: CommonButtonWidget(
                   isEnabled: true,
                   onPressed: () {
@@ -143,42 +144,38 @@ class ProductImageWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              Padding(
-                padding:EdgeInsets.only(left: AppConstant.size.width*0.03 ,  right:AppConstant.size.width*0.03 ),
-                child: CommonButtonWidget(
-                  isEnabled: true,
-                  onPressed: () async {
-                    final SharedPreferences prefs =
-                    await SharedPreferences.getInstance();
-                    var id = prefs.getInt("customer_id");
-                    if (id != null) {
-                      productController.showPopUp();
-                      Get.to(RewardScreen(
-                        customerId: id,
-                      ));
-                      showDialog(
-                          barrierDismissible: true,
-                          context: context,
-                          builder: (c) {
-                            return RewardCollectWidget(
-                              onTap: () {
-                                productController.hidePopUp();
-                              },
-                            );
-                          });
-                      productController.videoPlayerController!.pause();
-                    } else {
-                      Get.off(CustomerLoginPage());
-                      productController.videoPlayerController!.pause();
-                    }
-                  },
-                  buttonTxt: "Get Rewards ",
-                  btnHeight: AppConstant.size.height * 0.07,
-                  btnWidth: AppConstant.size.width,
-                  colors: Colors.lightBlueAccent.shade200,
-                  txtColor: AppColors.txtWhiteColor,
-                ),
-              ),
+              (productController.rewardsValue.value.toString() != "0" ||
+                      productController.rewardsValue.value.toString() != 'null')
+                  ? Padding(
+                      padding: EdgeInsets.only(
+                          left: AppConstant.size.width * 0.03,
+                          right: AppConstant.size.width * 0.03),
+                      child: CommonButtonWidget(
+                        isEnabled: true,
+                        onPressed: () async {
+                          final SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          var id = prefs.getInt("customer_id");
+                          if (id != null) {
+                            productController.showPopUp();
+                            Get.off(RewardScreen(
+                              customerId: id,
+                            ));
+
+                            productController.videoPlayerController!.pause();
+                          } else {
+                            Get.off(CustomerLoginPage());
+                            productController.videoPlayerController!.pause();
+                          }
+                        },
+                        buttonTxt: "Get Rewards ",
+                        btnHeight: AppConstant.size.height * 0.07,
+                        btnWidth: AppConstant.size.width,
+                        colors: Colors.lightBlueAccent.shade200,
+                        txtColor: AppColors.txtWhiteColor,
+                      ),
+                    )
+                  : SizedBox(),
               const SizedBox(height: 10),
               if (couponCode != null)
                 Material(
@@ -210,7 +207,6 @@ class ProductImageWidget extends StatelessWidget {
                   ),
                 ),
               const SizedBox(height: 10),
-
             ],
           ),
         ),

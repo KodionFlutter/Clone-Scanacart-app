@@ -28,6 +28,7 @@ class ProductController extends GetxController {
   RxList productImages = [].obs;
   RxInt rewardPoint = 0.obs;
   VideoPlayerController? videoPlayerController;
+  RxInt rewardsValue = 0.obs;
 
   @override
   void onInit() {
@@ -49,29 +50,30 @@ class ProductController extends GetxController {
   }
 
 // Initialization the  values
-  Future<void> initializationVariable() async{
+  Future<void> initializationVariable() async {
     try {
       logoPath.value = responseData.logoPath!;
       print("Response logo path :: ${responseData.logoPath!}");
-      videoUrl.value = responseData.videoUrl!;
-      log("Video url path : ${videoUrl.value}");
+
       clientName.value = responseData.client!;
       rewardPoint.value = responseData.rewards!;
       clientUrl.value = responseData.clientURL!;
-      print("${rewardPoint.value}");
-      print(videoUrl.value);
-      videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(videoUrl.value));
+      videoUrl.value = responseData.videoUrl!;
+      rewardsValue.value = responseData.rewards!;
+      print("Rewards Data :: ${rewardsValue}");
+      log("Video url path : ${videoUrl.value}");
+      videoPlayerController =
+          VideoPlayerController.networkUrl(Uri.parse(videoUrl.value));
       await videoPlayerController?.initialize();
       videoPlayerController?.play();
       videoPlayerController?.setLooping(true);
-
+      print("${rewardPoint.value}");
+      print(videoUrl.value);
     } catch (e) {
       log("Error initializing video player: $e");
     }
     update();
   }
-
-//{"rewards":125,"productImages":[],"activity_loc_id":"","itemImage":"","large_logo":"logo.png","shipTo":"","activity_id":"","client":"BB Simon","logo_path":"https://dev.scanacart.com/assets/img/logo/bbsimon.png","rewards_active":1,"code":"","serial_num":46693523,"video_url":"https://www.scanacart.com/assets/video/buzzbar.mp4","client_id":1966,"label_password_id":88948007,"is_360":0,"getAllClientLabResults":"","clientURL":"https://www.verifybbsimon.com/verify/","itemName":""}
 
   // Make a function for Hide PopUp
   void hidePopUp() {
@@ -93,15 +95,14 @@ class ProductController extends GetxController {
     final size = MediaQuery.of(navigatorKey.currentState!.context).size;
     return ClipRect(
         child: SizedBox.expand(
-          child: FittedBox(
-
-              fit: BoxFit.fill,
-              alignment: Alignment.center,
-              child: Container(
-                //color: Colors.lightBlue,
-                  width: size.width,
-                  height: size.height,
-                  child: VideoPlayer(_controller))),
-        ));
+      child: FittedBox(
+          fit: BoxFit.fill,
+          alignment: Alignment.center,
+          child: Container(
+              //color: Colors.lightBlue,
+              width: size.width,
+              height: size.height,
+              child: VideoPlayer(_controller))),
+    ));
   }
 }

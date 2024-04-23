@@ -272,4 +272,21 @@ class APIServices {
       log("Exception :: ${exception.toString()}");
     }
   }
+
+//! Credit Rewards ..
+
+  static Future hitCreditRewards(
+      clientId, String? productRewards, customerId) async {
+   var url = Uri.parse(
+        '${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/rewardsCredit');
+    print(" This is Credit Rewards :: ${url}");
+
+    final Map<String, String> requestData = {
+      'client_id': clientId,
+      'product_rewards': productRewards!,
+      'customer_id': customerId!,
+    };
+
+    final response = await BaseService.postRewardMethod(url, requestData);
+  }
 }

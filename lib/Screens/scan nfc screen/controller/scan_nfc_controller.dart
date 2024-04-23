@@ -462,48 +462,7 @@ class ScanNFCController extends GetxController
           promoCodeController.value.clear();
         }
 
-        //! Conditon
-        // if (text == null) {
-        //   String videoUrl = responseData["video_url"];
-        //   selected = false;
-        //   hideNFCLoadingScreen(context);
-        //   if (responseData["client_id"] == 1966 ||
-        //       responseData["is_360"] == 1) {
-        //     print(responseData['is_360']);
-        //     Future.delayed(Duration.zero).then((_) async {
-        //       var back = await Navigator.push(
-        //         context,
-        //         MaterialPageRoute(
-        //           builder: (context) => ExtraProductScreen(
-        //               responseData: responseData,
-        //               code: Codee,
-        //               validateModel: null),
-        //         ),
-        //       );
-        //       if (back) {
-        //         NFCScan(true);
-        //       }
-        //     });
-        //   } else if (videoUrl.isNotEmpty) {
-        //     Future.delayed(Duration.zero).then((_) async {
-        //       var back = await Navigator.push(
-        //         context,
-        //         MaterialPageRoute(
-        //           builder: (context) => VideoScreen(
-        //               responseData: responseData,
-        //               code: Codee,
-        //               validateModel: null),
-        //         ),
-        //       );
-        //       if (back) {
-        //         NFCScan(true);
-        //       }
-        //     });
-        //   } else {
-        //     NFCScan(true);
-        //     alertdialogorange(
-        //         productcode.text, responseData['rewards_active']);
-        //   }
+
 
       }
     } catch (exception) {

@@ -108,11 +108,17 @@ class RewardController extends GetxController
     isPopupVisible.value = true;
   }
 
+  //! Credit the rewards ..
+  Future<void> creditRewards() async{
+    var data = await APIServices.hitCreditRewards();
+  }
+
+
   @override
   void onInit() {
     Future.delayed(Duration.zero, () => getReward())
         .then((value) => getCardPath());
-
+    creditRewards();
     animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),

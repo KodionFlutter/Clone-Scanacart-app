@@ -162,6 +162,19 @@ class CustomerSignUpScreen extends StatelessWidget {
                               showMessage("Required email or Phone number",
                                   Colors.white);
                               // print("object");
+                            } else if (!signUpController.reg.hasMatch(
+                                signUpController
+                                    .customerEmailController.value.text)) {
+                              showMessage(
+                                  FormValidator.txtValidMail, Colors.white);
+                            } else if (signUpController.customerPhoneController
+                                        .value.text.length >
+                                    0 &&
+                                signUpController.customerPhoneController.value
+                                        .text.length <
+                                    10) {
+                              showMessage(FormValidator.txtValidPhoneNumber,
+                                  Colors.white);
                             } else {
                               await signUpController.signUPCustomer({
                                 "name": signUpController

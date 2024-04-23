@@ -12,7 +12,7 @@ import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/reward
 import 'package:scan_cart_clone/Screens/product%20screen/controller/product_controller.dart';
 import 'package:scan_cart_clone/Screens/product%20screen/widget/app_bar_widget.dart';
 import 'package:scan_cart_clone/Screens/product%20screen/widget/display_videos_widget.dart';
-import 'package:scan_cart_clone/Screens/product%20screen/widget/reward_collect_widget.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/reward_collect_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -246,39 +246,45 @@ class ProductScreen extends StatelessWidget {
                           txtColor: AppColors.txtWhiteColor,
                         ),
                         const SizedBox(height: 10),
-                        CommonButtonWidget(
-                          isEnabled: true,
-                          onPressed: () async {
-                            final SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            var id = prefs.getInt("customer_id");
-                            if (id != null) {
-                              productController.showPopUp();
-                              Get.off(RewardScreen(
-                                customerId: id,
-                              ));
-                              showDialog(
-                                  barrierDismissible: true,
-                                  context: context,
-                                  builder: (c) {
-                                    return RewardCollectWidget(
-                                      onTap: () {
-                                        productController.hidePopUp();
-                                      },
-                                    );
-                                  });
-                              productController.videoPlayerController!.pause();
-                            } else {
-                              Get.off(CustomerLoginPage());
-                              productController.videoPlayerController!.pause();
-                            }
-                          },
-                          buttonTxt: "Get Rewards ",
-                          btnHeight: AppConstant.size.height * 0.06,
-                          btnWidth: AppConstant.size.width,
-                          colors: Colors.lightBlueAccent.shade200,
-                          txtColor: AppColors.txtWhiteColor,
-                        ),
+                        (productController.rewardsValue.value.toString() != "0" ||
+                                productController.rewardsValue.value.toString() !=
+                                    'null')
+                            ? CommonButtonWidget(
+                                isEnabled: true,
+                                onPressed: () async {
+                                  final SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  var id = prefs.getInt("customer_id");
+                                  if (id != null) {
+                                    productController.showPopUp();
+                                    Get.off(RewardScreen(
+                                      customerId: id,
+                                    ));
+                                    // showDialog(
+                                    //     barrierDismissible: true,
+                                    //     context: context,
+                                    //     builder: (c) {
+                                    //       return RewardCollectWidget(
+                                    //         onTap: () {
+                                    //           productController.hidePopUp();
+                                    //         },
+                                    //       );
+                                    //     });
+                                    productController.videoPlayerController!
+                                        .pause();
+                                  } else {
+                                    Get.off(CustomerLoginPage());
+                                    productController.videoPlayerController!
+                                        .pause();
+                                  }
+                                },
+                                buttonTxt: "Get Rewards ",
+                                btnHeight: AppConstant.size.height * 0.06,
+                                btnWidth: AppConstant.size.width,
+                                colors: Colors.lightBlueAccent.shade200,
+                                txtColor: AppColors.txtWhiteColor,
+                              )
+                            : const SizedBox(),
                       ],
                     ),
                   ),

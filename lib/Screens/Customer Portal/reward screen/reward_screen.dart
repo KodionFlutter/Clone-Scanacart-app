@@ -47,21 +47,15 @@ class RewardScreen extends StatelessWidget {
 
                 children: [
                   // ! Calling Reward card widget
-                  Obx(() => RewardCardWidget(
-                    cartType: rewardController.cardName.value,
-                    customerName: rewardController.customerName.value,
-                    imagePath: rewardController.cardPath.value,
-                    svgImage: rewardController.cardName.value,
-                  ),
+                  Obx(
+                    () => RewardCardWidget(
+                      cartType: rewardController.cardName.value,
+                      customerName: rewardController.customerName.value,
+                      imagePath: rewardController.cardPath.value,
+                      svgImage: rewardController.cardName.value,
+                    ),
                   ),
                   //! Start
-
-                  // for (int i = 0; i <
-                  //     rewardController.data['rewards'].length; i++)
-
-                  // Calling reward point widget
-                  // String clientName = rewardController.data['rewards'][i]['client_name'];
-                  // String cardDetail = rewardController.data['rewards'][i]['card_detail'];
 
                   Column(
                     children: [
