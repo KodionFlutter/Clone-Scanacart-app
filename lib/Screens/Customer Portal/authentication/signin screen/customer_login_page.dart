@@ -35,7 +35,8 @@ class CustomerLoginPage extends StatelessWidget {
                 title: 'Customer Portal',
                 subtitle: 'Welcome back to Scanacart!',
                 voidCallback: () {
-                  customerLoginController.customerPhoneNumberController.value.clear();
+                  customerLoginController.customerPhoneNumberController.value
+                      .clear();
                   customerLoginController.customerEmailController.value.clear();
                   Get.back();
                 },
@@ -147,16 +148,38 @@ class CustomerLoginPage extends StatelessWidget {
                                 showMessage(
                                     "Please enter email or phone number",
                                     Colors.white);
-                              }  else {
-                                await customerLoginController.customerLogin(
-                                  customerLoginController
-                                      .customerEmailController.value.text,
-                                  customerLoginController
-                                      .customerPhoneNumberController.value.text,
-                                );
-                                // if (customerLoginController
-                                //     .formKey.currentState!
-                                //     .validate()) {}
+                              } else {
+                                if (!customerLoginController.reg.hasMatch(
+                                    customerLoginController
+                                        .customerEmailController.value.text)) {
+                                  showMessage(
+                                      "Please enter valid email", Colors.white);
+                                  // print("Not matcjed");
+                                } else if (customerLoginController
+                                            .customerPhoneNumberController
+                                            .value
+                                            .text
+                                            .length <
+                                        10 &&
+                                    customerLoginController
+                                            .customerPhoneNumberController
+                                            .value
+                                            .text
+                                            .length >
+                                        0) {
+                                  showMessage("Please enter valid number",
+                                      Colors.white);
+                                  // print("matched");
+                                } else {
+                                  await customerLoginController.customerLogin(
+                                    customerLoginController
+                                        .customerEmailController.value.text,
+                                    customerLoginController
+                                        .customerPhoneNumberController
+                                        .value
+                                        .text,
+                                  );
+                                }
                               }
                             },
                             buttonTxt: 'Login',
