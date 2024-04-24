@@ -276,17 +276,32 @@ class APIServices {
 //! Credit Rewards ..
 
   static Future hitCreditRewards(
-      clientId, String? productRewards, customerId) async {
-   var url = Uri.parse(
-        '${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/rewardsCredit');
+      int clientId, String? productRewards, int customerId, token) async {
+    var url = '${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/rewardsCredit';
     print(" This is Credit Rewards :: ${url}");
 
-    final Map<String, String> requestData = {
+    final Map<String, dynamic> requestData = {
       'client_id': clientId,
       'product_rewards': productRewards!,
-      'customer_id': customerId!,
+      'customer_id': customerId,
     };
 
-    final response = await BaseService.postRewardMethod(url, requestData);
+    try {
+      final response =
+          await BaseService.postRewardMethod(url, requestData, token);
+      log("Credit Response :: ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodedData = json.decode(response.body);
+        if (decodedData['success'] == true) {
+          return decodedData;
+        } else {
+          print("Error occur during the Credit Rewards API Fetching");
+        }
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    } catch (exception) {
+      log("Exception :: ${exception.toString()}");
+    }
   }
 }

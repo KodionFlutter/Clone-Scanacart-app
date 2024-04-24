@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -60,14 +59,15 @@ class CustomerLoginPage extends StatelessWidget {
                             preFixText: "",
                             validator: (val) {
                               // var reg = RegExp(FormValidator.emailReg);
-                              if (val.toString().isEmpty) {
-                                return FormValidator.txtMail;
-                              } else if (!customerLoginController.reg
-                                  .hasMatch(val!)) {
-                                return FormValidator.txtValidMail;
-                              } else {
-                                return null;
-                              }
+                              // if (val.toString().isEmpty) {
+                              //   return FormValidator.txtMail;
+                              // } else if (!customerLoginController.reg
+                              //     .hasMatch(val!)) {
+                              //   return FormValidator.txtValidMail;
+                              // } else {
+                              //   return null;
+                              // }
+                              return null;
                             },
                           ),
                         ),
@@ -114,13 +114,14 @@ class CustomerLoginPage extends StatelessWidget {
                             hinText: "Phone",
                             preFixText: "+1 ",
                             validator: (val) {
-                              if (val.toString().isEmpty) {
-                                return FormValidator.txtPhoneNumber;
-                              } else if (val!.length < 10) {
-                                return FormValidator.txtValidPhoneNumber;
-                              } else {
-                                return null;
-                              }
+                              // if (val.toString().isEmpty) {
+                              //   return FormValidator.txtPhoneNumber;
+                              // } else if (val!.length < 10) {
+                              //   return FormValidator.txtValidPhoneNumber;
+                              // } else {
+                              //   return null;
+                              // }
+                              return null;
                             },
                           ),
                         ),
@@ -190,87 +191,87 @@ class CustomerLoginPage extends StatelessWidget {
                           ),
                         ),
                         //! text
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Container(
-                            alignment: Alignment.center,
-                            child: Text(
-                              "Or connect using",
-                              style: TextStyle(
-                                color: AppColors.txtWhiteColor,
-                                fontSize: 14,
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(10.0),
+                        //   child: Container(
+                        //     alignment: Alignment.center,
+                        //     child: Text(
+                        //       "Or connect using",
+                        //       style: TextStyle(
+                        //         color: AppColors.txtWhiteColor,
+                        //         fontSize: 14,
+                        //         fontFamily: 'Montserrat',
+                        //         fontWeight: FontWeight.w600,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
 
                         //! Social Media Icons.
                         const SizedBox(height: 10),
 
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Container(
-                              height: AppConstant.size.height * 0.06,
-                              width: AppConstant.size.width * 0.4,
-                              decoration: BoxDecoration(
-                                  color: Colors.blue,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  SizedBox(width: 20),
-                                  Image(
-                                    image: AssetImage(
-                                      "assets/images/google.png",
-                                    ),
-                                    height: 20,
-                                    width: 20,
-                                  ),
-                                  SizedBox(width: 5),
-                                  Expanded(
-                                      child: Text(
-                                    "Google",
-                                    style: TextStyle(
-                                        color: AppColors.txtWhiteColor),
-                                  ))
-                                ],
-                              ),
-                            ),
-                            Container(
-                              height: AppConstant.size.height * 0.06,
-                              width: AppConstant.size.width * 0.4,
-                              decoration: BoxDecoration(
-                                  color: Colors.blue[800],
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Row(
-                                children: [
-                                  SizedBox(width: 20),
-                                  Image(
-                                    image: AssetImage(
-                                      "assets/images/facebook.png",
-                                    ),
-                                    height: 20,
-                                    width: 20,
-                                  ),
-                                  SizedBox(width: 5),
-                                  Expanded(
-                                      child: Text(
-                                    "Facebook",
-                                    style: TextStyle(
-                                        color: AppColors.txtWhiteColor),
-                                  ))
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        //   children: [
+                        //     Container(
+                        //       height: AppConstant.size.height * 0.06,
+                        //       width: AppConstant.size.width * 0.4,
+                        //       decoration: BoxDecoration(
+                        //           color: Colors.blue,
+                        //           borderRadius: BorderRadius.circular(10)),
+                        //       child: Row(
+                        //         mainAxisAlignment:
+                        //             MainAxisAlignment.spaceEvenly,
+                        //         children: [
+                        //           SizedBox(width: 20),
+                        //           Image(
+                        //             image: AssetImage(
+                        //               "assets/images/google.png",
+                        //             ),
+                        //             height: 20,
+                        //             width: 20,
+                        //           ),
+                        //           SizedBox(width: 5),
+                        //           Expanded(
+                        //               child: Text(
+                        //             "Google",
+                        //             style: TextStyle(
+                        //                 color: AppColors.txtWhiteColor),
+                        //           ))
+                        //         ],
+                        //       ),
+                        //     ),
+                        //     Container(
+                        //       height: AppConstant.size.height * 0.06,
+                        //       width: AppConstant.size.width * 0.4,
+                        //       decoration: BoxDecoration(
+                        //           color: Colors.blue[800],
+                        //           borderRadius: BorderRadius.circular(10)),
+                        //       child: Row(
+                        //         children: [
+                        //           SizedBox(width: 20),
+                        //           Image(
+                        //             image: AssetImage(
+                        //               "assets/images/facebook.png",
+                        //             ),
+                        //             height: 20,
+                        //             width: 20,
+                        //           ),
+                        //           SizedBox(width: 5),
+                        //           Expanded(
+                        //               child: Text(
+                        //             "Facebook",
+                        //             style: TextStyle(
+                        //                 color: AppColors.txtWhiteColor),
+                        //           ))
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
 
                         // Signup text
-                        SizedBox(height: 50),
+                      const  SizedBox(height: 30),
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Container(
@@ -281,20 +282,25 @@ class CustomerLoginPage extends StatelessWidget {
                                 style: TextStyle(
                                   color: AppColors.txtWhiteColor,
                                   fontSize: 14,
-                                  fontFamily: 'Montserrat',
                                   fontWeight: FontWeight.w600,
                                 ),
                                 children: [
                                   TextSpan(
                                       text: "Sign Up",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Colors.blue,
                                         fontSize: 14,
-                                        fontFamily: 'Montserrat',
                                         fontWeight: FontWeight.w600,
                                       ),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
+                                          customerLoginController
+                                              .customerPhoneNumberController
+                                              .value
+                                              .clear();
+                                          customerLoginController
+                                              .customerEmailController.value
+                                              .clear();
                                           Get.off(CustomerSignUpScreen());
                                         }),
                                 ],

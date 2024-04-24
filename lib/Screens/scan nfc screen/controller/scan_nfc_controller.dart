@@ -7,7 +7,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:scan_cart_clone/Models/admin_login_model.dart';
 import 'package:scan_cart_clone/Models/employee_data_model.dart';
@@ -47,7 +46,6 @@ class ScanNFCController extends GetxController
   RxString videoURL = ''.obs;
   RxInt serialNumber = 0.obs;
   EmployeeDataModel employeeDataModel = EmployeeDataModel();
-  final focusNode = FocusNode();
 
   @override
   void dispose() {
@@ -81,7 +79,7 @@ class ScanNFCController extends GetxController
     );
 
     dashBoardController = AnimationController(
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 1),
       vsync: this,
     );
 
@@ -94,7 +92,7 @@ class ScanNFCController extends GetxController
 
     //! Text
     textController = AnimationController(
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 1),
       vsync: this,
     );
 
@@ -116,7 +114,7 @@ class ScanNFCController extends GetxController
   Future<bool> isInternetConnected() async {
     try {
       final connectivityResult = await (Connectivity().checkConnectivity());
-      log("Connection result :: ${connectivityResult}");
+      log("Connection result :: $connectivityResult");
       if (connectivityResult.contains(ConnectivityResult.mobile) ||
           connectivityResult.contains(ConnectivityResult.wifi)) {
         log("true");
@@ -138,7 +136,7 @@ class ScanNFCController extends GetxController
       try {
         NfcManager.instance.startSession(onDiscovered: (NfcTag nfcTag) async {
           if (enable && !isShowingAnimationScreen.value) {
-            final ndefTag = await Ndef.from(nfcTag);
+            final ndefTag =  Ndef.from(nfcTag);
             String nfcURL = "";
             log("Ndef message :: ${ndefTag!.cachedMessage}");
             if (ndefTag.cachedMessage != null) {
@@ -405,6 +403,8 @@ class ScanNFCController extends GetxController
 // Verify the PromoCode ..
   Future getEmployee(String couponCode) async {
     //code::bbsimon578
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
     try {
       showNFCLoadingScreen(navigatorKey.currentState!.context);
       // Calling the verifyCouponCode fro APIServices ..
@@ -424,6 +424,11 @@ class ScanNFCController extends GetxController
         promoCodeController.value.clear();
       } else {
         employeeDataModel = data;
+        print(
+            "ProductImage Length :: ${employeeDataModel.productImages!.length}");
+        await prefs.setString(
+            "RewardData", employeeDataModel.rewards!.toString());
+        await prefs.setInt("ClientId", employeeDataModel.clientId!);
         logoPath.value = employeeDataModel.logoPath!;
         print("This is logo pathThis is logo path == ${logoPath.value}");
         employee_clientId.value = employeeDataModel.clientId.toString();
@@ -436,7 +441,7 @@ class ScanNFCController extends GetxController
         selected.value = false;
         hideNFCLoadingScreen(navigatorKey.currentState!.context);
         //! handle the cases ..
-        if (videoURL.endsWith('mp4')) {
+        if (videoURL.isNotEmpty) {
           Get.to(
             () => ProductScreen(
               responseData: employeeDataModel,
@@ -445,11 +450,10 @@ class ScanNFCController extends GetxController
             ),
           );
           promoCodeController.value.clear();
-        }else if(employeeDataModel.clientId == 1966 ||
-            employeeDataModel.is360 == 1){
-            Future.delayed(Duration.zero).then((value) => null);
-        }
-        else {
+        } else if (employeeDataModel.clientId == 1966 ||
+            employeeDataModel.is360 == 1) {
+          Future.delayed(Duration.zero).then((value) => null);
+        } else {
           showDialog(
               context: navigatorKey.currentState!.context,
               builder: (_) {
@@ -461,9 +465,6 @@ class ScanNFCController extends GetxController
               });
           promoCodeController.value.clear();
         }
-
-
-
       }
     } catch (exception) {
       log("Exception :: ${exception.toString()}");

@@ -44,7 +44,6 @@ class OTPVrifyController extends GetxController {
       if (data == true) {
         await prefs.setInt('customer_id', id);
         hideLoadingScreen(context);
-
         Get.off(RewardScreen(customerId: id));
         otpVerifyController.value.clear();
       } else {

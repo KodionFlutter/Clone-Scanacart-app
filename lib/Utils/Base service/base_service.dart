@@ -23,7 +23,7 @@ class BaseService {
   //!
   //! BaseService Post Method
   static Future postRewardMethod(
-      String baseUrl, Map<String, dynamic> map, token) async {
+      String baseUrl, Map<String, dynamic> map ,String? token) async {
     var data = await http
         .post(
           Uri.parse(baseUrl),
@@ -34,7 +34,7 @@ class BaseService {
           body: jsonEncode(map),
         )
         .timeout(const Duration(seconds: 20));
-    log("Data is :: ${data}");
+    log("Data is :: ${data.toString()}");
     return data;
   }
 

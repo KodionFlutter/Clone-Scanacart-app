@@ -5,9 +5,8 @@ import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/controller/scan_nfc_
 import 'package:scan_cart_clone/Utils/constant.dart';
 
 class PromoCodetxtFeildWidget extends StatelessWidget {
-  final FocusNode focusNode;
 
-  PromoCodetxtFeildWidget({super.key, required this.focusNode});
+  PromoCodetxtFeildWidget({super.key});
 
   final textEditController = Get.put(ScanNFCController());
 
@@ -20,7 +19,6 @@ class PromoCodetxtFeildWidget extends StatelessWidget {
           height: (AppConstant.size.height - 40) / 12,
           child: TextFormField(
             keyboardType: TextInputType.text,
-            focusNode: focusNode,
             controller: textEditController.promoCodeController.value,
             textAlign: TextAlign.center,
             style: TextStyle(

@@ -4,7 +4,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
-import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/common_services/common_services.dart';
 import 'package:scan_cart_clone/Common/validator_form.dart';
 import 'package:scan_cart_clone/Common/widgets/common_button.dart';
@@ -79,11 +78,11 @@ class CustomerSignUpScreen extends StatelessWidget {
                           hinText: "Email",
                           preFixText: "",
                           validator: (val) {
-                            if (val!.isEmpty) {
-                              return FormValidator.txtMail;
-                            } else if (!signUpController.reg.hasMatch(val)) {
-                              return FormValidator.txtValidMail;
-                            }
+                            // if (val!.isEmpty) {
+                            //   return FormValidator.txtMail;
+                            // } else if (!signUpController.reg.hasMatch(val)) {
+                            //   return FormValidator.txtValidMail;
+                            // }
                             return null;
                           },
                         ),
@@ -131,11 +130,11 @@ class CustomerSignUpScreen extends StatelessWidget {
                           hinText: "Phone",
                           preFixText: "+1 ",
                           validator: (val) {
-                            if (val!.isEmpty) {
-                              return FormValidator.txtPhoneNumber;
-                            } else if (val.length < 10) {
-                              return FormValidator.txtValidPhoneNumber;
-                            }
+                            // if (val!.isEmpty) {
+                            //   return FormValidator.txtPhoneNumber;
+                            // } else if (val.length < 10) {
+                            //   return FormValidator.txtValidPhoneNumber;
+                            // }
                             return null;
                           },
                         ),
@@ -162,20 +161,32 @@ class CustomerSignUpScreen extends StatelessWidget {
                               showMessage("Required email or Phone number",
                                   Colors.white);
                               // print("object");
-                            } else if (!signUpController.reg.hasMatch(
+                            } else if ((signUpController.customerEmailController.value.text.isNotEmpty && !signUpController.reg.hasMatch(
                                 signUpController
-                                    .customerEmailController.value.text)) {
+                                    .customerEmailController.value.text))){
                               showMessage(
                                   FormValidator.txtValidMail, Colors.white);
-                            } else if (signUpController.customerPhoneController
-                                        .value.text.length >
-                                    0 &&
-                                signUpController.customerPhoneController.value
-                                        .text.length <
-                                    10) {
-                              showMessage(FormValidator.txtValidPhoneNumber,
-                                  Colors.white);
-                            } else {
+                            } else if((signUpController.customerPhoneController.value
+                                .text.length >
+                                0 &&
+                                signUpController.customerPhoneController
+                                    .value.text.length <
+                                    10)){
+                              showMessage(
+                                  FormValidator.txtValidPhoneNumber, Colors.white);
+                            }
+
+                            // else if (signUpController.customerPhoneController
+                            //             .value.text.length >
+                            //         0 &&
+                            //     signUpController.customerPhoneController.value
+                            //             .text.length <
+                            //         10) {
+                            //   showMessage(FormValidator.txtValidPhoneNumber,
+                            //       Colors.white);
+                            // }
+
+                            else {
                               await signUpController.signUPCustomer({
                                 "name": signUpController
                                     .customerNameController.value.text,
@@ -184,6 +195,13 @@ class CustomerSignUpScreen extends StatelessWidget {
                                 "phone": signUpController
                                     .customerPhoneController.value.text,
                               });
+                              // showMessage("Working", Colors.green);
+                              signUpController.customerEmailController.value
+                                  .clear();
+                              signUpController.customerNameController.value
+                                  .clear();
+                              signUpController.customerPhoneController.value
+                                  .clear();
                             }
 
                             Get.off(OtpVerifyScreen(
@@ -216,7 +234,7 @@ class CustomerSignUpScreen extends StatelessWidget {
                               children: [
                                 TextSpan(
                                     text: "Login",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.blue,
                                       fontSize: 14,
                                       fontFamily: 'Montserrat',
@@ -225,6 +243,15 @@ class CustomerSignUpScreen extends StatelessWidget {
                                     ),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
+                                        signUpController
+                                            .customerEmailController.value
+                                            .clear();
+                                        signUpController
+                                            .customerNameController.value
+                                            .clear();
+                                        signUpController
+                                            .customerPhoneController.value
+                                            .clear();
                                         Get.off(CustomerLoginPage());
                                       }),
                               ],

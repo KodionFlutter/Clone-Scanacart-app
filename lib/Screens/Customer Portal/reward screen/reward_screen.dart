@@ -70,40 +70,6 @@ class RewardScreen extends StatelessWidget {
                     ],
                   ),
 
-                  // ScrollConfiguration(
-                  //   behavior: CommonScrollBehaveWidget(),
-                  //   child: ListView.builder(
-                  //     scrollDirection: Axis.vertical,
-                  //     shrinkWrap: true,
-                  //     itemCount: 2,
-                  //     // Assuming you want to display only one ClientWidget
-                  //     itemBuilder: (BuildContext context, int index) {
-                  //       return SizedBox(
-                  //         width: AppConstant.size.width,
-                  //         child: Column(
-                  //           children: [
-                  //             ClientWidget(
-                  //               imageUrl: rewardController.clientLogo1.value,
-                  //               rewardPoints:
-                  //                   rewardController.rewardPoints1.value,
-                  //               clientName: rewardController.clientName1.value,
-                  //               onPressed: () {
-                  //                 Get.to(CategoryPage(
-                  //                   clientId: rewardController.clientId1.value,
-                  //                   clientName:
-                  //                       rewardController.clientName1.value,
-                  //                 ));
-                  //               },
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
-
-                  //! End
-
                   //! WebView Link ..
                   Padding(
                     padding: EdgeInsets.only(

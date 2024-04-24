@@ -50,11 +50,11 @@ class OtpVerifyScreen extends StatelessWidget {
                   maxLength: 6,
                   preFixText: "",
                   validator: (val) {
-                    if (val.toString().isEmpty) {
-                      return FormValidator.txtVerificationCode;
-                    } else if (val!.length < 6) {
-                      return FormValidator.txtValidVerificationCode;
-                    }
+                    // if (val.toString().isEmpty) {
+                    //   return FormValidator.txtVerificationCode;
+                    // } else if (val!.length < 6) {
+                    //   return FormValidator.txtValidVerificationCode;
+                    // }
                     return null;
                   },
                 ),
@@ -67,7 +67,13 @@ class OtpVerifyScreen extends StatelessWidget {
                 child: CommonButtonWidget(
                   isEnabled: true,
                   onPressed: () async {
-                    if (otpController.formKey.currentState!.validate()) {
+                    if (otpController.otpVerifyController.value.text.isEmpty) {
+                      showMessage("Please enter OTP", Colors.white);
+                    } else if (otpController
+                            .otpVerifyController.value.text.length <
+                        6) {
+                      showMessage("Please enter a valid OTP", Colors.white);
+                    } else {
                       await otpController.verifyotp(
                           otpController.otpVerifyController.value.text);
                     }

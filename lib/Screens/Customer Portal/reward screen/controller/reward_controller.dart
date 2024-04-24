@@ -3,9 +3,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Models/reward_model.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/category_page.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/reward_collect_widget.dart';
+import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/pages/product_image_widget.dart';
 import 'dart:math' as math;
 
 import 'package:scan_cart_clone/Utils/Base%20service/services.dart';
+import 'package:scan_cart_clone/Utils/constant.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RewardController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -40,6 +45,7 @@ class RewardController extends GetxController
   var minRange = 0.obs;
   dynamic rewardData = ().obs;
   Map<dynamic, dynamic> data = {}.obs;
+  var rewardPoint;
 
 //! Get Reward
   Future<void> getReward() async {
@@ -109,16 +115,52 @@ class RewardController extends GetxController
   }
 
   //! Credit the rewards ..
-  Future<void> creditRewards() async{
-    var data = await APIServices.hitCreditRewards();
-  }
+  Future<void> creditRewards() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? customerId = prefs.getInt("customer_id");
+    print("CustomerID int :: $customerId");
+    int? clientId = prefs.getInt("ClientId");
+    print("clinetId int : ${clientId}");
+    String? productRewards = prefs.getString("RewardData");
+    print("Re int:: ${productRewards}");
+    var token = prefs.getString("Token");
+    print("Token string:: ${token}");
 
+    if (productRewards.toString() != '0' &&
+        productRewards.toString() != '' &&
+        productRewards.toString() != 'null') {
+      //! Display here the Pop ..
+
+      var data = await APIServices.hitCreditRewards(
+          clientId!, productRewards.toString(), customerId!, token);
+      print("Data :: $data");
+      if (data['success'] == true) {
+        showDialog(
+            context: navigatorKey.currentState!.context,
+            builder: (_) => RewardCollectWidget(
+                  onTap: () {
+                    Get.back();
+                  },
+                  onPressed: () {
+                    Get.to(CategoryPage(
+                      clientId: clientId,
+                      clientName: " ",
+                    ));
+                  },
+                  rewardPoints: productRewards.toString(),
+                ));
+        getReward();
+        await prefs.remove("RewardData");
+      }
+    }
+  }
 
   @override
   void onInit() {
-    Future.delayed(Duration.zero, () => getReward())
-        .then((value) => getCardPath());
     creditRewards();
+    Future.delayed(
+            Duration.zero, () => getReward().then((value) => creditRewards()))
+        .then((value) => getCardPath());
     animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),

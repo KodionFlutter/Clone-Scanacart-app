@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/widgets/common_button.dart';
@@ -10,7 +9,6 @@ import 'package:scan_cart_clone/Models/employee_data_model.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/signin%20screen/customer_login_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/reward_screen.dart';
 import 'package:scan_cart_clone/Screens/product%20screen/controller/product_controller.dart';
-import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/reward_collect_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -68,16 +66,17 @@ class ProductImageWidget extends StatelessWidget {
                 backgroundColor: AppColors.whiteBackgroundColor,
                 radius: AppConstant.size.height * 0.075,
                 child: Image(
-                    image: AssetImage('assets/images/1error.png'),
+                    image: const AssetImage('assets/images/1error.png'),
                     width: AppConstant.size.width * 0.9,
                     height: AppConstant.size.height * 0.17),
               ),
               SizedBox(height: AppConstant.size.height * 0.02),
 
-              Material(
+              const Material(
                 color: Colors.transparent,
                 child: Center(
-                  child: Text("Authentic Product"),
+                  child: Text("Authentic Product",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
               ),
               // Product Image Logo ..
@@ -89,12 +88,12 @@ class ProductImageWidget extends StatelessWidget {
                   child: SizedBox(
                     height: AppConstant.size.height * 0.22,
                     width: AppConstant.size.width / 1.3,
-                    child: productController.logoPath.value != null
+                    child: productController.logoPath.value.isNotEmpty
                         ? CachedNetworkImage(
-                            imageUrl: productController.logoPath.value!,
+                            imageUrl: productController.logoPath.value,
                             fit: BoxFit.contain,
                             placeholder: (context, url) {
-                              return Center(
+                              return const Center(
                                 child: CupertinoActivityIndicator(),
                               );
                             },
@@ -175,7 +174,7 @@ class ProductImageWidget extends StatelessWidget {
                         txtColor: AppColors.txtWhiteColor,
                       ),
                     )
-                  : SizedBox(),
+                  : const SizedBox(),
               const SizedBox(height: 10),
               if (couponCode != null)
                 Material(
