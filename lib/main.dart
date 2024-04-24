@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
           useMaterial3: false,
           primarySwatch: Colors.lightBlue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
-          fontFamily: 'Montserrat',
+          fontFamily: 'Poppins',
         ),
         home: SplashScreen());
   }

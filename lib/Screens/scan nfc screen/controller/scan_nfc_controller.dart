@@ -417,6 +417,7 @@ class ScanNFCController extends GetxController
         showDialog(
             context: navigatorKey.currentState!.context,
             builder: (_) => NotAvailableWidget(
+              title: couponCode.toString(),
                   message:
                       "Code not found. This product is not valid. Please contact your vendor",
                   // height: AppConstant.size.height * 0.5,

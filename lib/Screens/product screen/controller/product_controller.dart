@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 import 'package:get/state_manager.dart';
 import 'package:scan_cart_clone/Models/employee_data_model.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
@@ -17,6 +18,7 @@ class ProductController extends GetxController {
   });
 
   //! Declare the Variable.
+  RxInt cunterValue = 0.obs;
 
   RxBool isPopupVisible = false.obs;
   RxString logoPath = ''.obs;
@@ -45,7 +47,7 @@ class ProductController extends GetxController {
 
   @override
   void onClose() {
-    videoPlayerController?.pause();
+    // videoPlayerController?.pause();
     super.onClose();
   }
 
@@ -62,11 +64,18 @@ class ProductController extends GetxController {
       rewardsValue.value = responseData.rewards!;
       print("Rewards Data :: ${rewardsValue}");
       log("Video url path : ${videoUrl.value}");
+
+      //! Playing The Video;
       videoPlayerController =
           VideoPlayerController.networkUrl(Uri.parse(videoUrl.value));
-      await videoPlayerController?.initialize();
-      videoPlayerController?.play();
-      videoPlayerController?.setLooping(true);
+      print("The Controller of video player == ${videoPlayerController!.value}");
+      videoPlayerController?.initialize().then((value) {
+        videoPlayerController?.play();
+        videoPlayerController?.setLooping(true);
+        update();
+      });
+      update();
+
       print("${rewardPoint.value}");
       print(videoUrl.value);
     } catch (e) {
@@ -86,10 +95,14 @@ class ProductController extends GetxController {
   }
 
   // Make a video play controller
-  // void videoInitliz() {
-  //   log("This is Video URL :: ${videoUrl.value}");
-  //
-  // }
+  void videoInitliz(VideoPlayerController controller) {
+    log("This is Video URL :: ${videoUrl.value}");
+    // controller = VideoPlayerController.networkUrl(Uri.parse(videoUrl.value));
+    // controller.initialize();
+    // controller.play();
+    // controller.setLooping(true);
+    // refresh();
+  }
 
   ClipRect getBOXFitted(VideoPlayerController _controller) {
     final size = MediaQuery.of(navigatorKey.currentState!.context).size;
