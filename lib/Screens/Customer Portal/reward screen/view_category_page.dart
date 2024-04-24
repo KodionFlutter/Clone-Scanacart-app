@@ -6,6 +6,7 @@ import 'package:scan_cart_clone/Common/widgets/common_scroll_behav_widget.dart';
 import 'package:scan_cart_clone/Common/widgets/custom_container.dart';
 import 'package:scan_cart_clone/Common/widgets/shimmer_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/controller/view_category_controller.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/common_appbar_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/common_view_category_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 
@@ -31,22 +32,9 @@ class ViewCategoryPage extends StatelessWidget {
       categoryId: categoryId,
       clientId: clientId,
     ));
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          foregroundColor: AppColors.blackColor,
-          elevation: 0,
-          title: Text("$clientName"),
-          centerTitle: true,
-          actions: [
-            Padding(
-              padding: EdgeInsets.only(right: AppConstant.size.width * 0.03),
-              child: Icon(
-                Icons.shopping_cart_rounded,
-              ),
-            )
-          ],
-        ),
+    return CommonAppbar(
+        title: clientName,
+        countItem: 10,
         body: Obx(() {
           if (viewCategoryController.isLoad.value == true) {
             return ShimmerWidget(

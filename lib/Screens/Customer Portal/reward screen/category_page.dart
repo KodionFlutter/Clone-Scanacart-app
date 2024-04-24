@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/widgets/common_scroll_behav_widget.dart';
 import 'package:scan_cart_clone/Common/widgets/custom_container.dart';
 import 'package:scan_cart_clone/Common/widgets/shimmer_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/view_category_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/controller/category_controller.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/common_appbar_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/common_pageview_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 
@@ -21,24 +21,9 @@ class CategoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final redeemController = Get.put(CategoryController(clientId: clientId));
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          foregroundColor: AppColors.blackColor,
-          elevation: 0,
-          title: Center(
-              child: Text(
-            "$clientName",
-          )),
-          actions: [
-            Padding(
-              padding: EdgeInsets.only(right: AppConstant.size.width * 0.03),
-              child: Icon(
-                Icons.shopping_cart_rounded,
-              ),
-            )
-          ],
-        ),
+    return CommonAppbar(
+        title: clientName,
+        countItem: 10 ,
         body: Obx(() {
           if (redeemController.categoryList.isEmpty) {
             return ShimmerWidget(
@@ -91,8 +76,8 @@ class CategoryPage extends StatelessWidget {
                   return CommonPageViewWidget(
                     categoryName:
                         redeemController.categoryList[index].categoryName!,
-                    categoryDescription:
-                        redeemController.categoryList[index].categoryDescription!,
+                    categoryDescription: redeemController
+                        .categoryList[index].categoryDescription!,
                     categoryImage:
                         redeemController.categoryList[index].categoryImage!,
                     onPressed: () {
@@ -101,8 +86,8 @@ class CategoryPage extends StatelessWidget {
                           categoryId:
                               redeemController.categoryList[index].categoryId!,
                           clientId: clientId,
-                          categoryName:
-                              redeemController.categoryList[index].categoryName!,
+                          categoryName: redeemController
+                              .categoryList[index].categoryName!,
                           clientName: clientName,
                         ),
                         transition: Transition.fadeIn,
