@@ -175,6 +175,13 @@ class RewardController extends GetxController
     super.onInit();
   }
 
+  @override
+  void dispose() {
+    animationController.dispose();
+
+    super.dispose();
+  }
+
   //! Toggle floating button
   void toggleExpand() {
     isExpanded.value = !isExpanded.value;

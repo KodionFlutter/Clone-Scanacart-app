@@ -50,6 +50,9 @@ class ScanNFCController extends GetxController
   @override
   void dispose() {
     promoCodeController.value.dispose();
+    animationController.dispose();
+    dashBoardController.dispose();
+    textController.dispose();
     super.dispose();
   }
 
@@ -136,7 +139,7 @@ class ScanNFCController extends GetxController
       try {
         NfcManager.instance.startSession(onDiscovered: (NfcTag nfcTag) async {
           if (enable && !isShowingAnimationScreen.value) {
-            final ndefTag =  Ndef.from(nfcTag);
+            final ndefTag = Ndef.from(nfcTag);
             String nfcURL = "";
             log("Ndef message :: ${ndefTag!.cachedMessage}");
             if (ndefTag.cachedMessage != null) {
@@ -417,7 +420,7 @@ class ScanNFCController extends GetxController
         showDialog(
             context: navigatorKey.currentState!.context,
             builder: (_) => NotAvailableWidget(
-              title: couponCode.toString(),
+                  title: couponCode.toString(),
                   message:
                       "Code not found. This product is not valid. Please contact your vendor",
                   // height: AppConstant.size.height * 0.5,
@@ -454,7 +457,8 @@ class ScanNFCController extends GetxController
         } else if (employeeDataModel.clientId == 1966 ||
             employeeDataModel.is360 == 1) {
           Future.delayed(Duration.zero).then((value) => null);
-        } else {
+        }
+        else {
           showDialog(
               context: navigatorKey.currentState!.context,
               builder: (_) {
@@ -464,6 +468,7 @@ class ScanNFCController extends GetxController
                   couponCode: couponCode,
                 );
               });
+
           promoCodeController.value.clear();
         }
       }

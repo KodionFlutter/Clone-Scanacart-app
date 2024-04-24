@@ -141,7 +141,8 @@ class ScanNFCScreen extends StatelessWidget {
                                 AppColors.whiteBackgroundColor,
                               );
                             } else {
-                              FocusScope.of(context).unfocus();
+                              // FocusScope.of(context).unfocus();
+
                               scanNfcController.selected.value =
                                   !scanNfcController.selected.value;
                               scanNfcController.promoCode.value =

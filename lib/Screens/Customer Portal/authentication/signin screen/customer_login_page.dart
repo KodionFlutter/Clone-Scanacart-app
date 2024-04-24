@@ -149,39 +149,73 @@ class CustomerLoginPage extends StatelessWidget {
                                 showMessage(
                                     "Please enter email or phone number",
                                     Colors.white);
+                              } else if ((customerLoginController
+                                      .customerEmailController
+                                      .value
+                                      .text
+                                      .isNotEmpty &&
+                                  !customerLoginController.reg.hasMatch(
+                                      customerLoginController
+                                          .customerEmailController
+                                          .value
+                                          .text))) {
+                                showMessage(
+                                    FormValidator.txtValidMail, Colors.white);
+                              } else if ((customerLoginController
+                                          .customerPhoneNumberController
+                                          .value
+                                          .text
+                                          .length >
+                                      0 &&
+                                  customerLoginController
+                                          .customerPhoneNumberController
+                                          .value
+                                          .text
+                                          .length <
+                                      10)) {
+                                showMessage(FormValidator.txtValidPhoneNumber,
+                                    Colors.white);
                               } else {
-                                if (!customerLoginController.reg.hasMatch(
-                                    customerLoginController
-                                        .customerEmailController.value.text)) {
-                                  showMessage(
-                                      "Please enter valid email", Colors.white);
-                                  // print("Not matcjed");
-                                } else if (customerLoginController
-                                            .customerPhoneNumberController
-                                            .value
-                                            .text
-                                            .length <
-                                        10 &&
-                                    customerLoginController
-                                            .customerPhoneNumberController
-                                            .value
-                                            .text
-                                            .length >
-                                        0) {
-                                  showMessage("Please enter valid number",
-                                      Colors.white);
-                                  // print("matched");
-                                } else {
-                                  await customerLoginController.customerLogin(
-                                    customerLoginController
-                                        .customerEmailController.value.text,
-                                    customerLoginController
-                                        .customerPhoneNumberController
-                                        .value
-                                        .text,
-                                  );
-                                }
+                                await customerLoginController.customerLogin(
+                                  customerLoginController
+                                      .customerEmailController.value.text,
+                                  customerLoginController
+                                      .customerPhoneNumberController.value.text,
+                                );
                               }
+                              // else {
+                              //   if (!customerLoginController.reg.hasMatch(
+                              //       customerLoginController
+                              //           .customerEmailController.value.text)) {
+                              //     showMessage(
+                              //         "Please enter valid email", Colors.white);
+                              //     // print("Not matcjed");
+                              //   } else if (customerLoginController
+                              //               .customerPhoneNumberController
+                              //               .value
+                              //               .text
+                              //               .length <
+                              //           10 &&
+                              //       customerLoginController
+                              //               .customerPhoneNumberController
+                              //               .value
+                              //               .text
+                              //               .length >
+                              //           0) {
+                              //     showMessage("Please enter valid number",
+                              //         Colors.white);
+                              //     // print("matched");
+                              //   } else {
+                              //     await customerLoginController.customerLogin(
+                              //       customerLoginController
+                              //           .customerEmailController.value.text,
+                              //       customerLoginController
+                              //           .customerPhoneNumberController
+                              //           .value
+                              //           .text,
+                              //     );
+                              //   }
+                              // }
                             },
                             buttonTxt: 'Login',
                             btnHeight: AppConstant.size.height * 0.06,
@@ -271,7 +305,7 @@ class CustomerLoginPage extends StatelessWidget {
                         // ),
 
                         // Signup text
-                      const  SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Container(
