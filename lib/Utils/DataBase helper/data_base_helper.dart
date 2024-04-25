@@ -53,39 +53,42 @@ class DataBaseHelper {
   //! Create the Database
   Future _onCreate(Database db, int version) async {
     await db.execute(
-        '''CREATE TABLE $_tableName($id INTEGER PRIMARY KEY,$clientId TEXT,$productId TEXT,$productTitle TEXT,$productQuantity TEXT,$productPoints TEXT,$productImage TEXT )''');
+        '''CREATE TABLE $_tableName(
+            $id INTEGER PRIMARY KEY,
+            $clientId INTEGER,
+            $productId INTEGER,
+            $productQuantity INTEGER,
+            $productPoints INTEGER,
+            $productTitle TEXT,
+            $productImage TEXT)''');
   }
 
   //! Insert Query
   Future insert(Map<String, dynamic> addCartData) async {
     var database = await dataBaseHelper.getDatabase;
+
+    // Check if a record with the same client ID already exists
+    List<Map<String, dynamic>> existingRecords = await database.query(
+      _tableName,
+      where: '$clientId = ?',
+      whereArgs: [addCartData[clientId]],
+      limit: 1, // Limit to 1 record, as we only need to check existence
+    );
+
+    // If a record with the same client ID exists, show a message and return
+    if (existingRecords.isNotEmpty) {
+      if (kDebugMode) {
+        developer.log("Product not added to cart. Client ID already exists.");
+      }
+      return; // Return without adding the product
+    }
+
+    // Client ID does not exist in the database, proceed with inserting the product
     if (kDebugMode) {
       print(addCartData);
       developer.log("Added into Cart :: $database}");
     }
-
-    List<Map<String, dynamic>> result = await database.query(
-      '$_tableName',
-      where: 'productId = ?',
-      whereArgs: [productId],
-    );
-
-    List<Map<String, dynamic>> client = await database.query(
-      '$_tableName',
-      where: 'clientId = ?',
-      whereArgs: [clientId],
-    );
-    if (client == client) {
-      if (result.isNotEmpty) {
-        // Product already exists, update its quantity
-        await updateProductQuantity(productId, int.parse(productQuantity));
-      } else {
-        // Product doesn't exist, insert it into the database
-        return await database.insert(_tableName, addCartData);
-      }
-    } else {
-      return null;
-    }
+    await database.insert(_tableName, addCartData);
   }
 
   //! Fetch The Data..
