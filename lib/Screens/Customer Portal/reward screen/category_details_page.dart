@@ -270,14 +270,22 @@ class CategoryDetailsPage extends StatelessWidget {
           () => ElevatedButton(
               onPressed: categoryDeController.productTitle.value.isEmpty
                   ? null
-                  : () {
+                  : () async {
                       if (categoryDeController.stockQuantity.value > 0) {
                         // Get.to(CartPage());
+                        var sameID = await categoryDeController.addToCart(
+                          clientId,
+                          productId,
+                          categoryDeController.stockQuantity.value,
+                          categoryDeController.rewardPoints.value,
+                          categoryDeController.productTitle.value,
+                          categoryDeController.productImage.value,
+                        );
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: const Text(
+                            content: Text(
                               textAlign: TextAlign.center,
-                              "Product added to the card",
+                              sameID ? "Product added to the card" : 'Cant add',
                             ),
                             backgroundColor: AppColors.txtScanProductColor,
                             shape: RoundedRectangleBorder(
@@ -286,14 +294,6 @@ class CategoryDetailsPage extends StatelessWidget {
                                   topRight: Radius.circular(10)),
                             ),
                           ),
-                        );
-                        categoryDeController.addToCart(
-                          clientId,
-                          productId,
-                          categoryDeController.stockQuantity.value,
-                          categoryDeController.rewardPoints.value,
-                          categoryDeController.productTitle.value,
-                          categoryDeController.productImage.value,
                         );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(

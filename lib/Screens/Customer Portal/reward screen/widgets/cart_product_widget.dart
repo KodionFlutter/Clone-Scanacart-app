@@ -7,9 +7,9 @@ import 'package:scan_cart_clone/Utils/constant.dart';
 class CartProductWidget extends StatelessWidget {
   final String productImage;
   final String productTitle;
-  final String productPoints;
+  final int productPoints;
   final VoidCallback onTap, removeCartProduct, addCartProduct;
-  final String totalProduct;
+  final int totalProduct;
 
   const CartProductWidget(
       {super.key,

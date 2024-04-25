@@ -4,8 +4,7 @@ import 'package:scan_cart_clone/Utils/DataBase%20helper/data_base_helper.dart';
 class CartController extends GetxController {
 //! Declare the variable ..
 
-  late dynamic getDataList = [].obs;
-  dynamic items = [].obs;
+  var cartDataList = [].obs;
   RxInt totalProduct = 1.obs;
 
   @override
@@ -18,18 +17,13 @@ class CartController extends GetxController {
 
   Future getCartData() async {
     DataBaseHelper helper = DataBaseHelper.dataBaseHelper;
-    getDataList = helper.fetchUser();
-    items = getDataList;
-
-    print("List of cart Data :: ${getDataList}");
-    update();
+    cartDataList.value = await helper.fetchUser();
+    print("List of cart Data :: ${cartDataList}");
   }
 
   Future<void> deleteProduct(productId) async {
     DataBaseHelper helper = DataBaseHelper.dataBaseHelper;
     helper.deleteCartOneData(productId).then((value) {
-      items = getDataList;
-      update();
     });
   }
 
@@ -37,10 +31,12 @@ class CartController extends GetxController {
   addMoreProduct() {
     totalProduct.value += 1;
   }
+
 //! Remove the product..
-removeProduct(){
+  removeProduct() {
     totalProduct.value -= 1;
-}
+  }
+
   var cartItems = [].obs;
 
   // Method to increase quantity of an item

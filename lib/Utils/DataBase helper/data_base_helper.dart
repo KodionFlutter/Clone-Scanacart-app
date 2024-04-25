@@ -52,8 +52,7 @@ class DataBaseHelper {
 
   //! Create the Database
   Future _onCreate(Database db, int version) async {
-    await db.execute(
-        '''CREATE TABLE $_tableName(
+    await db.execute('''CREATE TABLE $_tableName(
             $id INTEGER PRIMARY KEY,
             $clientId INTEGER,
             $productId INTEGER,
@@ -64,7 +63,8 @@ class DataBaseHelper {
   }
 
   //! Insert Query
-  Future insert(Map<String, dynamic> addCartData) async {
+
+  Future<bool> insert(Map<String, dynamic> addCartData) async {
     var database = await dataBaseHelper.getDatabase;
 
     // Check if a record with the same client ID already exists
@@ -75,26 +75,71 @@ class DataBaseHelper {
       limit: 1, // Limit to 1 record, as we only need to check existence
     );
 
-    // If a record with the same client ID exists, show a message and return
-    if (existingRecords.isNotEmpty) {
-      if (kDebugMode) {
-        developer.log("Product not added to cart. Client ID already exists.");
+    List<Map<String, dynamic>> productCartRecords = await database.query(
+      'ProductCart',
+    );
+    if (productCartRecords.length > 0) {
+      if (existingRecords[0]['clientId'] == addCartData['clientId']) {
+        // await database.insert(_tableName, addCartData);
+        // return true;
+        List<Map<String, dynamic>> cartRecords = await database.query(
+          'ProductCart',
+          where: '$productId = ?',
+          whereArgs: [addCartData[productId]],
+          limit: 1,
+        );
+        if (cartRecords.isNotEmpty) {
+          // Product already exists in the cart, update its quantity
+          int newQuantity = cartRecords[0]['productQuantity'] + 1;
+          await database.update(
+            'ProductCart',
+            {'productQuantity': newQuantity},
+            where: '$productId = ?',
+            whereArgs: [addCartData[productId]],
+          );
+          return true; // Product quantity updated successfully
+        } else {
+          // Product doesn't exist in the cart, insert it
+          await database.insert(_tableName, addCartData);
+          return true; // Product inserted successfully
+        }
+      }else{
+        return false;
       }
-      return; // Return without adding the product
+      // Database has records, handle the case here
+      print('ProductCart database has records!');
+    } else {
+      // Database has no records, handle the case here
+      await database.insert(_tableName, addCartData);
+      print('ProductCart database is empty!');
+      return true;
     }
-
-    // Client ID does not exist in the database, proceed with inserting the product
-    if (kDebugMode) {
-      print(addCartData);
-      developer.log("Added into Cart :: $database}");
-    }
-    await database.insert(_tableName, addCartData);
+    // If a record with the same client ID exists, show a message and return
+    // if (existingRecords.length > 0) {
+    //   developer.log("Added  hai ye}");
+    //
+    //   if (existingRecords[0]['clientId'] == 1910) {
+    //     developer.log("Same Id is  hai...");
+    //     await database.insert(_tableName, addCartData);
+    //     print(addCartData);
+    //
+    //     developer.log("Added into Cart :: $database}");
+    //   } else {
+    //     developer.log(
+    //         "  Product not added to cart. Client ID is not matched . ${existingRecords[0]['clientId']}");
+    //   }
+    //
+    //   return; // Return without adding the product
+    // } else {
+    //   // Client ID does not exist in the database, proceed with inserting the product
+    //   await database.insert(_tableName, addCartData);
+    // }
   }
 
   //! Fetch The Data..
   Future fetchUser() async {
     var database = await dataBaseHelper.getDatabase;
-    List cartDataList = await database.query(_tableName);
+    List<Map<String, dynamic>> cartDataList  = await database.query(_tableName);
     developer.log(cartDataList.toString());
     return cartDataList;
   }
@@ -103,7 +148,7 @@ class DataBaseHelper {
   Future deleteCartOneData(productId) async {
     var db = await dataBaseHelper.getDatabase;
     return await db
-        .delete(_tableName, where: "productId = ? ", whereArgs: [productId]);
+        .delete(_tableName, where: "$productId = ? ", whereArgs: [productId]);
   }
 
   Future<void> updateProductQuantity(String productId, int quantity) async {

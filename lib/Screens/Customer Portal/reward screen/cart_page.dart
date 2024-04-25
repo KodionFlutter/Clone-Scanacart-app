@@ -27,78 +27,73 @@ class CartPage extends StatelessWidget {
         title: const Text("Cart"),
         centerTitle: true,
       ),
-      body: cartController.items != null
-          ? FutureBuilder(
-              future: cartController.items,
-              builder: (context, AsyncSnapshot snapShot) {
-                if (snapShot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (snapShot.connectionState == ConnectionState.none) {
-                  return Center(
-                    child: Text("Connection is not Stablish"),
-                  );
-                } else if (snapShot.connectionState == ConnectionState.done) {
-                  if (snapShot.hasData) {
-                    return Column(
-                      children: [
-                        Expanded(
-                          child: ListView.builder(
-                              itemCount: snapShot.data.length,
-                              itemBuilder: (context, index) {
-                                return  Obx(() => CartProductWidget(
-                                    productImage: snapShot.data[index]
+      body: Obx (()=> FutureBuilder(
+          future: Future.value(cartController.cartDataList),
+          builder: (context, AsyncSnapshot snapShot) {
+            if (snapShot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapShot.connectionState == ConnectionState.none) {
+              return Center(
+                child: Text("Connection is not Stablish"),
+              );
+            } else if (snapShot.connectionState == ConnectionState.done) {
+              if (snapShot.hasData) {
+                return Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                          itemCount: snapShot.data.length,
+                          itemBuilder: (context, index) {
+                            return CartProductWidget(
+                                productImage: snapShot.data[index]
                                     ['productImage'],
-                                    productTitle: snapShot.data[index]
+                                productTitle: snapShot.data[index]
                                     ['productTitle'],
-                                    productPoints: snapShot.data[index]
+                                productPoints: snapShot.data[index]
                                     ['productPoints'],
-                                    onTap: () {
-                                      print(
-                                          "Id : ${snapShot.data[index]['productId']}");
-                                      cartController.deleteProduct(
-                                          snapShot.data[index]['productId']);
-                                      cartController.items =
-                                          cartController.getDataList;
-                                    },
-                                    removeCartProduct: () =>
-                                        cartController.removeProduct(),
-                                    addCartProduct: () =>
-                                        cartController.addMoreProduct(),
-                                    totalProduct: snapShot.data[index]
-                                    ['productQuantity']));
-                              }),
+                                onTap: () {
+                                  print(
+                                      "Id : ${snapShot.data[index]['productId']}");
+                                  cartController.deleteProduct(
+                                      snapShot.data[index]['productId']);
+                                },
+                                removeCartProduct: () =>
+                                    cartController.removeProduct(),
+                                addCartProduct: () =>
+                                    cartController.addMoreProduct(),
+                                totalProduct: snapShot.data[index]
+                                    ['productQuantity']);
+                          }),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(right: 20),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          "Total Points : ${100}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
+                          textAlign: TextAlign.start,
+                          softWrap: true,
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(right: 20),
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              "Total Points : ${100}",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18),
-                              textAlign: TextAlign.start,
-                              softWrap: true,
-                            ),
-                          ),
-                        )
-                      ],
-                    );
-                  }
-                } else {
-                  return Text("data");
-                }
-                return Text("data");
-              },
-            )
-          : Center(
-              child: Text("No items in the cart"),
-            ),
+                      ),
+                    )
+                  ],
+                );
+              }
+            } else {
+              return Text("data");
+            }
+            return Text("data");
+          },
+        ),
+      ),
 
       //! Bottom -> Add Shipping Address button and Total Points ..
       bottomNavigationBar: ElevatedButton(
-          onPressed: () => cartController.items == null
+          onPressed: () => cartController.cartDataList.isNotEmpty
               ? Get.off(CategoryPage(
                   clientId: clientId,
                   clientName: clientName,
@@ -111,7 +106,7 @@ class CartPage extends StatelessWidget {
                 Size(AppConstant.size.width, AppConstant.size.height * 0.07),
           ),
           child: Text(
-            cartController.items != null
+            cartController.cartDataList.isNotEmpty
                 ? "Add Shipping Address"
                 : "Back to Categories",
             style: TextStyle(

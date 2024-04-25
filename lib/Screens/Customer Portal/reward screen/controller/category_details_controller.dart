@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:scan_cart_clone/Models/category_details_model.dart';
 import 'package:scan_cart_clone/Utils/Base%20service/services.dart';
 import 'package:scan_cart_clone/Utils/DataBase%20helper/data_base_helper.dart';
@@ -89,10 +90,9 @@ class CategoryDetailsController extends GetxController {
 
   //! Add Data into the Cart ..
 
-  Future addToCart(clientId, productId, productQuantity, productPoints,
+  Future<bool> addToCart(clientId, productId, productQuantity, productPoints,
       productTitle, productImage) async {
-    DataBaseHelper helper = await DataBaseHelper.dataBaseHelper;
-    helper.insert({
+    var sameClient = DataBaseHelper.dataBaseHelper.insert({
       DataBaseHelper.clientId: clientId,
       DataBaseHelper.productId: productId,
       DataBaseHelper.productQuantity: productQuantity,
@@ -100,7 +100,10 @@ class CategoryDetailsController extends GetxController {
       DataBaseHelper.productTitle: productTitle,
       DataBaseHelper.productImage: productImage,
     });
+    return sameClient;
   }
+
+  //! iS Check ..
 
   @override
   void onInit() {
