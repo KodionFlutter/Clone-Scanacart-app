@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:scan_cart_clone/Models/category_details_model.dart';
 import 'package:scan_cart_clone/Utils/Base%20service/services.dart';
+import 'package:scan_cart_clone/Utils/DataBase%20helper/data_base_helper.dart';
 
 class CategoryDetailsController extends GetxController {
   final int productId;
@@ -27,16 +28,19 @@ class CategoryDetailsController extends GetxController {
   var color = ''.obs;
   var sizeList = [].obs;
   var size = ''.obs;
+  var productImage = ''.obs;
 
   RxInt currentImageIndex = 0.obs;
   var colorDropdownvalue = ''.obs;
   var sizeDropdownValue = ''.obs;
 
-  var imgList = [
-    "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
-    "https://cdn.create.vista.com/api/media/small/58244841/stock-photo-colourful-flying-parrot-in-tropical-landscape",
-    "https://images.pexels.com/photos/1067562/pexels-photo-1067562.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  ].obs;
+  var stockQuantity = 1.obs;
+
+  // var imgList = [
+  //   "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
+  //   "https://cdn.create.vista.com/api/media/small/58244841/stock-photo-colourful-flying-parrot-in-tropical-landscape",
+  //   "https://images.pexels.com/photos/1067562/pexels-photo-1067562.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+  // ].obs;
 
   //! Make a function  to get CategoryDetails
   Future<void> getCategoryDetails() async {
@@ -55,11 +59,12 @@ class CategoryDetailsController extends GetxController {
         print("RE :: ${rewardPoints.value}");
         deatilsImageList.value = categoryDetailsData['data']['images'];
         print("Ima :: ${deatilsImageList.length}");
-        // for (int i = 0;
-        //     i < categoryDetailsData['data']['images'].length;
-        //     i++) {
-        //
-        // }
+
+        //!
+        // stockQuantity.value = categoryDetailsData['data']['stock_quantity'];
+        print("The total Stock Qunatity is :: ${stockQuantity}");
+        productImage.value = categoryDetailsData['data']['product_image'];
+
         color.value = categoryDetailsData['data']['variants']['color'];
         colorList.value = color.value.split(',');
         //Covert into string form "String"
@@ -80,6 +85,21 @@ class CategoryDetailsController extends GetxController {
     } catch (error) {
       "Exception :: ${error.toString()}";
     }
+  }
+
+  //! Add Data into the Cart ..
+
+  Future addToCart(clientId, productId, productQuantity, productPoints,
+      productTitle, productImage) async {
+    DataBaseHelper helper = await DataBaseHelper.dataBaseHelper;
+    helper.insert({
+      DataBaseHelper.clientId: clientId,
+      DataBaseHelper.productId: productId,
+      DataBaseHelper.productQuantity: productQuantity,
+      DataBaseHelper.productPoints: productPoints,
+      DataBaseHelper.productTitle: productTitle,
+      DataBaseHelper.productImage: productImage,
+    });
   }
 
   @override

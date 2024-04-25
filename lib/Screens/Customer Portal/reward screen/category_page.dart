@@ -22,8 +22,10 @@ class CategoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final redeemController = Get.put(CategoryController(clientId: clientId));
     return CommonAppbar(
+        clientId: clientId,
+        clientName: clientName,
         title: clientName,
-        countItem: 10 ,
+        countItem: 10,
         body: Obx(() {
           if (redeemController.categoryList.isEmpty) {
             return ShimmerWidget(

@@ -8,9 +8,7 @@ class FormValidator {
       r'[0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\'
       r'x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])\s+)\])';
 
-
-
-
+  static var nameReg = r'[!@#<>?":_`~;[\]\\|=+)(*&^%\0-9-]';
 
   //! String for Form
 
@@ -19,7 +17,7 @@ class FormValidator {
   static String txtPhoneNumber = "Please enter phone number";
   static String txtValidPhoneNumber = "Please enter a valid number";
   static String txtVerificationCode = "Please enter verification code";
-  static String txtValidVerificationCode = "Please enter valid verification code";
+  static String txtValidVerificationCode =
+      "Please enter valid verification code";
   static String txtName = "Please enter name";
-
 }

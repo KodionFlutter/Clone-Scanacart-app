@@ -6,6 +6,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/widgets/common_scroll_behav_widget.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/cart_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/controller/category_details_controller.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/common_appbar_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/common_drop_down_widget.dart';
@@ -26,6 +27,8 @@ class CategoryDetailsPage extends StatelessWidget {
     final categoryDeController = Get.put(
         CategoryDetailsController(productId: productId, clientId: clientId));
     return CommonAppbar(
+        clientName: '',
+        clientId: clientId,
         title: "Product Details",
         countItem: 10,
         body: Obx(
@@ -267,7 +270,48 @@ class CategoryDetailsPage extends StatelessWidget {
           () => ElevatedButton(
               onPressed: categoryDeController.productTitle.value.isEmpty
                   ? null
-                  : () {},
+                  : () {
+                      if (categoryDeController.stockQuantity.value > 0) {
+                        // Get.to(CartPage());
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text(
+                              textAlign: TextAlign.center,
+                              "Product added to the card",
+                            ),
+                            backgroundColor: AppColors.txtScanProductColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(10)),
+                            ),
+                          ),
+                        );
+                        categoryDeController.addToCart(
+                          clientId,
+                          productId,
+                          categoryDeController.stockQuantity.value,
+                          categoryDeController.rewardPoints.value,
+                          categoryDeController.productTitle.value,
+                          categoryDeController.productImage.value,
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              textAlign: TextAlign.center,
+                              "Product is Out of Stock",
+                            ),
+                            backgroundColor: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(10)),
+                            ),
+                          ),
+                        );
+                      }
+                    },
               style: ElevatedButton.styleFrom(
                 elevation: 0,
                 backgroundColor: categoryDeController.productTitle.value.isEmpty

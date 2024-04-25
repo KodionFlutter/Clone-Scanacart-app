@@ -7,9 +7,15 @@ class CommonAppbar extends StatelessWidget {
   final int countItem;
   final Widget body;
   Widget? bottomNavigationBar;
+  final int clientId;
+  final String clientName;
 
   CommonAppbar(
-      {super.key, required this.title, required this.countItem, required this.body , this.bottomNavigationBar});
+      {super.key,
+      required this.title,
+      required this.countItem,
+      required this.body,
+      this.bottomNavigationBar, required this.clientId, required this.clientName});
 
   @override
   Widget build(BuildContext context) {
@@ -20,16 +26,18 @@ class CommonAppbar extends StatelessWidget {
         elevation: 0,
         title: Center(
             child: Text(
-              "$title",
-            )),
+          "$title",
+        )),
         actions: [
           CartCounterWidget(
             itemCount: countItem,
+            clientId: clientId,
+            clientName: clientName,
           )
         ],
       ),
       body: body,
-      bottomNavigationBar:bottomNavigationBar,
+      bottomNavigationBar: bottomNavigationBar,
     );
   }
 }
