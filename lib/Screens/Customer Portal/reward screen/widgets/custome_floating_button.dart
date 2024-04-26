@@ -1,10 +1,16 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/Floating%20bottom%20bar/floating_btn_bar_controller.dart';
+import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/scan_nfc_screen.dart';
 
 class CustomeFloatingButtonWidget extends StatefulWidget {
-  const CustomeFloatingButtonWidget({super.key});
+  final int customerId;
+  bool? state;
+
+   CustomeFloatingButtonWidget({super.key, required this.customerId , this.state});
 
   @override
   State<CustomeFloatingButtonWidget> createState() =>
@@ -18,56 +24,81 @@ class _CustomeFloatingButtonWidgetState
 
   @override
   void initState() {
-    controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 250));
+    controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 250));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final barcontroller =
+        Get.put(FloatingBarController(customerId: widget.customerId));
+
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
-        Flow(delegate: FlowMenuDelegate(controller: controller), children: [
-          IconButton(
-            onPressed: () {
-              // Action for the first button (0 degree)
-              print('First button clicked');
-            },
-            icon: Icon(Icons.home),
-          ),
-          IconButton(
-            onPressed: () {
-              // Action for the second button (90 degree)
-              print('Second button clicked');
-            },
-            icon: Icon(Icons.edit),
-          ),
-          IconButton(
-            onPressed: () {
-              // Action for the third button (180 degree)
-              print('Third button clicked');
-            },
-            icon: Icon(Icons.lock),
-          )
-        ]),
-        FloatingActionButton(
-          backgroundColor: Colors.pinkAccent,
-          onPressed: () {
-            if (controller.status == AnimationStatus.completed) {
-              controller.reverse();
-            } else {
-              controller.forward();
-            }
-          },
-          elevation: 0,
-          splashColor: Colors.black,
-          child: AnimatedIcon(
-            icon: AnimatedIcons.menu_close,
-            color: AppColors.txtWhiteColor,
-            size: 30,
-            progress: controller,
-          ),
+        Flow(
+          clipBehavior: Clip.hardEdge,
+          delegate: FlowMenuDelegate(controller: controller),
+          children: [
+            CircleAvatar(
+                radius: 25,
+                backgroundColor: Colors.blue,
+                child: InkWell(
+                  onTap: ()=> {
+                    barcontroller.onCheckIndex(0),
+                    controller.reverse(),
+                  },
+                  child: Icon(
+                    Icons.home,
+                    color: Colors.white,
+                  ),
+                )),
+            CircleAvatar(
+                radius: 25,
+                backgroundColor: Colors.blue,
+                child: InkWell(
+                  onTap: () => {
+                    barcontroller.onCheckIndex(1),
+                    controller.reverse(),
+                  },
+                  child: Icon(
+                    Icons.card_giftcard,
+                    color: Colors.white,
+                  ),
+                )),
+            CircleAvatar(
+                radius: 25,
+                backgroundColor: Colors.blue,
+                child: InkWell(
+                  onTap: () {
+                    barcontroller.onCheckIndex(2);
+                    controller.reverse();
+                  },
+                  child: Icon(
+                    Icons.shopping_cart,
+                    color: Colors.white,
+                  ),
+                )),
+            FloatingActionButton(
+              backgroundColor: AppColors.txtScanProductColor,
+              onPressed: () {
+                if (controller.status == AnimationStatus.completed) {
+                  controller.reverse();
+                } else {
+                  controller.forward();
+                }
+              },
+              elevation: 0,
+              splashColor: Colors.black,
+              child: AnimatedIcon(
+                icon: AnimatedIcons.menu_close,
+                color: AppColors.txtWhiteColor,
+                size: 30,
+                progress: controller,
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -84,7 +115,7 @@ class FlowMenuDelegate extends FlowDelegate {
   void paintChildren(FlowPaintingContext context) {
     final size = context.size;
     final xStart = size.width / 2;
-    final yStart = size.height;
+    final yStart = size.height / 1.1;
 
     final n = context.childCount;
     for (int i = 0; i < n; i++) {

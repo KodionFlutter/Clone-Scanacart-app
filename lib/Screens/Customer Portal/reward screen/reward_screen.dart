@@ -141,8 +141,8 @@ class RewardScreen extends StatelessWidget {
       }),
 
       // Floating Animated Button ..
-      floatingActionButton: CustomeFloatingButtonWidget(),
-      //floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: CustomeFloatingButtonWidget(),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -103,7 +102,7 @@ class DataBaseHelper {
           await database.insert(_tableName, addCartData);
           return true; // Product inserted successfully
         }
-      }else{
+      } else {
         return false;
       }
       // Database has records, handle the case here
@@ -139,7 +138,7 @@ class DataBaseHelper {
   //! Fetch The Data..
   Future fetchUser() async {
     var database = await dataBaseHelper.getDatabase;
-    List<Map<String, dynamic>> cartDataList  = await database.query(_tableName);
+    List<Map<String, dynamic>> cartDataList = await database.query(_tableName);
     developer.log(cartDataList.toString());
     return cartDataList;
   }
@@ -150,8 +149,6 @@ class DataBaseHelper {
     return await db
         .delete(_tableName, where: "productId = ? ", whereArgs: [productId]);
   }
-
-
 
   Future<void> updateProductQuantity(String productId, int quantity) async {
     final db = await dataBaseHelper.getDatabase;

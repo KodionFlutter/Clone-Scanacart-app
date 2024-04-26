@@ -54,6 +54,7 @@ class _CartPageState extends State<CartPage> {
             );
           } else if (snapShot.connectionState == ConnectionState.done) {
             if (snapShot.hasData) {
+              print("length :: ${snapShot.data.length}");
               return Column(
                 children: [
                   Expanded(
@@ -61,48 +62,51 @@ class _CartPageState extends State<CartPage> {
                         itemCount: snapShot.data.length,
                         itemBuilder: (context, index) {
                           return CartProductWidget(
-                              productImage: snapShot.data[index]
-                                  ['productImage'],
-                              productTitle: snapShot.data[index]
-                                  ['productTitle'],
-                              productPoints: snapShot.data[index]
-                                  ['productPoints'],
-                              onTap: () {
-                                // print(
-                                //     "Id : ${snapShot.data[index]['productId']}");
-                                // cartController.deleteProduct(
-                                //     snapShot.data[index]['productId']);
-                                 DataBaseHelper.dataBaseHelper
-                                    .deleteCartOneData(
-                                       snapShot.data[index]['productId'])
-                                    .then((value) {
-                                  cartDataList =
-                                      DataBaseHelper.dataBaseHelper.fetchUser();
-                                  setState(() {
-                                    items = cartDataList;
-                                  });
+                            productImage: snapShot.data[index]['productImage'],
+                            productTitle: snapShot.data[index]['productTitle'],
+                            productPoints: snapShot.data[index]
+                                ['productPoints'],
+                            onTap: () {
+                              // print(
+                              //     "Id : ${snapShot.data[index]['productId']}");
+                              // cartController.deleteProduct(
+                              //     snapShot.data[index]['productId']);
+                              DataBaseHelper.dataBaseHelper
+                                  .deleteCartOneData(
+                                      snapShot.data[index]['productId'])
+                                  .then((value) {
+                                cartDataList =
+                                    DataBaseHelper.dataBaseHelper.fetchUser();
+                                setState(() {
+                                  items = cartDataList;
                                 });
-                              },
-                              removeCartProduct: () =>
-                                  cartController.removeProduct(),
-                              addCartProduct: () =>
-                                  cartController.addMoreProduct(),
-                              totalProduct: snapShot.data[index]['productQuantity']);
+                              });
+                            },
+                            removeCartProduct: () =>
+                                cartController.removeProduct(),
+                            addCartProduct: () =>
+                                cartController.addMoreProduct(),
+                            totalProduct: snapShot.data[index]
+                                ['productQuantity'],
+                            cartLength: snapShot.data.length,
+                          );
                         }),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(right: 20),
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "Total Points : ${100}",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18),
-                        textAlign: TextAlign.start,
-                        softWrap: true,
-                      ),
-                    ),
-                  )
+                  snapShot.data.length != 0
+                      ? const Padding(
+                          padding: EdgeInsets.only(right: 20),
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              "Total Points : ${100}",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                              textAlign: TextAlign.start,
+                              softWrap: true,
+                            ),
+                          ),
+                        )
+                      : SizedBox(),
                 ],
               );
             }
@@ -115,7 +119,7 @@ class _CartPageState extends State<CartPage> {
 
       //! Bottom -> Add Shipping Address button and Total Points ..
       bottomNavigationBar: ElevatedButton(
-          onPressed: () => cartDataList != null
+          onPressed: () => items != null
               ? Get.off(CategoryPage(
                   clientId: widget.clientId,
                   clientName: widget.clientName,
@@ -128,7 +132,7 @@ class _CartPageState extends State<CartPage> {
                 Size(AppConstant.size.width, AppConstant.size.height * 0.07),
           ),
           child: Text(
-            cartDataList != null
+            items != null || items.isNotEmpty
                 ? "Add Shipping Address"
                 : "Back to Categories",
             style: TextStyle(

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/routes/default_transitions.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/common_services/common_services.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/Floating%20bottom%20bar/floating_button.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/signin%20screen/customer_login_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/signup%20screen/customer_signup_screen.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/reward_screen.dart';
@@ -51,7 +52,12 @@ class ScanNFCScreen extends StatelessWidget {
                       var id = prefs.getInt("customer_id");
                       scanNfcController.promoCodeController.value.clear();
                       if (id != null) {
-                        Get.to(RewardScreen(customerId: id));
+                        Get.to(
+                          FloatingButtonPage(
+                            customerId: id,
+                            state: false,
+                          ),
+                        );
                       } else {
                         Get.to(CustomerLoginPage());
                       }
