@@ -10,13 +10,27 @@ import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widget
 import 'package:scan_cart_clone/Utils/DataBase%20helper/data_base_helper.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 
-class CartPage extends StatelessWidget {
+class CartPage extends StatefulWidget {
   final int clientId;
   final String clientName;
 
   CartPage({super.key, required this.clientId, required this.clientName});
 
+  @override
+  State<CartPage> createState() => _CartPageState();
+}
+
+class _CartPageState extends State<CartPage> {
   final cartController = Get.put(CartController());
+  late dynamic cartDataList;
+  dynamic items;
+
+  @override
+  void initState() {
+    cartDataList = DataBaseHelper.dataBaseHelper.fetchUser();
+    items = cartDataList;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,76 +41,84 @@ class CartPage extends StatelessWidget {
         title: const Text("Cart"),
         centerTitle: true,
       ),
-      body: Obx (()=> FutureBuilder(
-          future: Future.value(cartController.cartDataList),
-          builder: (context, AsyncSnapshot snapShot) {
-            if (snapShot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (snapShot.connectionState == ConnectionState.none) {
-              return Center(
-                child: Text("Connection is not Stablish"),
-              );
-            } else if (snapShot.connectionState == ConnectionState.done) {
-              if (snapShot.hasData) {
-                return Column(
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                          itemCount: snapShot.data.length,
-                          itemBuilder: (context, index) {
-                            return CartProductWidget(
-                                productImage: snapShot.data[index]
-                                    ['productImage'],
-                                productTitle: snapShot.data[index]
-                                    ['productTitle'],
-                                productPoints: snapShot.data[index]
-                                    ['productPoints'],
-                                onTap: () {
-                                  print(
-                                      "Id : ${snapShot.data[index]['productId']}");
-                                  cartController.deleteProduct(
-                                      snapShot.data[index]['productId']);
-                                },
-                                removeCartProduct: () =>
-                                    cartController.removeProduct(),
-                                addCartProduct: () =>
-                                    cartController.addMoreProduct(),
-                                totalProduct: snapShot.data[index]
-                                    ['productQuantity']);
-                          }),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(right: 20),
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          "Total Points : ${100}",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18),
-                          textAlign: TextAlign.start,
-                          softWrap: true,
-                        ),
+      body: FutureBuilder(
+        future: items,
+        builder: (context, AsyncSnapshot snapShot) {
+          if (snapShot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapShot.connectionState == ConnectionState.none) {
+            return const Center(
+              child: Text("Connection is not Stablish"),
+            );
+          } else if (snapShot.connectionState == ConnectionState.done) {
+            if (snapShot.hasData) {
+              return Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                        itemCount: snapShot.data.length,
+                        itemBuilder: (context, index) {
+                          return CartProductWidget(
+                              productImage: snapShot.data[index]
+                                  ['productImage'],
+                              productTitle: snapShot.data[index]
+                                  ['productTitle'],
+                              productPoints: snapShot.data[index]
+                                  ['productPoints'],
+                              onTap: () {
+                                // print(
+                                //     "Id : ${snapShot.data[index]['productId']}");
+                                // cartController.deleteProduct(
+                                //     snapShot.data[index]['productId']);
+                                 DataBaseHelper.dataBaseHelper
+                                    .deleteCartOneData(
+                                       snapShot.data[index]['productId'])
+                                    .then((value) {
+                                  cartDataList =
+                                      DataBaseHelper.dataBaseHelper.fetchUser();
+                                  setState(() {
+                                    items = cartDataList;
+                                  });
+                                });
+                              },
+                              removeCartProduct: () =>
+                                  cartController.removeProduct(),
+                              addCartProduct: () =>
+                                  cartController.addMoreProduct(),
+                              totalProduct: snapShot.data[index]['productQuantity']);
+                        }),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(right: 20),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        "Total Points : ${100}",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
+                        textAlign: TextAlign.start,
+                        softWrap: true,
                       ),
-                    )
-                  ],
-                );
-              }
-            } else {
-              return Text("data");
+                    ),
+                  )
+                ],
+              );
             }
+          } else {
             return Text("data");
-          },
-        ),
+          }
+          return Text("data");
+        },
       ),
 
       //! Bottom -> Add Shipping Address button and Total Points ..
       bottomNavigationBar: ElevatedButton(
-          onPressed: () => cartController.cartDataList.isNotEmpty
+          onPressed: () => cartDataList != null
               ? Get.off(CategoryPage(
-                  clientId: clientId,
-                  clientName: clientName,
+                  clientId: widget.clientId,
+                  clientName: widget.clientName,
                 ))
               : Get.to(ShippingAddressPage()),
           style: ElevatedButton.styleFrom(
@@ -106,7 +128,7 @@ class CartPage extends StatelessWidget {
                 Size(AppConstant.size.width, AppConstant.size.height * 0.07),
           ),
           child: Text(
-            cartController.cartDataList.isNotEmpty
+            cartDataList != null
                 ? "Add Shipping Address"
                 : "Back to Categories",
             style: TextStyle(

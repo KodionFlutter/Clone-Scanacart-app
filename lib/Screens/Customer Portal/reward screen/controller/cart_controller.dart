@@ -4,22 +4,22 @@ import 'package:scan_cart_clone/Utils/DataBase%20helper/data_base_helper.dart';
 class CartController extends GetxController {
 //! Declare the variable ..
 
-  var cartDataList = [].obs;
+  // var cartDataList = [].obs;
   RxInt totalProduct = 1.obs;
 
   @override
   void onInit() {
-    getCartData();
+    // getCartData();
     super.onInit();
   }
 
 //! Here fetch the cart Item ..
 
-  Future getCartData() async {
-    DataBaseHelper helper = DataBaseHelper.dataBaseHelper;
-    cartDataList.value = await helper.fetchUser();
-    print("List of cart Data :: ${cartDataList}");
-  }
+  // Future getCartData() async {
+  //   DataBaseHelper helper = DataBaseHelper.dataBaseHelper;
+  //   cartDataList.value = await helper.fetchUser();
+  //   print("List of cart Data :: ${cartDataList}");
+  // }
 
   Future<void> deleteProduct(productId) async {
     DataBaseHelper helper = DataBaseHelper.dataBaseHelper;

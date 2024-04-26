@@ -148,8 +148,10 @@ class DataBaseHelper {
   Future deleteCartOneData(productId) async {
     var db = await dataBaseHelper.getDatabase;
     return await db
-        .delete(_tableName, where: "$productId = ? ", whereArgs: [productId]);
+        .delete(_tableName, where: "productId = ? ", whereArgs: [productId]);
   }
+
+
 
   Future<void> updateProductQuantity(String productId, int quantity) async {
     final db = await dataBaseHelper.getDatabase;
