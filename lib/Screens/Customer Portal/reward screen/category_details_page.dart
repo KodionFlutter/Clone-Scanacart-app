@@ -281,11 +281,14 @@ class CategoryDetailsPage extends StatelessWidget {
                           categoryDeController.productTitle.value,
                           categoryDeController.productImage.value,
                         );
+                        print("return :: $sameID");
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
                               textAlign: TextAlign.center,
-                              sameID ? "Product added to the card" : 'Cant add',
+                              sameID == true
+                                  ? "Product added to the card"
+                                  : 'Cant add',
                             ),
                             backgroundColor: AppColors.txtScanProductColor,
                             shape: RoundedRectangleBorder(

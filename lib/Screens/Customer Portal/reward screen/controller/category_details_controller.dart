@@ -92,7 +92,7 @@ class CategoryDetailsController extends GetxController {
 
   Future<bool> addToCart(clientId, productId, productQuantity, productPoints,
       productTitle, productImage) async {
-    var sameClient = DataBaseHelper.dataBaseHelper.insert({
+    var sameClient =await DataBaseHelper.dataBaseHelper.insert({
       DataBaseHelper.clientId: clientId,
       DataBaseHelper.productId: productId,
       DataBaseHelper.productQuantity: productQuantity,
@@ -100,6 +100,7 @@ class CategoryDetailsController extends GetxController {
       DataBaseHelper.productTitle: productTitle,
       DataBaseHelper.productImage: productImage,
     });
+    print("This is reposne for SQFLITE  :: ${sameClient}");
     return sameClient;
   }
 

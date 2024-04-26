@@ -10,7 +10,8 @@ class CustomeFloatingButtonWidget extends StatefulWidget {
   final int customerId;
   bool? state;
 
-   CustomeFloatingButtonWidget({super.key, required this.customerId , this.state});
+  CustomeFloatingButtonWidget(
+      {super.key, required this.customerId, this.state});
 
   @override
   State<CustomeFloatingButtonWidget> createState() =>
@@ -45,7 +46,7 @@ class _CustomeFloatingButtonWidgetState
                 radius: 25,
                 backgroundColor: Colors.blue,
                 child: InkWell(
-                  onTap: ()=> {
+                  onTap: () => {
                     barcontroller.onCheckIndex(0),
                     controller.reverse(),
                   },
@@ -114,19 +115,24 @@ class FlowMenuDelegate extends FlowDelegate {
   @override
   void paintChildren(FlowPaintingContext context) {
     final size = context.size;
-    final xStart = size.width / 2;
+    final xStart = size.width / 2.2;
     final yStart = size.height / 1.1;
 
     final n = context.childCount;
     for (int i = 0; i < n; i++) {
       final isLastItem = i == context.childCount - 1;
-      final setValue = (value) => isLastItem ? 0.0 : value;
+      print("Last item $isLastItem");
+      final setValue = (value) {
+        // print("Value ${value}");
+
+        return isLastItem ? 0.0 : value;
+      };
       double theta = 0;
 
       if (n == 1) {
         theta = 0;
       } else if (n == 2) {
-        theta = (i == 0) ? 0 : pi / 2;
+        theta = (i == 0) ? 0 : pi / 5;
       } else {
         theta = i * pi / 2;
       }
@@ -142,7 +148,7 @@ class FlowMenuDelegate extends FlowDelegate {
           transform: Matrix4.identity()
             ..translate(x, y, 0)
             ..translate(50 / 2, 50 / 2)
-            ..rotateZ(angle * pi / 180)
+            ..rotateZ(angle * pi / 90)
             ..scale(scale)
             ..translate(-50 / 2, -50 / 2));
     }

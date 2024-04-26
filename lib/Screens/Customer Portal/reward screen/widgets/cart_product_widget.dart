@@ -27,7 +27,10 @@ class CartProductWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return cartLength == 0
         ? Center(
-            child: Text("No item into the cart" , style: TextStyle(color: Colors.blue),),
+            child: Text(
+              "No item into the cart",
+              style: TextStyle(color: Colors.blue),
+            ),
           )
         : Padding(
             padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
@@ -80,7 +83,7 @@ class CartProductWidget extends StatelessWidget {
                         Text("$totalProduct"),
                         SizedBox(width: 10),
                         InkWell(
-                          onTap: addCartProduct,
+                          onTap: () => addCartProduct,
                           child: Text("+",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18)),

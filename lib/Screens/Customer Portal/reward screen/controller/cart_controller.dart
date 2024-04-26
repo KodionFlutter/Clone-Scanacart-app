@@ -5,7 +5,7 @@ class CartController extends GetxController {
 //! Declare the variable ..
 
   // var cartDataList = [].obs;
-  RxInt totalProduct = 1.obs;
+  var itemLength = 0.obs;
 
   @override
   void onInit() {
@@ -15,39 +15,15 @@ class CartController extends GetxController {
 
 //! Here fetch the cart Item ..
 
-  // Future getCartData() async {
-  //   DataBaseHelper helper = DataBaseHelper.dataBaseHelper;
-  //   cartDataList.value = await helper.fetchUser();
-  //   print("List of cart Data :: ${cartDataList}");
-  // }
-
-  Future<void> deleteProduct(productId) async {
-    DataBaseHelper helper = DataBaseHelper.dataBaseHelper;
-    helper.deleteCartOneData(productId).then((value) {
-    });
-  }
-
-  //! Add more product button ..
-  addMoreProduct() {
-    totalProduct.value += 1;
-  }
-
-//! Remove the product..
-  removeProduct() {
-    totalProduct.value -= 1;
-  }
-
   var cartItems = [].obs;
 
   // Method to increase quantity of an item
-  void increaseQuantity(int index) {
-    cartItems[index]['quantity']++;
+  void increaseQuantity(productId, int index) {
+    print("incress the value");
+    DataBaseHelper.dataBaseHelper.updateProductQuantity(productId, index);
+    // cartItems[index]['quantity']++;
   }
 
   // Method to decrease quantity of an item
-  void decreaseQuantity(int index) {
-    if (cartItems[index]['quantity'] > 1) {
-      cartItems[index]['quantity']--;
-    }
-  }
+  void decreaseQuantity(int index) {}
 }

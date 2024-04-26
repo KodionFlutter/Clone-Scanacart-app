@@ -28,16 +28,18 @@ class DataBaseHelper {
   //!  First we get the dataBase..
   Future<Database> get getDatabase async {
     if (_database != null) {
+      print("DataBase already exit");
       return _database!;
     } else {
-      _database = await initalize();
+      print("DataBase no exit");
+      _database = await initialize();
       return _database!;
     }
   }
 
-  //! Let's _initalize the databse
+  //! Let's initialize the Database
 
-  Future initalize() async {
+  Future initialize() async {
     Directory directory = await getApplicationCacheDirectory();
     var path = join(directory.path, _databaseName);
     developer.log(path.toString());
@@ -66,17 +68,18 @@ class DataBaseHelper {
   Future<bool> insert(Map<String, dynamic> addCartData) async {
     var database = await dataBaseHelper.getDatabase;
 
+    List<Map<String, dynamic>> productCartRecords = await database.query(
+      'ProductCart',
+    );
+
     // Check if a record with the same client ID already exists
     List<Map<String, dynamic>> existingRecords = await database.query(
       _tableName,
       where: '$clientId = ?',
       whereArgs: [addCartData[clientId]],
-      limit: 1, // Limit to 1 record, as we only need to check existence
+      limit: 1, //limit i want to check product exit.
     );
 
-    List<Map<String, dynamic>> productCartRecords = await database.query(
-      'ProductCart',
-    );
     if (productCartRecords.length > 0) {
       if (existingRecords[0]['clientId'] == addCartData['clientId']) {
         // await database.insert(_tableName, addCartData);
@@ -96,47 +99,27 @@ class DataBaseHelper {
             where: '$productId = ?',
             whereArgs: [addCartData[productId]],
           );
-          return true; // Product quantity updated successfully
+          // Product quantity is updated
+          return true;
         } else {
-          // Product doesn't exist in the cart, insert it
+          // Product does  not  exist in the cart, insert it into the List
           await database.insert(_tableName, addCartData);
-          return true; // Product inserted successfully
+          return true;
         }
       } else {
         return false;
       }
-      // Database has records, handle the case here
       print('ProductCart database has records!');
     } else {
-      // Database has no records, handle the case here
+      // Database has no records
       await database.insert(_tableName, addCartData);
       print('ProductCart database is empty!');
       return true;
     }
-    // If a record with the same client ID exists, show a message and return
-    // if (existingRecords.length > 0) {
-    //   developer.log("Added  hai ye}");
-    //
-    //   if (existingRecords[0]['clientId'] == 1910) {
-    //     developer.log("Same Id is  hai...");
-    //     await database.insert(_tableName, addCartData);
-    //     print(addCartData);
-    //
-    //     developer.log("Added into Cart :: $database}");
-    //   } else {
-    //     developer.log(
-    //         "  Product not added to cart. Client ID is not matched . ${existingRecords[0]['clientId']}");
-    //   }
-    //
-    //   return; // Return without adding the product
-    // } else {
-    //   // Client ID does not exist in the database, proceed with inserting the product
-    //   await database.insert(_tableName, addCartData);
-    // }
   }
 
   //! Fetch The Data..
-  Future fetchUser() async {
+  Future fetchProduct() async {
     var database = await dataBaseHelper.getDatabase;
     List<Map<String, dynamic>> cartDataList = await database.query(_tableName);
     developer.log(cartDataList.toString());

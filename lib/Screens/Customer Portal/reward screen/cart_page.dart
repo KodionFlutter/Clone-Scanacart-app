@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/category_page.dart';
@@ -14,7 +12,7 @@ class CartPage extends StatefulWidget {
   final int clientId;
   final String clientName;
 
-  CartPage({super.key, required this.clientId, required this.clientName});
+  const CartPage({super.key, required this.clientId, required this.clientName});
 
   @override
   State<CartPage> createState() => _CartPageState();
@@ -27,7 +25,7 @@ class _CartPageState extends State<CartPage> {
 
   @override
   void initState() {
-    cartDataList = DataBaseHelper.dataBaseHelper.fetchUser();
+    cartDataList = DataBaseHelper.dataBaseHelper.fetchProduct();
     items = cartDataList;
     super.initState();
   }
@@ -50,7 +48,7 @@ class _CartPageState extends State<CartPage> {
             );
           } else if (snapShot.connectionState == ConnectionState.none) {
             return const Center(
-              child: Text("Connection is not Stablish"),
+              child: Text("Connection is not Establish"),
             );
           } else if (snapShot.connectionState == ConnectionState.done) {
             if (snapShot.hasData) {
@@ -61,6 +59,8 @@ class _CartPageState extends State<CartPage> {
                     child: ListView.builder(
                         itemCount: snapShot.data.length,
                         itemBuilder: (context, index) {
+                          cartController.itemLength.value =
+                              snapShot.data.length;
                           return CartProductWidget(
                             productImage: snapShot.data[index]['productImage'],
                             productTitle: snapShot.data[index]['productTitle'],
@@ -75,17 +75,19 @@ class _CartPageState extends State<CartPage> {
                                   .deleteCartOneData(
                                       snapShot.data[index]['productId'])
                                   .then((value) {
-                                cartDataList =
-                                    DataBaseHelper.dataBaseHelper.fetchUser();
+                                cartDataList = DataBaseHelper.dataBaseHelper
+                                    .fetchProduct();
                                 setState(() {
                                   items = cartDataList;
                                 });
                               });
                             },
-                            removeCartProduct: () =>
-                                cartController.removeProduct(),
-                            addCartProduct: () =>
-                                cartController.addMoreProduct(),
+                            removeCartProduct: () {},
+                            addCartProduct: () {
+                              cartController.increaseQuantity(
+                                  snapShot.data[index]['productId'],
+                                  snapShot.data[index]['productQuantity']);
+                            },
                             totalProduct: snapShot.data[index]
                                 ['productQuantity'],
                             cartLength: snapShot.data.length,
@@ -106,25 +108,27 @@ class _CartPageState extends State<CartPage> {
                             ),
                           ),
                         )
-                      : SizedBox(),
+                      : const SizedBox(),
                 ],
               );
             }
           } else {
-            return Text("data");
+            return const Text("data");
           }
-          return Text("data");
+          return const Text("data");
         },
       ),
 
       //! Bottom -> Add Shipping Address button and Total Points ..
       bottomNavigationBar: ElevatedButton(
-          onPressed: () => items != null
-              ? Get.off(CategoryPage(
-                  clientId: widget.clientId,
-                  clientName: widget.clientName,
-                ))
-              : Get.to(ShippingAddressPage()),
+          onPressed: () {
+            cartController.itemLength.value == 0
+                ? Get.off(CategoryPage(
+                    clientId: widget.clientId,
+                    clientName: widget.clientName,
+                  ))
+                : Get.to(ShippingAddressPage());
+          },
           style: ElevatedButton.styleFrom(
             elevation: 0,
             backgroundColor: Colors.blue,
@@ -132,7 +136,7 @@ class _CartPageState extends State<CartPage> {
                 Size(AppConstant.size.width, AppConstant.size.height * 0.07),
           ),
           child: Text(
-            items != null || items.isNotEmpty
+            cartController.itemLength.value == 0
                 ? "Add Shipping Address"
                 : "Back to Categories",
             style: TextStyle(

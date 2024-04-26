@@ -31,12 +31,10 @@ class CategoryPage extends StatelessWidget {
             return ShimmerWidget(
                 child: Stack(
               children: [
-                Expanded(
-                  child: CustomContainer(
-                    height: AppConstant.size.height,
-                    width: AppConstant.size.width,
-                    radius: 0,
-                  ),
+                CustomContainer(
+                  height: AppConstant.size.height,
+                  width: AppConstant.size.width,
+                  radius: 0,
                 ),
                 Positioned(
                   top: AppConstant.size.height * 0.03,

@@ -6,6 +6,7 @@ import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/widgets/common_button.dart';
 import 'package:scan_cart_clone/Common/widgets/common_web_view.dart';
 import 'package:scan_cart_clone/Models/employee_data_model.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/Floating%20bottom%20bar/floating_button.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/signin%20screen/customer_login_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/reward_screen.dart';
 import 'package:scan_cart_clone/Screens/product%20screen/controller/product_controller.dart';
@@ -157,10 +158,14 @@ class ProductImageWidget extends StatelessWidget {
                           var id = prefs.getInt("customer_id");
                           if (id != null) {
                             productController.showPopUp();
-                            Get.off(RewardScreen(
-                              customerId: id,
-                            ));
 
+                            // Get.off(RewardScreen(
+                            //   customerId: id,
+                            // ));
+                            Get.off(FloatingButtonPage(
+                              customerId: id,
+                              state: true,
+                            ));
                             productController.videoPlayerController!.pause();
                           } else {
                             Get.off(CustomerLoginPage());
