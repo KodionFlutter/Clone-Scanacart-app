@@ -6,7 +6,6 @@ import 'package:scan_cart_clone/Screens/Customer Portal/reward screen/controller
 import 'package:scan_cart_clone/Screens/Customer Portal/reward screen/widgets/cart_product_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/category_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/shipping_address_page.dart';
-import 'package:scan_cart_clone/Utils/DataBase helper/data_base_helper.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 
 class CartPage extends StatelessWidget {
@@ -98,7 +97,7 @@ class CartPage extends StatelessWidget {
         bottomNavigationBar: Obx(
           () => ElevatedButton(
               onPressed: () {
-                cartController.itemLength.value == 0
+                cartController.itemLength.value == 0  && cartController.currentClientID == clientId
                     ? Get.off(CategoryPage(
                         clientId: clientId,
                         clientName: clientName,
@@ -112,7 +111,7 @@ class CartPage extends StatelessWidget {
                     AppConstant.size.width, AppConstant.size.height * 0.07),
               ),
               child: Text(
-                cartController.itemLength.value != 0
+                cartController.itemLength.value != 0 &&  cartController.currentClientID == clientId
                     ? "Add Shipping Address"
                     : "Back to Categories",
                 style: TextStyle(

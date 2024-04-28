@@ -7,12 +7,11 @@ class CartController extends GetxController {
   var itemLength = 0.obs;
   var items = [].obs;
   var cartItems = [].obs;
+  var currentClientID;
 
   @override
   void onInit() {
     refreshItems();
-    // totalQuantity;
-
     super.onInit();
   }
 
@@ -22,9 +21,18 @@ class CartController extends GetxController {
     items.value = await DataBaseHelper.dataBaseHelper.fetchProduct();
     // print('CartItem : $cartItems');
     itemLength.value = items.length;
+    currentClientID= items[0]['clientId'];
+    print('--: $currentClientID');
     cartItems.assignAll(items);
+
     update();
   }
+
+  //! Get the current client
+  // getCurrentClient(){
+  //   var c =items[0]['id'];
+  //   print('c: $c');
+  // }
 
   // RxInt totalQuantity = 0.obs;
   num get totalQuantity {
