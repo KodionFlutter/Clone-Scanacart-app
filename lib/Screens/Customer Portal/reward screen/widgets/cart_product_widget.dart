@@ -26,7 +26,7 @@ class CartProductWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return cartLength == 0
-        ? Center(
+        ? const Center(
             child: Text(
               "No item into the cart",
               style: TextStyle(color: Colors.blue),
@@ -47,7 +47,7 @@ class CartProductWidget extends StatelessWidget {
                       imageUrl: productImage,
                       fit: BoxFit.contain,
                       placeholder: (context, url) {
-                        return Center(
+                        return const Center(
                           child: CupertinoActivityIndicator(),
                         );
                       },
@@ -67,24 +67,24 @@ class CartProductWidget extends StatelessWidget {
                     ),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: Text("$productTitle",
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      child: Text(productTitle,
+                          style:const TextStyle(fontWeight: FontWeight.bold)),
                     ),
                     //! Product Title  and the item quantity add or remove button ..
                     Row(
                       children: [
                         InkWell(
-                          onTap: removeCartProduct,
-                          child: Text("-",
+                          onTap: () => removeCartProduct(),
+                          child: const Text("-",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18)),
                         ),
-                        SizedBox(width: 10),
+                        const   SizedBox(width: 10),
                         Text("$totalProduct"),
-                        SizedBox(width: 10),
+                        const  SizedBox(width: 10),
                         InkWell(
-                          onTap: () => addCartProduct,
-                          child: Text("+",
+                          onTap: () => addCartProduct(),
+                          child:const Text("+",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18)),
                         ),
