@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:scan_cart_clone/Utils/constant.dart';
 
 class CartProductWidget extends StatelessWidget {
   final String productImage;
@@ -12,107 +11,127 @@ class CartProductWidget extends StatelessWidget {
   final int totalProduct;
   final int cartLength;
 
-  const CartProductWidget(
-      {super.key,
-      required this.productImage,
-      required this.productTitle,
-      required this.productPoints,
-      required this.onTap,
-      required this.removeCartProduct,
-      required this.addCartProduct,
-      required this.totalProduct,
-      required this.cartLength});
+  const CartProductWidget({
+    Key? key,
+    required this.productImage,
+    required this.productTitle,
+    required this.productPoints,
+    required this.onTap,
+    required this.removeCartProduct,
+    required this.addCartProduct,
+    required this.totalProduct,
+    required this.cartLength,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return cartLength == 0
-        ? const Center(
-            child: Text(
-              "No item into the cart",
-              style: TextStyle(color: Colors.blue),
-            ),
-          )
-        : Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+    return Container(
+      margin: const EdgeInsets.only(top: 30, right: 10, left: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: CachedNetworkImage(
+                  height: 100,
+                  width: 100,
+                  imageUrl: productImage,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) =>
+                  const CupertinoActivityIndicator(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    //! Product Image ..
-
-                    CachedNetworkImage(
-                      height: 60,
-                      width: 60,
-                      imageUrl: productImage,
-                      fit: BoxFit.contain,
-                      placeholder: (context, url) {
-                        return const Center(
-                          child: CupertinoActivityIndicator(),
-                        );
-                      },
-                      errorWidget: (context, url, error) {
-                        return Material(
-                          color: Colors.transparent.withOpacity(0.8),
-                          child: const Center(
-                            child: Text('Could\'t load image',
-                                overflow: TextOverflow.visible,
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 10)),
-                          ),
-                        );
-                      },
+                    Text(
+                      productTitle,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
                     ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Text(productTitle,
-                          style:const TextStyle(fontWeight: FontWeight.bold)),
-                    ),
-                    //! Product Title  and the item quantity add or remove button ..
+                    const SizedBox(height: 8),
                     Row(
                       children: [
                         InkWell(
-                          onTap: () => removeCartProduct(),
-                          child: const Text("-",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18)),
+                          onTap: removeCartProduct,
+                          child:
+                          const Icon(Icons.remove_circle_outline_rounded),
                         ),
-                        const   SizedBox(width: 10),
-                        Text("$totalProduct"),
-                        const  SizedBox(width: 10),
+                        const SizedBox(width: 8),
+                        Text(
+                          '$totalProduct',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
                         InkWell(
-                          onTap: () => addCartProduct(),
-                          child:const Text("+",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 18)),
+                          onTap: addCartProduct,
+                          child: const Icon(Icons.add_circle_outline_rounded),
                         ),
                       ],
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      "Total Points : $productPoints",
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(width: 10),
-                    CircleAvatar(
-                      child: InkWell(
-                          onTap: onTap,
-                          child: Icon(
-                            Icons.delete,
-                            color: Colors.blue,
-                          )),
                     ),
                   ],
                 ),
-                const Divider(thickness: 1, color: Colors.grey)
-              ],
+              ),
+              Row(
+                // mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    'Total Points :',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '$productPoints',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Positioned(
+            top: -20,
+            right: -5,
+            child: GestureDetector(
+              onTap: onTap,
+              child: CircleAvatar(
+                backgroundColor: Colors.red,
+                child: const Icon(
+                  Icons.delete_rounded,
+                  color: Colors.white,
+                  size: 25,
+                ),
+              ),
             ),
-          );
+          ),
+        ],
+      ),
+    );
   }
 }
