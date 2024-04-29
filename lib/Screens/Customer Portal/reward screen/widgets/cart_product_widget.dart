@@ -7,7 +7,7 @@ class CartProductWidget extends StatelessWidget {
   final String productImage;
   final String productTitle;
   final int productPoints;
-  final VoidCallback onTap, removeCartProduct, addCartProduct;
+  final VoidCallback deleteProduct, removeProductQuantity, addProductQuantity;
   final int totalProduct;
   final int cartLength;
 
@@ -16,9 +16,9 @@ class CartProductWidget extends StatelessWidget {
     required this.productImage,
     required this.productTitle,
     required this.productPoints,
-    required this.onTap,
-    required this.removeCartProduct,
-    required this.addCartProduct,
+    required this.deleteProduct,
+    required this.removeProductQuantity,
+    required this.addProductQuantity,
     required this.totalProduct,
     required this.cartLength,
   }) : super(key: key);
@@ -52,7 +52,7 @@ class CartProductWidget extends StatelessWidget {
                   imageUrl: productImage,
                   fit: BoxFit.cover,
                   placeholder: (context, url) =>
-                  const CupertinoActivityIndicator(),
+                      const CupertinoActivityIndicator(),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
@@ -72,9 +72,9 @@ class CartProductWidget extends StatelessWidget {
                     Row(
                       children: [
                         InkWell(
-                          onTap: removeCartProduct,
+                          onTap: removeProductQuantity,
                           child:
-                          const Icon(Icons.remove_circle_outline_rounded),
+                              const Icon(Icons.remove_circle_outline_rounded),
                         ),
                         const SizedBox(width: 8),
                         Text(
@@ -86,7 +86,7 @@ class CartProductWidget extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                         InkWell(
-                          onTap: addCartProduct,
+                          onTap: addProductQuantity,
                           child: const Icon(Icons.add_circle_outline_rounded),
                         ),
                       ],
@@ -119,7 +119,7 @@ class CartProductWidget extends StatelessWidget {
             top: -20,
             right: -5,
             child: GestureDetector(
-              onTap: onTap,
+              onTap: () => deleteProduct(),
               child: CircleAvatar(
                 backgroundColor: Colors.red,
                 child: const Icon(

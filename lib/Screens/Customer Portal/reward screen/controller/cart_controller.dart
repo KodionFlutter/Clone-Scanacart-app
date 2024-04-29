@@ -21,8 +21,8 @@ class CartController extends GetxController {
     items.value = await DataBaseHelper.dataBaseHelper.fetchProduct();
     // print('CartItem : $cartItems');
     itemLength.value = items.length;
-    currentClientID= items[0]['clientId'];
-    print('--: $currentClientID');
+    currentClientID = items[0]['clientId'];
+    print('Client ID --: $currentClientID');
     cartItems.assignAll(items);
 
     update();
@@ -52,7 +52,6 @@ class CartController extends GetxController {
     return total;
   }
 
-
   // Method to increase quantity of an item
   Future<void> increaseQuantity(productId) async {
     print("increase the value");
@@ -60,7 +59,7 @@ class CartController extends GetxController {
     refreshItems();
   }
 
-   // Method to decrease quantity of an item
+  // Method to decrease quantity of an item
   Future decreaseQuantity(productId, int index) async {
     var cartDataList = await DataBaseHelper.dataBaseHelper.fetchProduct();
     var currentItem =
@@ -75,10 +74,7 @@ class CartController extends GetxController {
   }
 
   void deleteProduct(productId) async {
-    await DataBaseHelper.dataBaseHelper
-        .deleteCartOneData(productId)
-        .then((value) {
-      refreshItems();
-    });
+  await  DataBaseHelper.dataBaseHelper.deleteCartOneData(productId);
+    refreshItems();
   }
 }

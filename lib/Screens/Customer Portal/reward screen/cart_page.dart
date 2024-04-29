@@ -6,6 +6,7 @@ import 'package:scan_cart_clone/Screens/Customer Portal/reward screen/controller
 import 'package:scan_cart_clone/Screens/Customer Portal/reward screen/widgets/cart_product_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/category_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/shipping_address_page.dart';
+import 'package:scan_cart_clone/Utils/DataBase%20helper/data_base_helper.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 
 class CartPage extends StatelessWidget {
@@ -29,13 +30,14 @@ class CartPage extends StatelessWidget {
         body: GetBuilder<CartController>(
           builder: (cartController) {
             if (cartController.items.isEmpty) {
-              return  const Center(
+              return const Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CupertinoActivityIndicator(),
                     SizedBox(height: 20),
-                    Text("No item found in the cart" , style: TextStyle(fontWeight: FontWeight.bold))
+                    Text("No item found in the cart",
+                        style: TextStyle(fontWeight: FontWeight.bold))
                   ],
                 ),
               );
@@ -57,14 +59,21 @@ class CartPage extends StatelessWidget {
                                 ['productTitle'],
                             productPoints: cartController.items[index]
                                 ['productPoints'],
-                            onTap: () => cartController.deleteProduct(
-                                cartController.items[index]['productId']),
-                            removeCartProduct: () {
+                            deleteProduct: () async {
+                              // cartController.deleteProduct(
+                              //     cartController.items[index]['productId']);
+                              await DataBaseHelper.dataBaseHelper
+                                  .deleteCartOneData(
+                                      cartController.items[index]['productId'])
+                                  .then(
+                                      (value) => cartController.refreshItems());
+                            },
+                            removeProductQuantity: () {
                               cartController.decreaseQuantity(
                                   cartController.items[index]['productId'],
                                   index);
                             },
-                            addCartProduct: () {
+                            addProductQuantity: () {
                               cartController.increaseQuantity(
                                   cartController.items[index]['productId']);
                             },
@@ -97,7 +106,8 @@ class CartPage extends StatelessWidget {
         bottomNavigationBar: Obx(
           () => ElevatedButton(
               onPressed: () {
-                cartController.itemLength.value == 0  && cartController.currentClientID == clientId
+                cartController.itemLength.value == 0 &&
+                        cartController.currentClientID == clientId
                     ? Get.off(CategoryPage(
                         clientId: clientId,
                         clientName: clientName,
@@ -111,7 +121,8 @@ class CartPage extends StatelessWidget {
                     AppConstant.size.width, AppConstant.size.height * 0.07),
               ),
               child: Text(
-                cartController.itemLength.value != 0 &&  cartController.currentClientID == clientId
+                cartController.itemLength.value != 0 &&
+                        cartController.currentClientID == clientId
                     ? "Add Shipping Address"
                     : "Back to Categories",
                 style: TextStyle(

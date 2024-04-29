@@ -40,6 +40,7 @@ class DataBaseHelper {
   //! Let's initialize the Database
 
   Future initialize() async {
+    print("Database init");
     Directory directory = await getApplicationCacheDirectory();
     var path = join(directory.path, _databaseName);
     developer.log(path.toString());
@@ -59,66 +60,48 @@ class DataBaseHelper {
             $productId INTEGER,
             $productQuantity INTEGER,
             $productPoints INTEGER,
-            $productTitle TEXT,
+            $productTitle TEXT,          
             $productImage TEXT)''');
   }
 
   //! Insert Query
-
-  Future<bool> insert(Map<String, dynamic> addCartData) async {
+  Future insert(Map<String, dynamic> addCartData) async {
     var database = await dataBaseHelper.getDatabase;
 
+    //! Checking for productList Empty or Not..
     List<Map<String, dynamic>> productCartRecords = await database.query(
       'ProductCart',
     );
-
-    // Check if a record with the same client ID already exists
-    List<Map<String, dynamic>> existingRecords = await database.query(
-      _tableName,
-      where: '$clientId = ?',
-      whereArgs: [addCartData[clientId]],
-      limit: 1, //limit i want to check product exit.
-    );
-
+    // Check if record isNotEmpty .
     if (productCartRecords.length > 0) {
-      if (existingRecords[0]['clientId'] == addCartData['clientId']) {
-        // await database.insert(_tableName, addCartData);
-        // return true;
-        List<Map<String, dynamic>> cartRecords = await database.query(
+      //! Here if same client is...
+      List<Map<String, dynamic>> cartRecords = await database.query(
+        'ProductCart',
+        where: '$productId = ?',
+        whereArgs: [addCartData[productId]],
+        limit: 1,
+      );
+      if (cartRecords.isNotEmpty) {
+        // Product already exists in the cart, update its quantity in the cartList...
+        int newQuantity = cartRecords[0]['productQuantity'] + 1;
+        await database.update(
           'ProductCart',
+          {'productQuantity': newQuantity},
           where: '$productId = ?',
           whereArgs: [addCartData[productId]],
-          limit: 1,
         );
-        if (cartRecords.isNotEmpty) {
-          // Product already exists in the cart, update its quantity
-          int newQuantity = cartRecords[0]['productQuantity'] + 1;
-          await database.update(
-            'ProductCart',
-            {'productQuantity': newQuantity},
-            where: '$productId = ?',
-            whereArgs: [addCartData[productId]],
-          );
-          // Product quantity is updated
-          return true;
-        } else {
-          // Product does  not  exist in the cart, insert it into the List
-          await database.insert(_tableName, addCartData);
-          return true;
-        }
       } else {
-        return false;
+        // Product List in empty , then add into the List..
+        await database.insert(_tableName, addCartData);
       }
-      print('ProductCart database has records!');
     } else {
       // Database has no records
       await database.insert(_tableName, addCartData);
       print('ProductCart database is empty!');
-      return true;
     }
   }
 
-  //! Fetch The Data..
+  //! Fetch The Product Data..
   Future fetchProduct() async {
     var database = await dataBaseHelper.getDatabase;
     List<Map<String, dynamic>> cartDataList = await database.query(_tableName);
@@ -133,6 +116,7 @@ class DataBaseHelper {
         .delete(_tableName, where: "productId = ? ", whereArgs: [productId]);
   }
 
+  //! Update the productQuantity , if they add want to add more quantity of the product ..
   Future<void> updateProductQuantity(productId, quantity) async {
     final db = await dataBaseHelper.getDatabase;
     await db.rawUpdate(

@@ -275,7 +275,7 @@ class CategoryDetailsPage extends StatelessWidget {
                   : () async {
                       if (categoryDeController.stockQuantity.value > 0) {
                         // Get.to(CartPage());
-                        var sameID = await categoryDeController.addToCart(
+                        await categoryDeController.addToCart(
                           clientId,
                           productId,
                           categoryDeController.stockQuantity.value,
@@ -284,23 +284,26 @@ class CategoryDetailsPage extends StatelessWidget {
                           categoryDeController.productImage.value,
                         );
                         cartController.refreshItems();
-                        print("return :: $sameID");
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              textAlign: TextAlign.center,
-                              sameID == true
-                                  ? "Product added to the card"
-                                  : 'Cant add',
-                            ),
-                            backgroundColor: AppColors.txtScanProductColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  topRight: Radius.circular(10)),
-                            ),
-                          ),
-                        );
+                        // print("return :: $sameID");
+                        // ScaffoldMessenger.of(context).showSnackBar(
+                        //   SnackBar(
+                        //     content: Text(
+                        //       textAlign: TextAlign.center,
+                        //       categoryDeController.currentClientID == clientId
+                        //           ? "Product added to the card"
+                        //           : 'You Can not add different client product',
+                        //     ),
+                        //     backgroundColor:
+                        //         categoryDeController.currentClientID != clientId
+                        //             ? AppColors.txtErrorTxtColor
+                        //             : AppColors.txtScanProductColor,
+                        //     shape: RoundedRectangleBorder(
+                        //       borderRadius: BorderRadius.only(
+                        //           topLeft: Radius.circular(10),
+                        //           topRight: Radius.circular(10)),
+                        //     ),
+                        //   ),
+                        // );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(

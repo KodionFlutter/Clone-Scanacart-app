@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/Floating%20bottom%20bar/floating_button.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/reward_screen.dart';
 import 'package:scan_cart_clone/Screens/nfc%20loading/nfc_loading.dart';
 import 'package:scan_cart_clone/Utils/Base%20service/services.dart';
@@ -44,7 +45,7 @@ class OTPVrifyController extends GetxController {
       if (data == true) {
         await prefs.setInt('customer_id', id);
         hideLoadingScreen(context);
-        Get.off(RewardScreen(customerId: id));
+        Get.off(FloatingButtonPage(customerId: id , state: true,));
         otpVerifyController.value.clear();
       } else {
         Get.back();

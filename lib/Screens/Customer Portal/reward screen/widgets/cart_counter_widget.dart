@@ -24,6 +24,7 @@ class CartCounterWidget extends StatelessWidget {
         height: 150.0,
         width: 30.0,
         child: GestureDetector(
+          //! for going to cart page.
           onTap: () {
             Get.to(CartPage(
               clientId: clientId,
@@ -41,6 +42,7 @@ class CartCounterWidget extends StatelessWidget {
                   ),
                   onPressed: null,
                 ),
+                //! Here are show the total product Quantity .
                 Positioned(
                   top: cartController.totalQuantity > 998 ? -9 : -2,
                   right: -14,
