@@ -14,6 +14,8 @@ class DataBaseHelper {
   static const productPoints = "productPoints";
   static const productTitle = "productTitle";
   static const productImage = "productImage";
+  static const productColor = "productColor";
+  static const productSize = "productSize";
 
   static const _tableName = "ProductCart";
   static const _databaseName = "CartDatabase.db";
@@ -55,13 +57,16 @@ class DataBaseHelper {
   //! Create the Database
   Future _onCreate(Database db, int version) async {
     await db.execute('''CREATE TABLE $_tableName(
-            $id INTEGER PRIMARY KEY,
+            $id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             $clientId INTEGER,
             $productId INTEGER,
             $productQuantity INTEGER,
             $productPoints INTEGER,
             $productTitle TEXT,          
-            $productImage TEXT)''');
+            $productImage TEXT ,
+            $productSize TEXT,
+            $productColor TEXT
+            )''');
   }
 
   //! Insert Query
@@ -77,18 +82,30 @@ class DataBaseHelper {
       //! Here if same client is...
       List<Map<String, dynamic>> cartRecords = await database.query(
         'ProductCart',
-        where: '$productId = ?',
-        whereArgs: [addCartData[productId]],
+        where: '$productId = ? AND $productSize = ? AND $productColor = ?',
+        whereArgs: [
+          addCartData[productId],
+          addCartData[productSize],
+          addCartData[productColor]
+        ],
         limit: 1,
       );
+      print("Matching product :: $cartRecords}");
       if (cartRecords.isNotEmpty) {
+        //! But if there are coming different Size or different color then add into the Lis..
+
         // Product already exists in the cart, update its quantity in the cartList...
         int newQuantity = cartRecords[0]['productQuantity'] + 1;
+
         await database.update(
           'ProductCart',
           {'productQuantity': newQuantity},
-          where: '$productId = ?',
-          whereArgs: [addCartData[productId]],
+          where: '$productId = ? AND $productSize = ?  AND $productColor = ?',
+          whereArgs: [
+            addCartData[productId],
+            addCartData[productSize],
+            addCartData[productColor]
+          ],
         );
       } else {
         // Product List in empty , then add into the List..
@@ -110,17 +127,18 @@ class DataBaseHelper {
   }
 
 //! Delete the Use Details from DB
-  Future deleteCartOneData(productId) async {
+  Future deleteCartOneData(id) async {
     var db = await dataBaseHelper.getDatabase;
-    return await db
-        .delete(_tableName, where: "productId = ? ", whereArgs: [productId]);
+    return  db
+        .delete(_tableName, where: "id = ? ", whereArgs: [id]);
   }
 
   //! Update the productQuantity , if they add want to add more quantity of the product ..
-  Future<void> updateProductQuantity(productId, quantity) async {
+  Future<void> updateProductQuantity(
+      id, quantity, String? productColor, String? productSize) async {
     final db = await dataBaseHelper.getDatabase;
     await db.rawUpdate(
-        'UPDATE $_tableName SET $productQuantity = productQuantity + ? WHERE  productId = ?',
-        [quantity, productId]);
+        'UPDATE $_tableName SET $productQuantity = productQuantity + ? WHERE  id = ? AND productColor = ? AND productSize = ?',
+        [quantity, id, productColor, productSize]);
   }
 }

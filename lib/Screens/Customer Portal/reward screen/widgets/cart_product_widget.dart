@@ -6,6 +6,8 @@ import 'package:flutter/widgets.dart';
 class CartProductWidget extends StatelessWidget {
   final String productImage;
   final String productTitle;
+  final String? productColor;
+  final String? productSize;
   final int productPoints;
   final VoidCallback deleteProduct, removeProductQuantity, addProductQuantity;
   final int totalProduct;
@@ -21,6 +23,8 @@ class CartProductWidget extends StatelessWidget {
     required this.addProductQuantity,
     required this.totalProduct,
     required this.cartLength,
+    this.productColor,
+    this.productSize,
   }) : super(key: key);
 
   @override
@@ -63,11 +67,37 @@ class CartProductWidget extends StatelessWidget {
                   children: [
                     Text(
                       productTitle,
+                      maxLines: 2,
+                      overflow: TextOverflow.visible,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 18,
                       ),
                     ),
+
+                    //!  Display the Color of the Product ..
+                    productColor == null || productColor!.isEmpty
+                        ? const SizedBox()
+                        : Text(
+                            "Color : $productColor",
+                            maxLines: 2,
+                            overflow: TextOverflow.visible,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
+                          ),
+                    //! Display the Size of the Product..
+                    productSize == null || productSize!.isEmpty
+                        ? SizedBox()
+                        : Text(
+                            "Size : $productSize",
+                            maxLines: 2,
+                            overflow: TextOverflow.visible,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
+                          ),
                     const SizedBox(height: 8),
                     Row(
                       children: [
@@ -118,8 +148,8 @@ class CartProductWidget extends StatelessWidget {
           Positioned(
             top: -20,
             right: -5,
-            child: GestureDetector(
-              onTap: () => deleteProduct(),
+            child: InkWell(
+              onTap: deleteProduct,
               child: CircleAvatar(
                 backgroundColor: Colors.red,
                 child: const Icon(

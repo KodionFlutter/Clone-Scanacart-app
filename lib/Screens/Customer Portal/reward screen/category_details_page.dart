@@ -179,12 +179,47 @@ class CategoryDetailsPage extends StatelessWidget {
                                     Obx(() => SizedBox(
                                           height: 40,
                                           width: 150,
-                                          child: CommonDropDownWidget(
-                                            dropdownvalue: categoryDeController
-                                                .colorDropdownvalue.value,
-                                            valueList:
-                                                categoryDeController.colorList,
-                                          ),
+                                          child: DropdownButtonFormField(
+                                              decoration: const InputDecoration(
+                                                  enabled: true,
+                                                  // filled: true,
+                                                  border: OutlineInputBorder(),
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          vertical: 10,
+                                                          horizontal: 5)),
+                                              // isExpanded: true,
+                                              autovalidateMode: AutovalidateMode
+                                                  .onUserInteraction,
+                                              isDense: true,
+                                              validator: (value) {},
+                                              value: categoryDeController
+                                                      .colorDropdownvalue
+                                                      .value
+                                                      .isEmpty
+                                                  ? null
+                                                  : categoryDeController
+                                                      .colorDropdownvalue.value
+                                                      .toString(),
+                                              items: [
+                                                ...categoryDeController
+                                                    .colorList
+                                                    .map((element) {
+                                                  return DropdownMenuItem(
+                                                      enabled: true,
+                                                      value: element,
+                                                      child: Text(
+                                                          element.toString()));
+                                                }),
+                                              ],
+                                              onChanged: (newValue) {
+                                                categoryDeController
+                                                        .colorDropdownvalue
+                                                        .value =
+                                                    newValue.toString();
+                                                print(
+                                                    "Value is :: ${categoryDeController.colorDropdownvalue.value}");
+                                              }),
                                         ))
                                   ],
                                 ),
@@ -208,12 +243,44 @@ class CategoryDetailsPage extends StatelessWidget {
                                     Obx(() => SizedBox(
                                           height: 40,
                                           width: 150,
-                                          child: CommonDropDownWidget(
-                                            dropdownvalue: categoryDeController
-                                                .sizeDropdownValue.value,
-                                            valueList:
-                                                categoryDeController.sizeList,
-                                          ),
+                                          child: DropdownButtonFormField(
+                                              decoration: const InputDecoration(
+                                                  enabled: true,
+                                                  // filled: true,
+                                                  border: OutlineInputBorder(),
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          vertical: 10,
+                                                          horizontal: 5)),
+                                              // isExpanded: true,
+                                              autovalidateMode: AutovalidateMode
+                                                  .onUserInteraction,
+                                              isDense: true,
+                                              validator: (value) {},
+                                              value: categoryDeController
+                                                      .sizeDropdownValue.isEmpty
+                                                  ? null
+                                                  : categoryDeController
+                                                      .sizeDropdownValue
+                                                      .toString(),
+                                              items: [
+                                                ...categoryDeController.sizeList
+                                                    .map((element) {
+                                                  return DropdownMenuItem(
+                                                      enabled: true,
+                                                      value: element,
+                                                      child: Text(
+                                                          element.toString()));
+                                                }),
+                                              ],
+                                              onChanged: (newValue) {
+                                                categoryDeController
+                                                        .sizeDropdownValue
+                                                        .value =
+                                                    newValue.toString();
+                                                print(
+                                                    "Value is :: ${categoryDeController.sizeDropdownValue.value}");
+                                              }),
                                         ))
                                   ],
                                 ),
@@ -274,6 +341,8 @@ class CategoryDetailsPage extends StatelessWidget {
                   ? null
                   : () async {
                       if (categoryDeController.stockQuantity.value > 0) {
+                        print(
+                            "Size :: ${categoryDeController.sizeDropdownValue.value}");
                         // Get.to(CartPage());
                         await categoryDeController.addToCart(
                           clientId,
@@ -282,28 +351,10 @@ class CategoryDetailsPage extends StatelessWidget {
                           categoryDeController.rewardPoints.value,
                           categoryDeController.productTitle.value,
                           categoryDeController.productImage.value,
+                          categoryDeController.sizeDropdownValue.value,
+                          categoryDeController.colorDropdownvalue.value,
                         );
                         cartController.refreshItems();
-                        // print("return :: $sameID");
-                        // ScaffoldMessenger.of(context).showSnackBar(
-                        //   SnackBar(
-                        //     content: Text(
-                        //       textAlign: TextAlign.center,
-                        //       categoryDeController.currentClientID == clientId
-                        //           ? "Product added to the card"
-                        //           : 'You Can not add different client product',
-                        //     ),
-                        //     backgroundColor:
-                        //         categoryDeController.currentClientID != clientId
-                        //             ? AppColors.txtErrorTxtColor
-                        //             : AppColors.txtScanProductColor,
-                        //     shape: RoundedRectangleBorder(
-                        //       borderRadius: BorderRadius.only(
-                        //           topLeft: Radius.circular(10),
-                        //           topRight: Radius.circular(10)),
-                        //     ),
-                        //   ),
-                        // );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(

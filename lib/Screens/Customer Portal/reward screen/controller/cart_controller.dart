@@ -16,15 +16,14 @@ class CartController extends GetxController {
   }
 
 //! Here fetch the cart Item ..
-
   Future refreshItems() async {
     items.value = await DataBaseHelper.dataBaseHelper.fetchProduct();
     // print('CartItem : $cartItems');
     itemLength.value = items.length;
+    print("Item Length :: ${itemLength}");
     currentClientID = items[0]['clientId'];
     print('Client ID --: $currentClientID');
     cartItems.assignAll(items);
-
     update();
   }
 
@@ -36,6 +35,10 @@ class CartController extends GetxController {
 
   // RxInt totalQuantity = 0.obs;
   num get totalQuantity {
+    if (cartItems.isEmpty) {
+      return 0; // Return 0 if cart is empty
+    }
+
     num total = 0;
     for (var item in cartItems) {
       total += item['productQuantity'];
@@ -53,28 +56,50 @@ class CartController extends GetxController {
   }
 
   // Method to increase quantity of an item
-  Future<void> increaseQuantity(productId) async {
+  Future<void> increaseQuantity(
+      id, String? productColor, String? productSize) async {
     print("increase the value");
-    await DataBaseHelper.dataBaseHelper.updateProductQuantity(productId, 1);
+    await DataBaseHelper.dataBaseHelper
+        .updateProductQuantity(id, 1, productColor, productSize);
     refreshItems();
   }
 
   // Method to decrease quantity of an item
-  Future decreaseQuantity(productId, int index) async {
+  Future<void> decreaseQuantity(
+      id, String? productColor, String? productSize) async {
     var cartDataList = await DataBaseHelper.dataBaseHelper.fetchProduct();
-    var currentItem =
-        cartDataList.firstWhere((item) => item['productId'] == productId);
+    var number;
+    for (var quantity in cartDataList) {
+      number = quantity['productQuantity'];
+      print("P Qua :: ${number}");
+    }
+    var currentItem = cartDataList.firstWhere((item) =>
+        (item['id'] == id) &&
+        item['productColor'] == productColor &&
+        item['productSize'] == productSize);
     var currentQuantity = currentItem['productQuantity'];
     if (currentQuantity > 1) {
-      await DataBaseHelper.dataBaseHelper.updateProductQuantity(productId, -1);
+      await DataBaseHelper.dataBaseHelper
+          .updateProductQuantity(id, -1, productColor, productSize);
       refreshItems();
     } else {
       print('Cannot decrease quantity further.');
     }
+    //  if(number> 1){
+    //    await DataBaseHelper.dataBaseHelper
+    //        .updateProductQuantity(id, -1, productColor, productSize);
+    //    refreshItems();
+    //  }else{
+    //    print('Cannot decrease quantity further.');
+    //  }
   }
 
-  void deleteProduct(productId) async {
-  await  DataBaseHelper.dataBaseHelper.deleteCartOneData(productId);
-    refreshItems();
+  Future deleteProductData(id) async {
+    try {
+      await DataBaseHelper.dataBaseHelper.deleteCartOneData(id);
+      refreshItems();
+    } catch (e) {
+      print("Error deleting item: $e");
+    }
   }
 }

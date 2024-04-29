@@ -84,6 +84,7 @@ class CategoryDetailsController extends GetxController {
         size.value = categoryDetailsData['data']['variants']['size'];
         sizeList.value = size.value.split(',');
         sizeDropdownValue.value = sizeList[0];
+
         print("Size :: ${sizeList}");
       }
       // print("L = ${data.toString()}");
@@ -97,7 +98,7 @@ class CategoryDetailsController extends GetxController {
   //! Add Data into the Cart ..
 
   Future addToCart(clientId, productId, productQuantity, productPoints,
-      productTitle, productImage) async {
+      productTitle, productImage ,String? productSize ,String? productColor) async {
     //! Here check the same client and productList empty ...
     items.value = await DataBaseHelper.dataBaseHelper.fetchProduct();
 
@@ -109,6 +110,8 @@ class CategoryDetailsController extends GetxController {
         DataBaseHelper.productPoints: productPoints,
         DataBaseHelper.productTitle: productTitle,
         DataBaseHelper.productImage: productImage,
+        DataBaseHelper.productSize:productSize,
+        DataBaseHelper.productColor:productColor,
       });
       print("This is reposne for SQFLITE  :: ${sameClient}");
       ScaffoldMessenger.of(navigatorKey.currentState!.context).showSnackBar(
@@ -133,6 +136,8 @@ class CategoryDetailsController extends GetxController {
           DataBaseHelper.productPoints: productPoints,
           DataBaseHelper.productTitle: productTitle,
           DataBaseHelper.productImage: productImage,
+          DataBaseHelper.productSize:productSize,
+          DataBaseHelper.productColor:productColor,
         });
         print("This is reposne for SQFLITE  :: ${sameClient}");
         ScaffoldMessenger.of(navigatorKey.currentState!.context).showSnackBar(
