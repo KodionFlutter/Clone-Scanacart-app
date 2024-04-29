@@ -4,7 +4,6 @@ import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widget
 
 class CommonAppbar extends StatelessWidget {
   final String title;
-  final int countItem;
   final Widget body;
   Widget? bottomNavigationBar;
   final int clientId;
@@ -13,9 +12,10 @@ class CommonAppbar extends StatelessWidget {
   CommonAppbar(
       {super.key,
       required this.title,
-      required this.countItem,
       required this.body,
-      this.bottomNavigationBar, required this.clientId, required this.clientName});
+      this.bottomNavigationBar,
+      required this.clientId,
+      required this.clientName});
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +26,10 @@ class CommonAppbar extends StatelessWidget {
         elevation: 0,
         title: Center(
             child: Text(
-          "$title",
+          title,
         )),
         actions: [
           CartCounterWidget(
-            itemCount: countItem,
             clientId: clientId,
             clientName: clientName,
           )

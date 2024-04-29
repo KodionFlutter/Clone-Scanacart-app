@@ -49,7 +49,6 @@ class ShippingAddressPage extends StatelessWidget {
         title: Text("Shipping Address"),
         actions: [
           CartCounterWidget(
-            itemCount: 10,
             clientId: 0,
             clientName: '',
           )

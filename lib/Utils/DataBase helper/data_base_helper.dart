@@ -133,10 +133,10 @@ class DataBaseHelper {
         .delete(_tableName, where: "productId = ? ", whereArgs: [productId]);
   }
 
-  Future<void> updateProductQuantity(String productId, int quantity) async {
+  Future<void> updateProductQuantity(productId, quantity) async {
     final db = await dataBaseHelper.getDatabase;
     await db.rawUpdate(
-        'UPDATE $_tableName SET productQuantity = productQuantity + ? WHERE  productId = ?',
+        'UPDATE $_tableName SET $productQuantity = productQuantity + ? WHERE  productId = ?',
         [quantity, productId]);
   }
 }

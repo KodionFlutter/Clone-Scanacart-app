@@ -36,7 +36,6 @@ class ViewCategoryPage extends StatelessWidget {
       clientId: clientId,
       clientName:clientName,
       title: clientName,
-      countItem: 10,
       body: Obx(() {
         if (viewCategoryController.isLoad.value == true) {
           return ShimmerWidget(

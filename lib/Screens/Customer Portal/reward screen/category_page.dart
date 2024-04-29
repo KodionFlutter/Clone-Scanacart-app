@@ -25,7 +25,6 @@ class CategoryPage extends StatelessWidget {
         clientId: clientId,
         clientName: clientName,
         title: clientName,
-        countItem: 10,
         body: Obx(() {
           if (redeemController.categoryList.isEmpty) {
             return ShimmerWidget(

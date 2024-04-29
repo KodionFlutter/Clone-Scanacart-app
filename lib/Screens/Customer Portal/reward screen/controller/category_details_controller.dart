@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:scan_cart_clone/Models/category_details_model.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/controller/cart_controller.dart';
 import 'package:scan_cart_clone/Utils/Base%20service/services.dart';
 import 'package:scan_cart_clone/Utils/DataBase%20helper/data_base_helper.dart';
 
@@ -109,6 +110,7 @@ class CategoryDetailsController extends GetxController {
   @override
   void onInit() {
     getCategoryDetails();
+    CartController();
     super.onInit();
   }
 }

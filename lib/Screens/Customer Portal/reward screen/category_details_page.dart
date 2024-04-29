@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/widgets/common_scroll_behav_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/cart_page.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/controller/cart_controller.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/controller/category_details_controller.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/common_appbar_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/common_drop_down_widget.dart';
@@ -26,11 +27,12 @@ class CategoryDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final categoryDeController = Get.put(
         CategoryDetailsController(productId: productId, clientId: clientId));
+    final cartController = Get.put(CartController());
+
     return CommonAppbar(
         clientName: '',
         clientId: clientId,
         title: "Product Details",
-        countItem: 10,
         body: Obx(
           () => categoryDeController.productTitle.value.isEmpty
               ? const Center(
@@ -281,6 +283,7 @@ class CategoryDetailsPage extends StatelessWidget {
                           categoryDeController.productTitle.value,
                           categoryDeController.productImage.value,
                         );
+                        cartController.refreshItems();
                         print("return :: $sameID");
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
