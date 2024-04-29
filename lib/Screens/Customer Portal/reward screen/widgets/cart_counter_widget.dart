@@ -34,12 +34,13 @@ class _CartCounterWidgetState extends State<CartCounterWidget> {
   Widget build(BuildContext context) {
     var list = [1, 1];
     return Padding(
-        padding: const  EdgeInsets.only(left: 10, right: 18, top: 10),
+        padding: const EdgeInsets.only(left: 10, right: 18, top: 10),
         child: SizedBox(
             height: 150.0,
             width: 30.0,
             child: GestureDetector(
               onTap: () {
+
                 Get.to(CartPage(
                   clientId: widget.clientId,
                   clientName: widget.clientName,
@@ -62,16 +63,12 @@ class _CartCounterWidgetState extends State<CartCounterWidget> {
                       return Stack(
                         clipBehavior: Clip.none,
                         children: [
-                          IconButton(
-                            icon: const Icon(
+                        const  IconButton(
+                            icon:  Icon(
                               Icons.shopping_cart,
                               color: Colors.black,
                             ),
-                            onPressed: () {
-                              setState(() {
-                                items = cartDataList;
-                              });
-                            },
+                            onPressed: null,
                           ),
                           Positioned(
                               top: widget.itemCount > 998 ? -9 : -2,

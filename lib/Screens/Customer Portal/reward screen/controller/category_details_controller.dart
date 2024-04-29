@@ -92,7 +92,7 @@ class CategoryDetailsController extends GetxController {
 
   Future<bool> addToCart(clientId, productId, productQuantity, productPoints,
       productTitle, productImage) async {
-    var sameClient =await DataBaseHelper.dataBaseHelper.insert({
+    var sameClient = await DataBaseHelper.dataBaseHelper.insert({
       DataBaseHelper.clientId: clientId,
       DataBaseHelper.productId: productId,
       DataBaseHelper.productQuantity: productQuantity,
