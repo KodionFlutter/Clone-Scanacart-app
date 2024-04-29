@@ -23,7 +23,7 @@ class CartCounterWidget extends StatelessWidget {
       child: SizedBox(
         height: 150.0,
         width: 30.0,
-        child: GestureDetector(
+        child: InkWell(
           //! for going to cart page.
           onTap: () {
             Get.to(CartPage(

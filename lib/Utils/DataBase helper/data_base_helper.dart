@@ -129,8 +129,7 @@ class DataBaseHelper {
 //! Delete the Use Details from DB
   Future deleteCartOneData(id) async {
     var db = await dataBaseHelper.getDatabase;
-    return  db
-        .delete(_tableName, where: "id = ? ", whereArgs: [id]);
+    return db.delete(_tableName, where: "id = ? ", whereArgs: [id]);
   }
 
   //! Update the productQuantity , if they add want to add more quantity of the product ..

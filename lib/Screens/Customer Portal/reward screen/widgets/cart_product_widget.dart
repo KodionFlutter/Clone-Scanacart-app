@@ -11,7 +11,7 @@ class CartProductWidget extends StatelessWidget {
   final int productPoints;
   final VoidCallback deleteProduct, removeProductQuantity, addProductQuantity;
   final int totalProduct;
-  final int cartLength;
+  final int currentQuantity;
 
   const CartProductWidget({
     Key? key,
@@ -22,7 +22,7 @@ class CartProductWidget extends StatelessWidget {
     required this.removeProductQuantity,
     required this.addProductQuantity,
     required this.totalProduct,
-    required this.cartLength,
+    required this.currentQuantity,
     this.productColor,
     this.productSize,
   }) : super(key: key);

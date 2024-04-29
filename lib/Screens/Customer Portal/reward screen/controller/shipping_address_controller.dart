@@ -13,8 +13,19 @@ class ShippingAddressController extends GetxController {
   Rx<TextEditingController> zipCodeController = TextEditingController().obs;
 
   var reg = RegExp(FormValidator.nameReg);
-  var regEmail = RegExp(FormValidator.emailReg) ;
+  var regEmail = RegExp(FormValidator.emailReg);
 
   GlobalKey<FormState> globalKey = GlobalKey<FormState>();
+
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+
+  //! Make here function for adding the shipping or order....
+
+
+
 
 }

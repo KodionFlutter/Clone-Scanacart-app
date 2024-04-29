@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/widgets/common_TextField.dart';
@@ -59,11 +61,11 @@ class ShippingAddressPage extends StatelessWidget {
         children: [
           Form(
             key: shippingController.globalKey,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CommonTxtFieldWidget(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  CommonTxtFieldWidget(
                     textEditController: shippingController.nameController.value,
                     textInputType: TextInputType.name,
                     icons: Icons.person,
@@ -78,12 +80,9 @@ class ShippingAddressPage extends StatelessWidget {
                       return null;
                     },
                   ),
-                ),
-
-                //! Email
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CommonTxtFieldWidget(
+                  const SizedBox(height: 8),
+                  //! Email
+                  CommonTxtFieldWidget(
                     textEditController:
                         shippingController.emailController.value,
                     textInputType: TextInputType.emailAddress,
@@ -99,12 +98,10 @@ class ShippingAddressPage extends StatelessWidget {
                       return null;
                     },
                   ),
-                ),
-                //! Phone Number ..
+                  const SizedBox(height: 8),
+                  //! Phone Number ..
 
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CommonTxtFieldWidget(
+                  CommonTxtFieldWidget(
                     textEditController:
                         shippingController.phoneNumberController.value,
                     textInputType: TextInputType.phone,
@@ -120,12 +117,10 @@ class ShippingAddressPage extends StatelessWidget {
                       return null;
                     },
                   ),
-                ),
-                //! Address
+                  const SizedBox(height: 8),
+                  //! Address
 
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CommonTxtFieldWidget(
+                  CommonTxtFieldWidget(
                     textEditController:
                         shippingController.addressController.value,
                     textInputType: TextInputType.streetAddress,
@@ -139,46 +134,50 @@ class ShippingAddressPage extends StatelessWidget {
                       return null;
                     },
                   ),
-                ),
-                //! City
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CommonTxtFieldWidget(
-                    textEditController: shippingController.cityController.value,
-                    textInputType: TextInputType.text,
-                    icons: Icons.location_city,
-                    hinText: 'City',
-                    preFixText: '',
-                    validator: (String? value) {
-                      if (value!.isEmpty) {
-                        return "Please enter your city";
-                      }
-                      return null;
-                    },
+                  const SizedBox(height: 8),
+                  //! City
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CommonTxtFieldWidget(
+                          textEditController:
+                              shippingController.cityController.value,
+                          textInputType: TextInputType.text,
+                          icons: Icons.location_city,
+                          hinText: 'City',
+                          preFixText: '',
+                          validator: (String? value) {
+                            if (value!.isEmpty) {
+                              return "Please enter your city";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      //! State
+                      Expanded(
+                        child: CommonTxtFieldWidget(
+                          textEditController:
+                              shippingController.stateController.value,
+                          textInputType: TextInputType.text,
+                          icons: Icons.location_city,
+                          hinText: 'State',
+                          preFixText: '',
+                          validator: (String? value) {
+                            if (value!.isEmpty) {
+                              return "Please enter your state";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                //! State
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CommonTxtFieldWidget(
-                    textEditController:
-                        shippingController.stateController.value,
-                    textInputType: TextInputType.text,
-                    icons: Icons.location_city,
-                    hinText: 'State',
-                    preFixText: '',
-                    validator: (String? value) {
-                      if (value!.isEmpty) {
-                        return "Please enter your state";
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                //! zip code
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CommonTxtFieldWidget(
+                  const SizedBox(height: 8),
+                  //! zip code
+                  CommonTxtFieldWidget(
                     textEditController:
                         shippingController.zipCodeController.value,
                     textInputType: TextInputType.number,
@@ -192,13 +191,13 @@ class ShippingAddressPage extends StatelessWidget {
                       return null;
                     },
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           //! For Save the Address
           CheckboxListTile(
-            title: Text(
+            title: const Text(
               "Save this address for next order",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),

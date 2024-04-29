@@ -108,6 +108,7 @@ class CartPage extends StatelessWidget {
       // ),
       body: Obx(() {
         if (cartController.items.isEmpty) {
+          cartController.totalQuantity;
           return const Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -121,6 +122,7 @@ class CartPage extends StatelessWidget {
               ],
             ),
           );
+
         } else {
           return Column(
             children: [
@@ -162,7 +164,7 @@ class CartPage extends StatelessWidget {
                       },
                       totalProduct: cartController.items[index]
                           ['productQuantity'],
-                      cartLength: cartController.items.length,
+                      currentQuantity: cartController.currentQuantity.value,
                     );
                   },
                 ),
