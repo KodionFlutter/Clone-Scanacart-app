@@ -39,7 +39,7 @@ class CartController extends GetxController {
     num total = 0;
     for (var item in cartItems) {
       print("Total ==> ${item['productQuantity']}");
-      total += item['productQuantity']??0;
+      total += item['productQuantity'] ?? 0;
     }
 
     print("Total : ${total}");
@@ -93,7 +93,8 @@ class CartController extends GetxController {
   Future deleteProductData(id) async {
     try {
       await DataBaseHelper.dataBaseHelper.deleteCartOneData(id);
-      refreshItems();
+      // items.value = await DataBaseHelper.dataBaseHelper.fetchProduct();
+      // cartItems.assignAll(items);
     } catch (e) {
       print("Error deleting item: $e");
     }
