@@ -305,5 +305,26 @@ class APIServices {
     }
   }
 
-//! Here we calling for
+//! Here we hitting the place order...
+
+  static Future productPlaceOrder(
+      Map<String, dynamic> map, String? token) async {
+    var url =
+        '${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/customerShipping';
+    print("This is Shipping URL :: ${url}");
+    try {
+      var response = await BaseService.postRewardMethod(url, map, token);
+      log('Response of Shipping  :: ${response.body.toString()}');
+      if (response.statusCode == 200) {
+        var decodedData = json.decode(response.body);
+        if (decodedData['success'] == true) {
+          return decodedData;
+        } else {
+          throw Exception(decodedData['message']);
+        }
+      }
+    } on SocketException {
+      throw Exception('No Connection');
+    }
+  }
 }

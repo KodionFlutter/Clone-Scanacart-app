@@ -1,4 +1,9 @@
+import 'dart:ui';
+
+import 'package:flutter/animation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:palette_generator/palette_generator.dart';
 import 'package:scan_cart_clone/Utils/DataBase%20helper/data_base_helper.dart';
 
 class CartController extends GetxController {
@@ -93,10 +98,16 @@ class CartController extends GetxController {
   Future deleteProductData(id) async {
     try {
       await DataBaseHelper.dataBaseHelper.deleteCartOneData(id);
-      // items.value = await DataBaseHelper.dataBaseHelper.fetchProduct();
-      // cartItems.assignAll(items);
+      items.value = await DataBaseHelper.dataBaseHelper.fetchProduct();
+      cartItems.assignAll(items);
     } catch (e) {
       print("Error deleting item: $e");
     }
   }
+
+  // getColor(ImageProvider imagePath) async {
+  //   var d = await PaletteGenerator.fromImageProvider(imagePath);
+  //   final palette = d.dominantColor?.color;
+  //   print("p ::$palette");
+  // }
 }
