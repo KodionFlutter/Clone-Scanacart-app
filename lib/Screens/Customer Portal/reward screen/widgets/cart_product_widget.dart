@@ -40,7 +40,7 @@ class CartProductWidget extends StatelessWidget {
       margin: const EdgeInsets.only(top: 10, right: 10, left: 10),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.only(
+        borderRadius:const BorderRadius.only(
             topLeft: Radius.circular(15), bottomLeft: Radius.circular(15)),
         boxShadow: [
           BoxShadow(
@@ -277,11 +277,11 @@ class CartProductWidget extends StatelessWidget {
 
                 InkWell(
                   onTap: deleteProduct,
-                  child: Align(
+                  child: const Align(
                     alignment: Alignment.bottomRight,
                     child: Padding(
-                      padding: const EdgeInsets.only(right: 5),
-                      child: const Icon(
+                      padding:  EdgeInsets.only(right: 5),
+                      child:  Icon(
                         Icons.delete_rounded,
                         color: Colors.red,
                         size: 25,
