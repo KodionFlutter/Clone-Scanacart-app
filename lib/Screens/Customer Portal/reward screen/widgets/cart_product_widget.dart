@@ -40,7 +40,7 @@ class CartProductWidget extends StatelessWidget {
       margin: const EdgeInsets.only(top: 10, right: 10, left: 10),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius:const BorderRadius.only(
+        borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(15), bottomLeft: Radius.circular(15)),
         boxShadow: [
           BoxShadow(
@@ -59,40 +59,67 @@ class CartProductWidget extends StatelessWidget {
             children: [
               FutureBuilder<PaletteGenerator>(
                 future: PaletteGenerator.fromImageProvider(
-                    NetworkImage(productImage)),
+                  NetworkImage(productImage),
+                ),
                 builder: (context, snapshot) {
-                  final palette = snapshot.data!.dominantColor?.color;
-                  return Container(
-                    padding: EdgeInsets.all(5),
-                    width: 100,
-                    height: 120,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Container(
+                      width: 100,
+                      height: 120,
+                      color: Colors.grey.withOpacity(0.5), // Placeholder color
+                      child: const Center(child: CupertinoActivityIndicator()),
+                    );
+                  } else if (snapshot.hasError) {
+                    // Handle error
+                    return Container(
+                      width: 100,
+                      height: 120,
+                      color: Colors.grey.withOpacity(0.5), // Placeholder color
+                      child: const Center(child: Text('Error')),
+                    );
+                  } else if (snapshot.hasData) {
+                    final palette = snapshot.data!.dominantColor?.color;
+                    return Container(
+                      padding: EdgeInsets.all(5),
+                      width: 100,
+                      height: 120,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
-                          bottomLeft: Radius.circular(10)),
-                      color: palette!.withOpacity(0.5) ?? Colors.white,
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                        Get.to(CategoryDetailsPage(
-                          productId: productId,
-                          clientId: clientId,
-                        ));
-                      },
-                      child: CachedNetworkImage(
-                        width: 80,
-                        imageUrl: productImage,
-                        fit: BoxFit.contain,
-                        placeholder: (context, url) =>
-                            const CupertinoActivityIndicator(),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
+                          bottomLeft: Radius.circular(10),
+                        ),
+                        color: palette!.withOpacity(0.5) ?? Colors.white,
                       ),
-                    ),
-                    // Use the dominant color from the palette, or fallback to grey
-                  );
+                      child: InkWell(
+                        onTap: () {
+                          Get.to(CategoryDetailsPage(
+                            productId: productId,
+                            clientId: clientId,
+                          ));
+                        },
+                        child: CachedNetworkImage(
+                          width: 80,
+                          imageUrl: productImage,
+                          fit: BoxFit.contain,
+                          placeholder: (context, url) =>
+                              const CupertinoActivityIndicator(),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                        ),
+                      ),
+                    );
+                  } else {
+                    // Handle other cases
+                    return Container(
+                      width: 100,
+                      height: 120,
+                      color: Colors.grey.withOpacity(0.5), // Placeholder color
+                      child: const Center(child: Text('No Data')),
+                    );
+                  }
                 },
               ),
+
               // Padding(
               //   padding: const EdgeInsets.all(8.0),
               //   child: CachedNetworkImage(
@@ -280,8 +307,8 @@ class CartProductWidget extends StatelessWidget {
                   child: const Align(
                     alignment: Alignment.bottomRight,
                     child: Padding(
-                      padding:  EdgeInsets.only(right: 5),
-                      child:  Icon(
+                      padding: EdgeInsets.only(right: 5),
+                      child: Icon(
                         Icons.delete_rounded,
                         color: Colors.red,
                         size: 25,

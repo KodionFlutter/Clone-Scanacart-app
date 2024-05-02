@@ -3,20 +3,41 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:scan_cart_clone/Models/save_data_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:developer' as developer;
 
+// {
+// "quantity": 1,
+// "imageURL": "https://dev.scanacart.com/admin/products/assets/product/images/41SRhmed-cL.jpg",
+// "variants": {
+// "color": "brown",
+// "size": "S"
+// },
+// "variantId": 50,
+// "productId": 217,
+// "productName": "Madame Rust K Top for Women",
+// "points": 200,
+// "client_id": 1910,
+// "category_id": "21"
+// }
+
 class DataBaseHelper {
   static const id = "id";
-  static const clientId = "clientId";
+  static const clientId = "client_id";
   static const productId = "productId";
-  static const productQuantity = "productQuantity";
-  static const productPoints = "productPoints";
-  static const productTitle = "productTitle";
-  static const productImage = "productImage";
-  static const productColor = "productColor";
-  static const productSize = "productSize";
+  static const productQuantity = "quantity";
+  static const productPoints = "points";
+  static const productTitle = "productName";
+  static const productImage = "imageURL";
+  static const categoryId = "category_id";
+  static const variantId = "variantId";
+  static const variants = "variants";
 
+  // static const productColor = "color";
+  // static const productSize = "size";
+
+  //! Create a map variants
   static const _tableName = "ProductCart";
   static const _databaseName = "CartDatabase.db";
   static const _databaseVersion = 1;
@@ -54,6 +75,8 @@ class DataBaseHelper {
     return _database;
   }
 
+// $productSize TEXT, $productColor TEXT
+
   //! Create the Database
   Future _onCreate(Database db, int version) async {
     await db.execute('''CREATE TABLE $_tableName(
@@ -62,18 +85,20 @@ class DataBaseHelper {
             $productId INTEGER,
             $productQuantity INTEGER,
             $productPoints INTEGER,
+            $variantId INTEGER, 
+            $categoryId TEXT,
             $productTitle TEXT,          
-            $productImage TEXT ,
-            $productSize TEXT,
-            $productColor TEXT
+            $productImage TEXT,
+            $variants TEXT
             )''');
   }
 
   //! Insert Query
   Future insert(Map<String, dynamic> addCartData) async {
     var database = await dataBaseHelper.getDatabase;
+    await database.insert(_tableName, addCartData);
 
-    //! Checking for productList Empty or Not..
+    // //! Checking for productList Empty or Not..
     List<Map<String, dynamic>> productCartRecords = await database.query(
       'ProductCart',
     );
@@ -82,32 +107,32 @@ class DataBaseHelper {
       //! Here if same client is...
       List<Map<String, dynamic>> cartRecords = await database.query(
         'ProductCart',
-        where: '$productId = ? AND $productSize = ? AND $productColor = ?',
+        // where: '$productId = ? AND $variants = ?',
+        where: '$productId = ?',
         whereArgs: [
           addCartData[productId],
-          addCartData[productSize],
-          addCartData[productColor]
+          // addCartData[variants],
         ],
         limit: 1,
       );
       print("Matching product :: $cartRecords}");
       if (cartRecords.isNotEmpty) {
+        print("Is how woking");
         //! But if there are coming different Size or different color then add into the Lis..
-
         // Product already exists in the cart, update its quantity in the cartList...
-        int newQuantity = cartRecords[0]['productQuantity'] + 1;
-
+        int newQuantity = cartRecords[0]['quantity'] + 1;
+        print("New Quantity :: $newQuantity");
         await database.update(
           'ProductCart',
-          {'productQuantity': newQuantity},
-          where: '$productId = ? AND $productSize = ?  AND $productColor = ?',
+          {'quantity': newQuantity},
+          where: '$productId = ? AND $variants = ?',
           whereArgs: [
             addCartData[productId],
-            addCartData[productSize],
-            addCartData[productColor]
+            addCartData[variants],
           ],
         );
       } else {
+        print("Is this working");
         // Product List in empty , then add into the List..
         await database.insert(_tableName, addCartData);
       }
@@ -137,7 +162,7 @@ class DataBaseHelper {
       id, quantity, String? productColor, String? productSize) async {
     final db = await dataBaseHelper.getDatabase;
     await db.rawUpdate(
-        'UPDATE $_tableName SET $productQuantity = productQuantity + ? WHERE  id = ? AND productColor = ? AND productSize = ?',
+        'UPDATE $_tableName SET $productQuantity = quantity + ? WHERE  id = ? AND color = ? AND size = ?',
         [quantity, id, productColor, productSize]);
   }
 }

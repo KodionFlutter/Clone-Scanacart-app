@@ -35,9 +35,9 @@ class OrderPage extends StatelessWidget {
           ],
         ),
         body: ListView.builder(
-          itemCount: 10,
+            itemCount: 10,
             itemBuilder: (context, index) {
-          return OrderWidget();
-        }));
+              return OrderWidget();
+            }));
   }
 }

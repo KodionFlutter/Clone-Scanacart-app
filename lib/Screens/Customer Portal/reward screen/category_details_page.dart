@@ -6,11 +6,10 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/widgets/common_scroll_behav_widget.dart';
-import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/cart_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/controller/cart_controller.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/controller/category_details_controller.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/common_appbar_widget.dart';
-import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/common_drop_down_widget.dart';
+import 'package:scan_cart_clone/Utils/DataBase%20helper/data_base_helper.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 
 class CategoryDetailsPage extends StatelessWidget {
@@ -162,130 +161,201 @@ class CategoryDetailsPage extends StatelessWidget {
                         //! display here the product variantsData
                         SizedBox(height: AppConstant.size.height * 0.01),
                         // Disply the Color :
-                        categoryDeController.colorList.isNotEmpty
-                            ? Padding(
-                                padding: EdgeInsets.only(
-                                    left: AppConstant.size.width * 0.03),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Color : ",
-                                      style: TextStyle(
-                                          color: AppColors.blackColor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
+                        // categoryDeController.colorList.isNotEmpty
+                        //     ? Padding(
+                        //         padding: EdgeInsets.only(
+                        //             left: AppConstant.size.width * 0.03),
+                        //         child: Row(
+                        //           mainAxisAlignment: MainAxisAlignment.start,
+                        //           children: [
+                        //             Text(
+                        //               "Color : ",
+                        //               style: TextStyle(
+                        //                   color: AppColors.blackColor,
+                        //                   fontSize: 16,
+                        //                   fontWeight: FontWeight.w500),
+                        //             ),
+                        //             Obx(() => SizedBox(
+                        //                   height: 40,
+                        //                   width: 150,
+                        //                   child: DropdownButtonFormField(
+                        //                       decoration: const InputDecoration(
+                        //                           enabled: true,
+                        //                           // filled: true,
+                        //                           border: OutlineInputBorder(),
+                        //                           contentPadding:
+                        //                               EdgeInsets.symmetric(
+                        //                                   vertical: 10,
+                        //                                   horizontal: 5)),
+                        //                       // isExpanded: true,
+                        //                       autovalidateMode: AutovalidateMode
+                        //                           .onUserInteraction,
+                        //                       isDense: true,
+                        //                       validator: (value) {},
+                        //                       value: categoryDeController
+                        //                               .colorDropdownvalue
+                        //                               .value
+                        //                               .isEmpty
+                        //                           ? null
+                        //                           : categoryDeController
+                        //                               .colorDropdownvalue.value
+                        //                               .toString(),
+                        //                       items: [
+                        //                         ...categoryDeController
+                        //                             .colorList
+                        //                             .map((element) {
+                        //                           return DropdownMenuItem(
+                        //                               enabled: true,
+                        //                               value: element,
+                        //                               child: Text(
+                        //                                   element.toString()));
+                        //                         }),
+                        //                       ],
+                        //                       onChanged: (newValue) {
+                        //                         categoryDeController
+                        //                                 .colorDropdownvalue
+                        //                                 .value =
+                        //                             newValue.toString();
+                        //                         print(
+                        //                             "Value is :: ${categoryDeController.colorDropdownvalue.value}");
+                        //                       }),
+                        //                 ))
+                        //           ],
+                        //         ),
+                        //       )
+                        //     : const SizedBox(),
+
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: categoryDeController.variants.entries
+                              .map<Widget>((variantEntry) {
+                            List<String> list = variantEntry.value.split(",");
+                            // Default value for the DropdownButton
+                            var defaultValue;
+                            list.forEach((element) {
+                              defaultValue = element;
+                            });
+                            categoryDeController.selectedVariants.putIfAbsent(
+                                variantEntry.key, () => defaultValue);
+
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 3.0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    variantEntry.key.isNotEmpty
+                                        ? '${variantEntry.key[0].toUpperCase()}${variantEntry.key.substring(1)}'
+                                        : variantEntry.key,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
                                     ),
-                                    Obx(() => SizedBox(
-                                          height: 40,
-                                          width: 150,
-                                          child: DropdownButtonFormField(
-                                              decoration: const InputDecoration(
-                                                  enabled: true,
-                                                  // filled: true,
-                                                  border: OutlineInputBorder(),
-                                                  contentPadding:
-                                                      EdgeInsets.symmetric(
-                                                          vertical: 10,
-                                                          horizontal: 5)),
-                                              // isExpanded: true,
-                                              autovalidateMode: AutovalidateMode
-                                                  .onUserInteraction,
-                                              isDense: true,
-                                              validator: (value) {},
-                                              value: categoryDeController
-                                                      .colorDropdownvalue
-                                                      .value
-                                                      .isEmpty
-                                                  ? null
-                                                  : categoryDeController
-                                                      .colorDropdownvalue.value
-                                                      .toString(),
-                                              items: [
-                                                ...categoryDeController
-                                                    .colorList
-                                                    .map((element) {
-                                                  return DropdownMenuItem(
-                                                      enabled: true,
-                                                      value: element,
-                                                      child: Text(
-                                                          element.toString()));
-                                                }),
-                                              ],
-                                              onChanged: (newValue) {
-                                                categoryDeController
-                                                        .colorDropdownvalue
-                                                        .value =
-                                                    newValue.toString();
-                                                print(
-                                                    "Value is :: ${categoryDeController.colorDropdownvalue.value}");
-                                              }),
-                                        ))
-                                  ],
-                                ),
-                              )
-                            : const SizedBox(),
+                                  ),
+                                  SizedBox(width: 20),
+                                  variantEntry.value == "" &&
+                                          variantEntry.value == null
+                                      ? SizedBox()
+                                      : SizedBox(
+                                          width: 80,
+                                          child: DropdownButton<String>(
+                                            value: categoryDeController
+                                                    .selectedVariants[
+                                                variantEntry.key],
+                                            dropdownColor: Colors.white,
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                            icon: Icon(Icons.arrow_drop_down,
+                                                color: Colors.black),
+                                            underline: Container(
+                                              height: 2,
+                                              color: Colors.white,
+                                            ),
+                                            onChanged: (String? newValue) {
+                                              categoryDeController
+                                                      .selectedVariants[
+                                                  variantEntry.key] = newValue;
+                                            },
+                                            items: list
+                                                .map<DropdownMenuItem<String>>(
+                                              (variantOption) {
+                                                return DropdownMenuItem<String>(
+                                                  value: variantOption,
+                                                  child: Text(variantOption),
+                                                );
+                                              },
+                                            ).toList(),
+                                            isExpanded: true,
+                                          ),
+                                        ),
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                        ),
+
                         SizedBox(height: AppConstant.size.height * 0.01),
-                        categoryDeController.sizeList.isNotEmpty
-                            ? Padding(
-                                padding: EdgeInsets.only(
-                                    left: AppConstant.size.width * 0.03),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Size   : ",
-                                      style: TextStyle(
-                                          color: AppColors.blackColor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Obx(() => SizedBox(
-                                          height: 40,
-                                          width: 150,
-                                          child: DropdownButtonFormField(
-                                              decoration: const InputDecoration(
-                                                  enabled: true,
-                                                  // filled: true,
-                                                  border: OutlineInputBorder(),
-                                                  contentPadding:
-                                                      EdgeInsets.symmetric(
-                                                          vertical: 10,
-                                                          horizontal: 5)),
-                                              // isExpanded: true,
-                                              autovalidateMode: AutovalidateMode
-                                                  .onUserInteraction,
-                                              isDense: true,
-                                              validator: (value) {},
-                                              value: categoryDeController
-                                                      .sizeDropdownValue.isEmpty
-                                                  ? null
-                                                  : categoryDeController
-                                                      .sizeDropdownValue
-                                                      .toString(),
-                                              items: [
-                                                ...categoryDeController.sizeList
-                                                    .map((element) {
-                                                  return DropdownMenuItem(
-                                                      enabled: true,
-                                                      value: element,
-                                                      child: Text(
-                                                          element.toString()));
-                                                }),
-                                              ],
-                                              onChanged: (newValue) {
-                                                categoryDeController
-                                                        .sizeDropdownValue
-                                                        .value =
-                                                    newValue.toString();
-                                                print(
-                                                    "Value is :: ${categoryDeController.sizeDropdownValue.value}");
-                                              }),
-                                        ))
-                                  ],
-                                ),
-                              )
-                            : const SizedBox(),
+                        // categoryDeController.sizeList.isNotEmpty
+                        //     ? Padding(
+                        //         padding: EdgeInsets.only(
+                        //             left: AppConstant.size.width * 0.03),
+                        //         child: Row(
+                        //           mainAxisAlignment: MainAxisAlignment.start,
+                        //           children: [
+                        //             Text(
+                        //               "Size   : ",
+                        //               style: TextStyle(
+                        //                   color: AppColors.blackColor,
+                        //                   fontSize: 16,
+                        //                   fontWeight: FontWeight.w500),
+                        //             ),
+                        //             Obx(() => SizedBox(
+                        //                   height: 40,
+                        //                   width: 150,
+                        //                   child: DropdownButtonFormField(
+                        //                       decoration: const InputDecoration(
+                        //                           enabled: true,
+                        //                           // filled: true,
+                        //                           border: OutlineInputBorder(),
+                        //                           contentPadding:
+                        //                               EdgeInsets.symmetric(
+                        //                                   vertical: 10,
+                        //                                   horizontal: 5)),
+                        //                       // isExpanded: true,
+                        //                       autovalidateMode: AutovalidateMode
+                        //                           .onUserInteraction,
+                        //                       isDense: true,
+                        //                       validator: (value) {},
+                        //                       value: categoryDeController
+                        //                               .sizeDropdownValue.isEmpty
+                        //                           ? null
+                        //                           : categoryDeController
+                        //                               .sizeDropdownValue
+                        //                               .toString(),
+                        //                       items: [
+                        //                         ...categoryDeController.sizeList
+                        //                             .map((element) {
+                        //                           return DropdownMenuItem(
+                        //                               enabled: true,
+                        //                               value: element,
+                        //                               child: Text(
+                        //                                   element.toString()));
+                        //                         }),
+                        //                       ],
+                        //                       onChanged: (newValue) {
+                        //                         categoryDeController
+                        //                                 .sizeDropdownValue
+                        //                                 .value =
+                        //                             newValue.toString();
+                        //                         print(
+                        //                             "Value is :: ${categoryDeController.sizeDropdownValue.value}");
+                        //                       }),
+                        //                 ))
+                        //           ],
+                        //         ),
+                        //       )
+                        //     : const SizedBox(),
                         SizedBox(height: AppConstant.size.height * 0.01),
                         // Display the Size :
                         const SizedBox(height: 20),
@@ -340,22 +410,7 @@ class CategoryDetailsPage extends StatelessWidget {
               onPressed: categoryDeController.productTitle.value.isEmpty
                   ? null
                   : () async {
-                      if (categoryDeController.stockQuantity.value > 0) {
-                        print(
-                            "Size :: ${categoryDeController.sizeDropdownValue.value}");
-                        // Get.to(CartPage());
-                        await categoryDeController.addToCart(
-                          clientId,
-                          productId,
-                          categoryDeController.stockQuantity.value,
-                          categoryDeController.rewardPoints.value,
-                          categoryDeController.productTitle.value,
-                          categoryDeController.productImage.value,
-                          categoryDeController.sizeDropdownValue.value,
-                          categoryDeController.colorDropdownvalue.value,
-                        );
-                        cartController.refreshItems();
-                      } else {
+                      if (categoryDeController.stockQuantity.value == 0) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
@@ -370,6 +425,36 @@ class CategoryDetailsPage extends StatelessWidget {
                             ),
                           ),
                         );
+                      } else {
+                        // Map<String, dynamic> variants = {
+                        //   "color":
+                        //       "${categoryDeController.colorDropdownvalue.value}",
+                        //   "size":
+                        //       "${categoryDeController.sizeDropdownValue.value}"
+                        // };
+
+                        print(
+                            "Size :: ${categoryDeController.sizeDropdownValue.value}");
+                        // Get.to(CartPage());
+                        await categoryDeController.addToCart({
+                          DataBaseHelper.clientId: clientId,
+                          DataBaseHelper.productId: productId,
+                          DataBaseHelper.productQuantity:
+                              categoryDeController.sendProductQuantity.value,
+                          DataBaseHelper.variants:
+                              categoryDeController.selectedVariants,
+                          DataBaseHelper.productImage:
+                              categoryDeController.productImage.value,
+                          DataBaseHelper.productTitle:
+                              categoryDeController.productTitle.value,
+                          DataBaseHelper.productPoints:
+                              categoryDeController.rewardPoints.value,
+                          DataBaseHelper.variantId: categoryDeController.varId ?? "0",
+                          DataBaseHelper.categoryId:
+                              categoryDeController.categoryId.value
+                        });
+
+                        cartController.refreshItems();
                       }
                     },
               style: ElevatedButton.styleFrom(
@@ -385,7 +470,6 @@ class CategoryDetailsPage extends StatelessWidget {
                 style: TextStyle(
                   color: AppColors.txtWhiteColor,
                   fontSize: 16,
-                  fontFamily: 'Montserrat',
                   fontWeight: FontWeight.w600,
                 ),
               )),

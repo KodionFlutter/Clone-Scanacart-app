@@ -53,13 +53,12 @@ class CartPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return CartProductWidget(
                       productId: cartController.items[index]['productId'],
-                      clientId: cartController.items[index]['clientId'],
-                      productColor: cartController.items[index]['productColor'],
-                      productSize: cartController.items[index]['productSize'],
-                      productImage: cartController.items[index]['productImage'],
-                      productTitle: cartController.items[index]['productTitle'],
-                      productPoints: cartController.items[index]
-                          ['productPoints'],
+                      clientId: cartController.items[index]['client_id'],
+                      productColor: cartController.items[index]['color'],
+                      productSize: cartController.items[index]['size'],
+                      productImage: cartController.items[index]['imageURL'],
+                      productTitle: cartController.items[index]['productName'],
+                      productPoints: cartController.items[index]['points'],
                       deleteProduct: () {
                         // try {
                         //   await DataBaseHelper.dataBaseHelper.deleteCartOneData(
@@ -74,19 +73,18 @@ class CartPage extends StatelessWidget {
                       removeProductQuantity: () {
                         cartController.decreaseQuantity(
                           cartController.items[index]['id'],
-                          cartController.items[index]['productColor'],
-                          cartController.items[index]['productSize'],
+                          cartController.items[index]['color'],
+                          cartController.items[index]['size'],
                         );
                       },
                       addProductQuantity: () {
                         cartController.increaseQuantity(
                           cartController.items[index]['id'],
-                          cartController.items[index]['productColor'],
-                          cartController.items[index]['productSize'],
+                          cartController.items[index]['color'],
+                          cartController.items[index]['size'],
                         );
                       },
-                      totalProduct: cartController.items[index]
-                          ['productQuantity'],
+                      totalProduct: cartController.items[index]['quantity'],
                       currentQuantity: cartController.currentQuantity.value,
                     );
                   },
@@ -119,7 +117,8 @@ class CartPage extends StatelessWidget {
                     clientName: clientName,
                   ))
                 : Get.to(ShippingAddressPage(
-                    totalPoints: cartController.totalPoints, clientId: cartController.items[0]['clientId'],
+                    totalPoints: cartController.totalPoints,
+                    clientId: cartController.items[0]['client_id'],
                   ));
           },
           style: ElevatedButton.styleFrom(
@@ -137,7 +136,6 @@ class CartPage extends StatelessWidget {
             style: TextStyle(
               color: AppColors.txtWhiteColor,
               fontSize: 16,
-              fontFamily: 'Montserrat',
               fontWeight: FontWeight.w600,
             ),
           ),

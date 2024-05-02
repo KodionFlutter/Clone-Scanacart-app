@@ -307,20 +307,42 @@ class APIServices {
 
 //! Here we hitting the place order...
 
-  static Future productPlaceOrder(
-      Map<String, dynamic> map, String? token) async {
+  static Future productPlaceOrder(Map<String, dynamic> map) async {
     var url =
         '${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/customerShipping';
     print("This is Shipping URL :: ${url}");
     try {
-      var response = await BaseService.postRewardMethod(url, map, token);
-      log('Response of Shipping  :: ${response.body.toString()}');
+      var response = await BaseService.baseServiceGet(url, map);
+      log('Response of Shipping  :: ${response.body}');
       if (response.statusCode == 200) {
         var decodedData = json.decode(response.body);
         if (decodedData['success'] == true) {
           return decodedData;
         } else {
           throw Exception(decodedData['message']);
+        }
+      }
+    } on SocketException {
+      throw Exception('No Connection');
+    }
+  }
+
+
+  //!  Shipping and Place order ..
+
+  static hitPlaceOrder(Map<String, dynamic> map) async {
+    try {
+      var response = await BaseService.baseServiceGet(
+        '${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/customerShipping',
+        map,
+      );
+      log('address-----${response.body}');
+      if (response.statusCode == 200) {
+        var parseData = json.decode(response.body);
+        if (parseData['success'] == true) {
+          return parseData;
+        } else {
+          throw Exception(parseData['message']);
         }
       }
     } on SocketException {

@@ -19,6 +19,7 @@ class ShippingAddressPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Clie id :: ${clientId}");
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -132,7 +133,7 @@ class ShippingAddressPage extends StatelessWidget {
                             },
                           ),
                         ),
-                      const   SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         //! State
                         Expanded(
                           child: CommonTxtFieldWidget(
@@ -172,17 +173,22 @@ class ShippingAddressPage extends StatelessWidget {
                 ),
               ),
             ),
+
             //! For Save the Address
-            CheckboxListTile(
-              title: const Text(
-                "Save this address for next order",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              value: true,
-              onChanged: (newValue) {},
-              controlAffinity:
-                  ListTileControlAffinity.leading, //  <-- leading Checkbox
-            )
+            Obx(() => CheckboxListTile(
+                  title: const Text(
+                    "Save this address for next order",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  value: shippingController.select.value,
+                  onChanged: (newValue) {
+                    shippingController.select.value = newValue!;
+                    print(
+                        "for saving the address :: ${shippingController.select.value}");
+                  },
+                  controlAffinity:
+                      ListTileControlAffinity.leading, //  <-- leading Checkbox
+                )),
           ],
         ),
         bottomNavigationBar: Obx(
@@ -193,29 +199,37 @@ class ShippingAddressPage extends StatelessWidget {
                       SharedPreferences preferences =
                           await SharedPreferences.getInstance();
                       int? customerId = preferences.getInt('customer_id');
+                      print(
+                          "I want to send this Data :: ${shippingController.sendOrderData}");
 
                       if (shippingController.globalKey.currentState!
                           .validate()) {
-                        shippingController.productShipping({
-                          'name': shippingController.nameController.value.text,
-                          'email':
-                              shippingController.emailController.value.text,
-                          'phone': shippingController
-                              .phoneNumberController.value.text,
-                          'address':
-                              shippingController.addressController.value.text,
-                          'city': shippingController.cityController.value.text,
-                          'state':
-                              shippingController.stateController.value.text,
-                          'zipcode':
-                              shippingController.zipCodeController.value.text,
-                          'customer_id': (customerId ?? '0').toString(),
-                          'total_points': (totalPoints).toString(),
-                          'client_id': (clientId ?? '0').toString(),
-                          'cart_Items': shippingController.cartItemsJson,
-                          'save_address':
-                              shippingController.select == true ? '1' : '0',
-                        });
+                        shippingController.productShipping();
+                        // shippingController.productShipping(
+                        //     {
+                        //   'name': shippingController.nameController.value.text,
+                        //   'email':
+                        //       shippingController.emailController.value.text,
+                        //   'phone': shippingController
+                        //       .phoneNumberController.value.text,
+                        //   'address':
+                        //       shippingController.addressController.value.text,
+                        //   'city': shippingController.cityController.value.text,
+                        //   'state':
+                        //       shippingController.stateController.value.text,
+                        //   'street':shippingController.stateController.value.text ,
+                        //   'zipcode':
+                        //       shippingController.zipCodeController.value.text,
+                        //   'customer_id': customerId.toString(),
+                        //   'total_points': totalPoints.toString(),
+                        //   'client_id': clientId.toString(),
+                        //   'cart_Items': shippingController.sendOrderData,
+                        //   'save_address':
+                        //       shippingController.select.value == true
+                        //           ? '1'
+                        //           : '0',
+                        //   'shipping_id': ""
+                        // });
                       }
                     },
               style: ElevatedButton.styleFrom(

@@ -1,9 +1,4 @@
-import 'dart:ui';
-
-import 'package:flutter/animation.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:palette_generator/palette_generator.dart';
 import 'package:scan_cart_clone/Utils/DataBase%20helper/data_base_helper.dart';
 
 class CartController extends GetxController {
@@ -27,7 +22,7 @@ class CartController extends GetxController {
     print('CartItem : $items');
     itemLength.value = items.length;
     print("Item Length :: ${itemLength}");
-    currentClientID = items[0]['clientId'];
+    currentClientID = items[0]['client_id'];
     print('Client ID --: $currentClientID');
     cartItems.assignAll(items);
     // update();
@@ -43,8 +38,8 @@ class CartController extends GetxController {
   num get totalQuantity {
     num total = 0;
     for (var item in cartItems) {
-      print("Total ==> ${item['productQuantity']}");
-      total += item['productQuantity'] ?? 0;
+      print("Total ==> ${item['quantity']}");
+      total += item['quantity'] ?? 0;
     }
 
     print("Total : ${total}");
@@ -54,7 +49,7 @@ class CartController extends GetxController {
   num get totalPoints {
     num total = 0;
     for (var item in cartItems) {
-      total += item['productQuantity'] * item['productPoints'];
+      total += item['quantity'] * item['points'];
     }
     return total;
   }
@@ -75,9 +70,9 @@ class CartController extends GetxController {
 
     var currentItem = cartDataList.firstWhere((item) =>
         (item['id'] == id) &&
-        item['productColor'] == productColor &&
-        item['productSize'] == productSize);
-    currentQuantity.value = currentItem['productQuantity'];
+        item['color'] == productColor &&
+        item['size'] == productSize);
+    currentQuantity.value = currentItem['quantity'];
     print("yyyyyy => $currentQuantity");
     if (currentQuantity.value > 1) {
       await DataBaseHelper.dataBaseHelper
@@ -105,9 +100,9 @@ class CartController extends GetxController {
     }
   }
 
-  // getColor(ImageProvider imagePath) async {
-  //   var d = await PaletteGenerator.fromImageProvider(imagePath);
-  //   final palette = d.dominantColor?.color;
-  //   print("p ::$palette");
-  // }
+// getColor(ImageProvider imagePath) async {
+//   var d = await PaletteGenerator.fromImageProvider(imagePath);
+//   final palette = d.dominantColor?.color;
+//   print("p ::$palette");
+// }
 }
