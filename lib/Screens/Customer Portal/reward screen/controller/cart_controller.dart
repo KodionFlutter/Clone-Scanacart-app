@@ -67,7 +67,7 @@ class CartController extends GetxController {
     var cartDataList = await DataBaseHelper.dataBaseHelper.fetchProduct();
 
     var currentItem = cartDataList.firstWhere((item) =>
-        (item['id'] == id) &&
+    (item['id'] == id) &&
         item['variants'] == variants);
 
     currentQuantity.value = currentItem['quantity'];

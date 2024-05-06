@@ -5,6 +5,7 @@ import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/controller/order_controller.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/order_details.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/widget/order_widget.dart';
+import 'package:scan_cart_clone/Utils/constant.dart';
 
 class OrderPage extends StatelessWidget {
   OrderPage({super.key});
@@ -54,49 +55,54 @@ class OrderPage extends StatelessWidget {
           )
         ],
       ),
-
-      // Column(
-      //   children: [
-      //     SizedBox(height: AppConstant.size.height * 0.1),
-      //     Image.asset(
-      //       "assets/images/record.webp",
-      //       fit: BoxFit.contain,
-      //       height: AppConstant.size.height * 0.3,
-      //       width: AppConstant.size.width,
-      //     ),
-      //     SizedBox(height: AppConstant.size.height * 0.01),
-      //     Text(
-      //       "No Order Found".toUpperCase(),
-      //       style: TextStyle(
-      //           fontSize: AppConstant.size.height * 0.020,
-      //           fontWeight: FontWeight.bold),
-      //     )
-      //   ],
-      // ),
-      body: Obx(() => orderController.orderDataList.isEmpty
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : ListView.builder(
-              itemCount: orderController.orderDataList.length,
-              itemBuilder: (context, index) {
-                var data = orderController.orderDataList[index];
-                DateTime format =
-                    DateFormat("MMMM, d yyyy HH:mm:ss").parse(data.oRDERDATE!);
-                var date = DateFormat("dd MMM yyyy").format(format);
-                return OrderWidget(
-                  statusColor: orderController.getStatusColor(data.orderStatus),
-                  title: data.cOMPANYNAME!,
-                  orderId: data.oRDERID!,
-                  totalPoints: data.tOTALPOINTS!,
-                  oderDate: date,
-                  onPressed: () {
-                    Get.to(OrderDetails(
-                      oderId: data.oRDERID!,
-                    ));
-                  },
-                );
-              })),
+      body: Obx(() {
+        if (orderController.isLoading.value) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else {
+          return orderController.orderDataList.isEmpty
+              ? Column(
+            children: [
+              SizedBox(height: AppConstant.size.height * 0.1),
+              Image.asset(
+                "assets/images/record.webp",
+                fit: BoxFit.contain,
+                height: AppConstant.size.height * 0.3,
+                width: AppConstant.size.width,
+              ),
+              SizedBox(height: AppConstant.size.height * 0.01),
+              Text(
+                "No order Found".toUpperCase(),
+                style: TextStyle(
+                    fontSize: AppConstant.size.height * 0.020,
+                    fontWeight: FontWeight.bold),
+              )
+            ],
+          )
+              : ListView.builder(
+                  itemCount: orderController.orderDataList.length,
+                  itemBuilder: (context, index) {
+                    var data = orderController.orderDataList[index];
+                    DateTime format = DateFormat("MMMM, d yyyy HH:mm:ss")
+                        .parse(data.oRDERDATE!);
+                    var date = DateFormat("dd MMM yyyy").format(format);
+                    return OrderWidget(
+                      statusColor:
+                          orderController.getStatusColor(data.orderStatus),
+                      title: data.cOMPANYNAME!,
+                      orderId: data.oRDERID!,
+                      totalPoints: data.tOTALPOINTS!,
+                      oderDate: date,
+                      onPressed: () {
+                        Get.to(OrderDetails(
+                          oderId: data.oRDERID!,
+                        ));
+                      },
+                    );
+                  });
+        }
+      }),
     );
   }
 }

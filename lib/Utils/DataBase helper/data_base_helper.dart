@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:scan_cart_clone/Models/save_data_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:developer' as developer;
 

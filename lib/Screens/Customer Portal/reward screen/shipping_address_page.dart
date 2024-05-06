@@ -33,33 +33,29 @@ class ShippingAddressPage extends StatelessWidget {
             )
           ],
         ),
-        body: ListView(
-          shrinkWrap: true,
-          children: [
-            Form(
-              key: shippingController.globalKey,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    //! Address List ..
-                    // Make a drop down ..
-
-                    // for (int i = 0; i < allAddresses.length; i++)
-                    //   AddressDropdown(
-                    //     addresses: allAddresses[i],
-                    //     onAddressSelected: (selectedAddress) {
-                    //       updateTextFields(selectedAddress, i);
-                    //     },
-                    //   ),
-
-                    Obx(
-                      () => shippingController.addressList.length == 0
-                          ? const SizedBox()
-                          : DropdownButtonFormField(
-                              decoration: InputDecoration(
-                                  suffixIcon:
-                                      shippingController.selectAddress.value ==
+        body: Obx(() {
+          if (shippingController.isLoading.value) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return ListView(
+              shrinkWrap: true,
+              children: [
+                Form(
+                  key: shippingController.globalKey,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        //! Address List ..
+                        Obx(
+                          () => shippingController.addressList.length == 0
+                              ? const SizedBox()
+                              : DropdownButtonFormField(
+                                  decoration: InputDecoration(
+                                      suffixIcon: shippingController
+                                                  .selectAddress.value ==
                                               ''
                                           ? const SizedBox()
                                           : IconButton(
@@ -93,219 +89,224 @@ class ShippingAddressPage extends StatelessWidget {
                                                     .clear();
                                               },
                                             ),
-                                  enabled: true,
-                                  hintText: "Select Address",
-                                  // filled: true,
-                                  border: OutlineInputBorder(),
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 15, horizontal: 10)),
-                              // isExpanded: true,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              isDense: true,
-                              value: shippingController
-                                      .selectAddress.value.isNotEmpty
-                                  ? shippingController.selectAddress.value
-                                      .toString()
-                                  : null,
-                              items: [
-                                ...shippingController.addressList
-                                    .map((element) {
-                                  return DropdownMenuItem(
                                       enabled: true,
-                                      value: element.shippingId.toString(),
-                                      child: Text(element.address.toString()));
-                                }),
-                              ],
-                              onChanged: (newValue) {
-                                shippingController.selectAddress.value =
-                                    newValue.toString();
+                                      hintText: "Select Address",
+                                      // filled: true,
+                                      border: OutlineInputBorder(),
+                                      contentPadding: EdgeInsets.symmetric(
+                                          vertical: 15, horizontal: 10)),
+                                  // isExpanded: true,
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  isDense: true,
+                                  value: shippingController
+                                          .selectAddress.value.isNotEmpty
+                                      ? shippingController.selectAddress.value
+                                          .toString()
+                                      : null,
+                                  items: [
+                                    ...shippingController.addressList
+                                        .map((element) {
+                                      return DropdownMenuItem(
+                                          enabled: true,
+                                          value: element.shippingId.toString(),
+                                          child:
+                                              Text(element.address.toString()));
+                                    }),
+                                  ],
+                                  onChanged: (newValue) {
+                                    shippingController.selectAddress.value =
+                                        newValue.toString();
 
-                                //! This loop for index of selecting value and basic of index i can get data .
-                                for (int i = 0;
-                                    i < shippingController.addressList.length;
-                                    i++) {
-                                  var getData =
-                                      shippingController.addressModel.data![i];
-                                  if (newValue.toString() ==
-                                      shippingController
-                                          .addressModel.data![i].shippingId
-                                          .toString()) {
-                                    shippingController.nameController.value
-                                        .text = getData.name!;
-                                    shippingController.emailController.value
-                                        .text = getData.email!;
-                                    shippingController.phoneNumberController
-                                        .value.text = getData.phoneNumber!;
-                                    shippingController.addressController.value
-                                        .text = getData.address!;
-                                    shippingController.cityController.value
-                                        .text = getData.city!;
-                                    shippingController.stateController.value
-                                        .text = getData.state!;
-                                    shippingController.zipCodeController.value
-                                        .text = getData.zipCode!;
-                                  }
-                                }
+                                    //! This loop for index of selecting value and basic of index i can get data .
+                                    for (int i = 0;
+                                        i <
+                                            shippingController
+                                                .addressList.length;
+                                        i++) {
+                                      var getData = shippingController
+                                          .addressModel.data![i];
+                                      if (newValue.toString() ==
+                                          shippingController
+                                              .addressModel.data![i].shippingId
+                                              .toString()) {
+                                        shippingController.nameController.value
+                                            .text = getData.name!;
+                                        shippingController.emailController.value
+                                            .text = getData.email!;
+                                        shippingController.phoneNumberController
+                                            .value.text = getData.phoneNumber!;
+                                        shippingController.addressController
+                                            .value.text = getData.address!;
+                                        shippingController.cityController.value
+                                            .text = getData.city!;
+                                        shippingController.stateController.value
+                                            .text = getData.state!;
+                                        shippingController.zipCodeController
+                                            .value.text = getData.zipCode!;
+                                      }
+                                    }
 
-                                print(
-                                    "Value is :: ${shippingController.selectAddress.value}");
-                              }),
-                    ),
-
-                    SizedBox(height: 10),
-                    CommonTxtFieldWidget(
-                      textEditController:
-                          shippingController.nameController.value,
-                      textInputType: TextInputType.name,
-                      icons: Icons.person,
-                      hinText: 'Full Name',
-                      preFixText: '',
-                      validator: (String? value) {
-                        if (value!.isEmpty) {
-                          return "Please enter your name";
-                        } else if (shippingController.reg.hasMatch(value)) {
-                          return "Please enter a valid name";
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    //! Email
-                    CommonTxtFieldWidget(
-                      textEditController:
-                          shippingController.emailController.value,
-                      textInputType: TextInputType.emailAddress,
-                      icons: Icons.mail,
-                      hinText: 'Email',
-                      preFixText: '',
-                      validator: (String? value) {
-                        if (value!.isEmpty) {
-                          return "Please enter your email";
-                        } else if (!shippingController.regEmail
-                            .hasMatch(value)) {
-                          return "Please enter a valid email";
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    //! Phone Number ..
-
-                    CommonTxtFieldWidget(
-                      textEditController:
-                          shippingController.phoneNumberController.value,
-                      textInputType: TextInputType.phone,
-                      icons: Icons.phone,
-                      hinText: 'Phone Number',
-                      preFixText: '',
-                      validator: (String? value) {
-                        if (value!.isEmpty) {
-                          return "Please enter your phone Number";
-                        } else if (value.length < 10) {
-                          return "Please enter a valid phone Number";
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    //! Address
-
-                    CommonTxtFieldWidget(
-                      textEditController:
-                          shippingController.addressController.value,
-                      textInputType: TextInputType.streetAddress,
-                      icons: Icons.place_rounded,
-                      hinText: 'Address',
-                      preFixText: '',
-                      validator: (String? value) {
-                        if (value!.isEmpty) {
-                          return "Please enter your address";
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 8),
-                    //! City
-
-                    Row(
-                      children: [
-                        Expanded(
-                          child: CommonTxtFieldWidget(
-                            textEditController:
-                                shippingController.cityController.value,
-                            textInputType: TextInputType.text,
-                            icons: Icons.location_city,
-                            hinText: 'City',
-                            preFixText: '',
-                            validator: (String? value) {
-                              if (value!.isEmpty) {
-                                return "Please enter your city";
-                              }
-                              return null;
-                            },
-                          ),
+                                    print(
+                                        "Value is :: ${shippingController.selectAddress.value}");
+                                  }),
                         ),
-                        const SizedBox(width: 10),
-                        //! State
-                        Expanded(
-                          child: CommonTxtFieldWidget(
-                            textEditController:
-                                shippingController.stateController.value,
-                            textInputType: TextInputType.text,
-                            icons: Icons.location_city,
-                            hinText: 'State',
-                            preFixText: '',
-                            validator: (String? value) {
-                              if (value!.isEmpty) {
-                                return "Please enter your state";
-                              }
-                              return null;
-                            },
-                          ),
+
+                        SizedBox(height: 10),
+                        CommonTxtFieldWidget(
+                          textEditController:
+                              shippingController.nameController.value,
+                          textInputType: TextInputType.name,
+                          icons: Icons.person,
+                          hinText: 'Full Name',
+                          preFixText: '',
+                          validator: (String? value) {
+                            if (value!.isEmpty) {
+                              return "Please enter your name";
+                            } else if (shippingController.reg.hasMatch(value)) {
+                              return "Please enter a valid name";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 8),
+                        //! Email
+                        CommonTxtFieldWidget(
+                          textEditController:
+                              shippingController.emailController.value,
+                          textInputType: TextInputType.emailAddress,
+                          icons: Icons.mail,
+                          hinText: 'Email',
+                          preFixText: '',
+                          validator: (String? value) {
+                            if (value!.isEmpty) {
+                              return "Please enter your email";
+                            } else if (!shippingController.regEmail
+                                .hasMatch(value)) {
+                              return "Please enter a valid email";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 8),
+                        //! Phone Number ..
+
+                        CommonTxtFieldWidget(
+                          textEditController:
+                              shippingController.phoneNumberController.value,
+                          textInputType: TextInputType.phone,
+                          icons: Icons.phone,
+                          hinText: 'Phone Number',
+                          preFixText: '',
+                          validator: (String? value) {
+                            if (value!.isEmpty) {
+                              return "Please enter your phone Number";
+                            } else if (value.length < 10) {
+                              return "Please enter a valid phone Number";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 8),
+                        //! Address
+
+                        CommonTxtFieldWidget(
+                          textEditController:
+                              shippingController.addressController.value,
+                          textInputType: TextInputType.streetAddress,
+                          icons: Icons.place_rounded,
+                          hinText: 'Address',
+                          preFixText: '',
+                          validator: (String? value) {
+                            if (value!.isEmpty) {
+                              return "Please enter your address";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 8),
+                        //! City
+
+                        Row(
+                          children: [
+                            Expanded(
+                              child: CommonTxtFieldWidget(
+                                textEditController:
+                                    shippingController.cityController.value,
+                                textInputType: TextInputType.text,
+                                icons: Icons.location_city,
+                                hinText: 'City',
+                                preFixText: '',
+                                validator: (String? value) {
+                                  if (value!.isEmpty) {
+                                    return "Please enter your city";
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            //! State
+                            Expanded(
+                              child: CommonTxtFieldWidget(
+                                textEditController:
+                                    shippingController.stateController.value,
+                                textInputType: TextInputType.text,
+                                icons: Icons.location_city,
+                                hinText: 'State',
+                                preFixText: '',
+                                validator: (String? value) {
+                                  if (value!.isEmpty) {
+                                    return "Please enter your state";
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        //! zip code
+                        CommonTxtFieldWidget(
+                          textEditController:
+                              shippingController.zipCodeController.value,
+                          textInputType: TextInputType.number,
+                          icons: Icons.numbers,
+                          hinText: 'Zip Code',
+                          preFixText: '',
+                          validator: (String? value) {
+                            if (value!.isEmpty) {
+                              return "Please enter your zip Code";
+                            }
+                            return null;
+                          },
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
-                    //! zip code
-                    CommonTxtFieldWidget(
-                      textEditController:
-                          shippingController.zipCodeController.value,
-                      textInputType: TextInputType.number,
-                      icons: Icons.numbers,
-                      hinText: 'Zip Code',
-                      preFixText: '',
-                      validator: (String? value) {
-                        if (value!.isEmpty) {
-                          return "Please enter your zip Code";
-                        }
-                        return null;
-                      },
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
 
-            //! For Save the Address
-            Obx(() => shippingController.selectAddress.value.isNotEmpty
-                ? SizedBox()
-                : CheckboxListTile(
-                    title: const Text(
-                      "Save this address for next order",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    value: shippingController.select.value,
-                    onChanged: (newValue) {
-                      shippingController.select.value = newValue!;
-                      print(
-                          "for saving the address :: ${shippingController.select.value}");
-                    },
-                    controlAffinity: ListTileControlAffinity
-                        .leading, //  <-- leading Checkbox
-                  )),
-          ],
-        ),
+                //! For Save the Address
+                Obx(() => shippingController.selectAddress.value.isNotEmpty
+                    ? SizedBox()
+                    : CheckboxListTile(
+                        title: const Text(
+                          "Save this address for next order",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        value: shippingController.select.value,
+                        onChanged: (newValue) {
+                          shippingController.select.value = newValue!;
+                          print(
+                              "for saving the address :: ${shippingController.select.value}");
+                        },
+                        controlAffinity: ListTileControlAffinity
+                            .leading, //  <-- leading Checkbox
+                      )),
+              ],
+            );
+          }
+        }),
         bottomNavigationBar: Obx(
           () => ElevatedButton(
               onPressed: shippingController.message.value.isNotEmpty
@@ -362,17 +363,19 @@ class ShippingAddressPage extends StatelessWidget {
                     AppConstant.size.width, AppConstant.size.height * 0.07),
               ),
               child: Obx(
-                () => Text(
-                  shippingController.message.value.isNotEmpty
-                      ? shippingController.message.value.toString()
-                      : "Place Order ($totalPoints Points)",
-                  style: TextStyle(
-                    color: AppColors.txtWhiteColor,
-                    fontSize: 15,
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                () => shippingController.isOrder.value
+                    ? const Center(child: CircularProgressIndicator(color: Colors.white))
+                    : Text(
+                        shippingController.message.value.isNotEmpty
+                            ? shippingController.message.value.toString()
+                            : "Place Order ($totalPoints Points)",
+                        style: TextStyle(
+                          color: AppColors.txtWhiteColor,
+                          fontSize: 15,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
               )),
         ));
   }

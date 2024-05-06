@@ -7,14 +7,14 @@ class OrderDetailsTotalPointsWidget extends StatelessWidget {
   final int cachingCon;
   final int discount;
   final int totalAmount;
-  final VoidCallback onTap;
+  final Widget button;
 
-  const OrderDetailsTotalPointsWidget(
-      {super.key,
-      required this.pointsAmount,
-      required this.cachingCon,
-      required this.discount,
-      required this.totalAmount, required this.onTap});
+  const OrderDetailsTotalPointsWidget({super.key,
+    required this.pointsAmount,
+    required this.cachingCon,
+    required this.discount,
+    required this.totalAmount,
+    required this.button});
 
   @override
   Widget build(BuildContext context) {
@@ -110,24 +110,9 @@ class OrderDetailsTotalPointsWidget extends StatelessWidget {
           SizedBox(height: 5),
           Divider(thickness: 1, color: Colors.black54),
           SizedBox(height: 10),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(child: SizedBox()),
-              InkWell(
-                onTap: onTap,
-                child: Text(
-                  "cancel order".toUpperCase(),
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.redAccent,
-                      fontSize: 13),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 10),
+          Container(
+              child: button
+          )
         ],
       ),
     );

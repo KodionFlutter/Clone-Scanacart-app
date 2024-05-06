@@ -16,7 +16,7 @@ class OrderDetailsController extends GetxController {
 
   Rx<TextEditingController> addNoteController = TextEditingController().obs;
   Rx<TextEditingController> cancelNoteController = TextEditingController().obs;
-  RxBool isLoaded = false.obs;
+  RxBool isLoading = false.obs;
 
   //! onInit method
   @override
@@ -29,14 +29,13 @@ class OrderDetailsController extends GetxController {
   //! here ew calling getOderDetails Method
 
   Future getOrderDetails() async {
+    isLoading.value = true ;
     orderDetailsModel = await APIServices.hitViewOrderDetails(oderId);
     orderDetailsDataList.clear();
     if (orderDetailsModel.success == true) {
-      isLoaded.value = true;
       orderDetailsDataList.addAll(orderDetailsModel.data!);
-    } else {
-      isLoaded.value = false;
     }
+    isLoading.value = false;
   }
 
   //! Here we cancel the order ..
