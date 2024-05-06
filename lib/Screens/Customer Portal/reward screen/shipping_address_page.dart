@@ -5,7 +5,6 @@ import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/widgets
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/controller/shipping_address_controller.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'widgets/cart_counter_widget.dart';
 
 class ShippingAddressPage extends StatelessWidget {
@@ -19,12 +18,12 @@ class ShippingAddressPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("Clie id :: ${clientId}");
+    print("Client id :: ${clientId}");
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: Text("Shipping Address"),
+          title: const Text("Shipping Address"),
           actions: [
             CartCounterWidget(
               clientId: 0,
@@ -204,32 +203,32 @@ class ShippingAddressPage extends StatelessWidget {
 
                       if (shippingController.globalKey.currentState!
                           .validate()) {
-                        shippingController.productShipping();
-                        // shippingController.productShipping(
-                        //     {
-                        //   'name': shippingController.nameController.value.text,
-                        //   'email':
-                        //       shippingController.emailController.value.text,
-                        //   'phone': shippingController
-                        //       .phoneNumberController.value.text,
-                        //   'address':
-                        //       shippingController.addressController.value.text,
-                        //   'city': shippingController.cityController.value.text,
-                        //   'state':
-                        //       shippingController.stateController.value.text,
-                        //   'street':shippingController.stateController.value.text ,
-                        //   'zipcode':
-                        //       shippingController.zipCodeController.value.text,
-                        //   'customer_id': customerId.toString(),
-                        //   'total_points': totalPoints.toString(),
-                        //   'client_id': clientId.toString(),
-                        //   'cart_Items': shippingController.sendOrderData,
-                        //   'save_address':
-                        //       shippingController.select.value == true
-                        //           ? '1'
-                        //           : '0',
-                        //   'shipping_id': ""
-                        // });
+                        Map<String, dynamic> mapData = {};
+                        mapData['name'] =
+                            shippingController.nameController.value.text;
+                        mapData['email'] =
+                            shippingController.emailController.value.text;
+                        mapData['phone'] =
+                            shippingController.phoneNumberController.value.text;
+                        mapData['address'] =
+                            shippingController.addressController.value.text;
+                        mapData['city'] =
+                            shippingController.cityController.value.text;
+                        mapData['state'] =
+                            shippingController.stateController.value.text;
+                        mapData['street'] =
+                            shippingController.stateController.value.text;
+                        mapData['zipcode'] =
+                            shippingController.zipCodeController.value.text;
+                        mapData['customer_id'] = customerId.toString();
+                        mapData['total_points'] = totalPoints.toString();
+                        mapData['client_id'] = clientId.toString();
+                        mapData['cart_Items'] =
+                            shippingController.addData.toString();
+                        mapData['save_address'] = "0";
+                        mapData['shipping_id'] = "";
+                        shippingController.productShipping(mapData);
+                        print("This is want to send : $mapData");
                       }
                     },
               style: ElevatedButton.styleFrom(

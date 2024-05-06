@@ -73,15 +73,13 @@ class CartPage extends StatelessWidget {
                       removeProductQuantity: () {
                         cartController.decreaseQuantity(
                           cartController.items[index]['id'],
-                          cartController.items[index]['color'],
-                          cartController.items[index]['size'],
+                          cartController.items[index]['variants']
                         );
                       },
                       addProductQuantity: () {
                         cartController.increaseQuantity(
                           cartController.items[index]['id'],
-                          cartController.items[index]['color'],
-                          cartController.items[index]['size'],
+                          cartController.items[index]['variants'],
                         );
                       },
                       totalProduct: cartController.items[index]['quantity'],

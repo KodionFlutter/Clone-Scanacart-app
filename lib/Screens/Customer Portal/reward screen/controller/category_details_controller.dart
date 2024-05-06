@@ -44,21 +44,10 @@ class CategoryDetailsController extends GetxController {
   var sendProductQuantity = 1.obs;
   var items = [].obs;
   var currentClientID;
-  Map<String, String?> selectedVariants = {};
+  var selectedVariants = {}.obs;
   var variants;
   int? varId;
   var productQuantity = 0.obs;
-
-  // Map<String, dynamic> productDetails = {
-  //   "color": "pink",
-  //   "size": "r",
-  // };
-
-  // var imgList = [
-  //   "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg",
-  //   "https://cdn.create.vista.com/api/media/small/58244841/stock-photo-colourful-flying-parrot-in-tropical-landscape",
-  //   "https://images.pexels.com/photos/1067562/pexels-photo-1067562.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-  // ].obs;
 
   //! Make a function  to get CategoryDetails
   Future<void> getCategoryDetails() async {
@@ -80,12 +69,9 @@ class CategoryDetailsController extends GetxController {
         print("RE :: ${rewardPoints.value}");
         deatilsImageList.value = categoryDetailsData['data']['images'];
         print("Ima :: ${deatilsImageList.length}");
-
-        //!
         stockQuantity.value = categoryDetailsData['data']['stock_quantity'];
         print("The total Stock Qunatity is :: ${stockQuantity}");
         productImage.value = categoryDetailsData['data']['product_image'];
-
         //! make two variable -> variantsKey , variantsValue,
         variants = categoryDetailsData['data']['variants'];
         print("Variants : $variants");
@@ -140,12 +126,11 @@ class CategoryDetailsController extends GetxController {
     items.value = await DataBaseHelper.dataBaseHelper.fetchProduct();
     // var sameClient = await DataBaseHelper.dataBaseHelper.insert(data);
     // print("Insert Data :: $sameClient");
-    if (variantsData.isNotEmpty) {
-      getVarId();
-    }
-    print("response of SQFLite");
-    if (items.length == 0) {
-      print("This is varId first : ${varId}");
+    // if (variantsData.isNotEmpty) {
+    //   getVarId();
+    // }
+    print("Response of SQFLite : ${items.length}");
+    if (items.length == 0 || items.isEmpty) {
       var sameClient = await DataBaseHelper.dataBaseHelper.insert(data);
       print("This is reposne for SQFLITE  :: ${sameClient}");
       ScaffoldMessenger.of(navigatorKey.currentState!.context).showSnackBar(
@@ -163,18 +148,14 @@ class CategoryDetailsController extends GetxController {
     } else {
       currentClientID = items[0]['client_id'];
       if (currentClientID == clientId) {
-        // if (categoryDetailsData['data']['variantsData'] != null) {
-        //   getVarId();
-        // }
-        print("This is varId already : ${varId}");
         var sameClient = await DataBaseHelper.dataBaseHelper.insert(data);
-        print("This is reposne for SQFLITE  :: ${sameClient}");
+        print("This is response for sqfLite  :: ${sameClient}");
         ScaffoldMessenger.of(navigatorKey.currentState!.context).showSnackBar(
           SnackBar(
-            content:
-                Text(textAlign: TextAlign.center, "Product added to the card"),
+            content: const Text(
+                textAlign: TextAlign.center, "Product added to the card"),
             backgroundColor: AppColors.txtScanProductColor,
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10), topRight: Radius.circular(10)),
             ),
@@ -195,11 +176,9 @@ class CategoryDetailsController extends GetxController {
             ),
           ),
         );
-        print("You can't add the Product");
+        print("You Can not add different client product");
       }
     }
-
-    // return false;
   }
 
   //! iS Check ..

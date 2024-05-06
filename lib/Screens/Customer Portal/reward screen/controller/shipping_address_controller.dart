@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
+import 'package:scan_cart_clone/Common/common_services/common_services.dart';
 import 'package:scan_cart_clone/Common/validator_form.dart';
 import 'package:scan_cart_clone/Utils/Base%20service/services.dart';
 import 'package:scan_cart_clone/Utils/DataBase%20helper/data_base_helper.dart';
@@ -26,6 +28,9 @@ class ShippingAddressController extends GetxController {
   var cartItemsJson;
   RxString message = ''.obs;
   var sendOrderData;
+  var productSendVariants;
+  List storeData = [];
+  List addData = [];
 
   @override
   void onInit() {
@@ -35,122 +40,68 @@ class ShippingAddressController extends GetxController {
 
   //! Here fetch the cart Item ..
   Future refreshItems() async {
-    // cartItemsJson = await DataBaseHelper.dataBaseHelper.fetchProduct();
-    // print('CartItem :=>> ${cartItemsJson}');
+    //! Getting the Local DataBase
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    int? customerId = preferences.getInt('customer_id');
+    print("CustomerID :: ${customerId}");
+
+    //! Getting the Data From The DataBase ..
+    cartItemsJson = await DataBaseHelper.dataBaseHelper.fetchProduct();
+    storeData = await DataBaseHelper.dataBaseHelper.fetchProduct();
+    print('CartItem :=>> ${cartItemsJson}');
     // sendOrderData = jsonEncode(cartItemsJson);
     // print("000 : $sendOrderData");
-    // SharedPreferences preferences = await SharedPreferences.getInstance();
-    // var token = preferences.getString("Token");
-    // print("shipping main Token :: $token");
-    // int? customerId = preferences.getInt('customer_id');
-    // print("Cus :: ${customerId}");
-    // List<Map<String, dynamic>> originalData = json.decode(cartItemsJson);
-    //
-    // // Modify the data
-    // List<Map<String, dynamic>> modifiedData = originalData.map((item) {
-    //   // Replace the "variants" value with an empty object
-    //   item['variants'] = {};
-    //   return item;
-    // }).toList();
-    //
-    // // Convert the modified data back to JSON string
-    // String modifiedJsonData = json.encode(modifiedData);
-    //
-    // print("modifiedJsonData : $modifiedJsonData");
 
-    cartItemsJson = await DataBaseHelper.dataBaseHelper.fetchProduct();
-
-// Assuming cartItemsJson is a list of items retrieved from the database
-    List<Map<String, dynamic>> itemList = [];
-
-// Iterate over each item in cartItemsJson and add it to itemList
-    for (var item in cartItemsJson) {
-      itemList.add(item); // toJson() method is just an example, use the actual method to convert your item to a map
+    // You need to get the variants and decode to this ...
+    Map<String, dynamic> sendVariantsData = {};
+    var variants;
+    Map<String, String> variantsMap = {};
+    for (var items in cartItemsJson) {
+      variants = items['variants'];
     }
 
-// Modify the data
-    List<Map<String, dynamic>> modifiedData = itemList.map((item) {
-      // Replace the "variants" value with an empty object
-      item['variants'] = {};
-      return item;
-    }).toList();
+    print("The variants all  :${variants}");
+    //! Here i convert the data into sending form...
 
-// Convert the modified data back to JSON string
-    String modifiedJsonData = json.encode(modifiedData);
+    String extractedData = variants.split('{')[1].split('}')[0];
+    List<String> keyValuePairs = extractedData.split(', ');
 
-    print("modifiedJsonData : $modifiedJsonData");
+    keyValuePairs.forEach((pair) {
+      List<String> parts = pair.split('=');
+      String key = parts[0].trim();
+      String value = parts[1].replaceAll('"', '').trim();
+      variantsMap[key] = value;
+    });
 
-    // if (sendOrderData != null) {
-    //   List<dynamic> decodedList = jsonDecode(sendOrderData);
-    //   print("decodedList :: $decodedList");
-    //   List<Map<String, dynamic>> retrievedCartItems =
-    //       decodedList.map((item) => Map<String, dynamic>.from(item)).toList();
-    //   cartItems.clear(); // Clear existing items
-    //   cartItems.addAll(retrievedCartItems);
-    //   print("Is this cartItem :: ${cartItems}");
-    // }else{
-    //   print("Not workinh");
-    // }
-    // update();
+    var endciesendVariantsData = sendVariantsData;
+    for (var items in cartItemsJson) {
+      sendVariantsData["id"] = items["id"];
+      sendVariantsData["client_id"] = items["client_id"];
+      sendVariantsData["productId"] = items["productId"];
+      sendVariantsData["quantity"] = items["quantity"];
+      sendVariantsData["points"] = items["points"];
+      sendVariantsData["variantId"] = items["variantId"];
+      sendVariantsData["category_id"] = items["category_id"];
+      sendVariantsData["productName"] = items["productName"];
+      sendVariantsData["imageURL"] = items["imageURL"];
+      sendVariantsData['variants'] = variantsMap;
+      productSendVariants = jsonEncode(endciesendVariantsData);
+      addData.add(productSendVariants);
+    }
+    print("This is all Addded data into the map : $addData");
+    print("variantsMap : $productSendVariants");
   }
 
   //! Make here function for adding the shipping or order....
-  Future productShipping() async {
+  Future productShipping(Map<String, dynamic> mapData) async {
     try {
-      SharedPreferences preferences = await SharedPreferences.getInstance();
-      // String vari = jsonEncode(sendOrderData);
-      print("Vari :: $sendOrderData");
-      // var token = preferences.getString("Token");
-      // print("shipping main Token :: $token");
-      Map<String, dynamic> mapData = {};
-      mapData['name'] = "demo";
-      mapData['email'] = "demo@gmail.com";
-      mapData['phone'] = "9616277301";
-      mapData['address'] = "BEstech";
-      mapData['city'] = "mohali";
-      mapData['state'] = "punjab";
-      mapData['street'] = "Bu 12";
-      mapData['zipcode'] = "12345";
-      mapData['customer_id'] = "112258";
-      mapData['total_points'] = "25";
-      mapData['client_id'] = "1910";
-      mapData['cart_Items'] = sendOrderData;
-      mapData['save_address'] = "0";
-      mapData['shipping_id'] = "";
-
-      //   "name": "demo",
-      //   "email": "demo@gmail.com",
-      //   "phone": "",
-      //   "address": "Bestech",
-      //   "city": "mohali",
-      //   "state": "panjab",
-      //   "street": "panjab",
-      //   "zipcode": "12345",
-      //   "customer_id": "112258",
-      //   "total_points": "25",
-      //   "client_id": "1910",
-      //   "cart_Items": [
-      //     {
-      //       "quantity": "1",
-      //       "imageURL": "https://dev.scanacart.com/admin/products/assets/product/images/amex-giftcard.png__1069x690_q85_subsampling-2_720.png",
-      //       "variants": {},
-      //       "variantId": "0",
-      //       "productId": "205",
-      //       "productName": "gift card 1",
-      //       "points": "25",
-      //       "client_id": "1910",
-      //       "category_id": "60"
-      //     }
-      //   ],
-      //   "save_address": "0",
-      //   "shipping_id": ""
-      // };
-      //! We need to get
-      // cartItems.value = jsonEncode(cartItemsJson) as RxList;
-      // print("Cart Items Json => $cartItems");
+      // SharedPreferences preferences = await SharedPreferences.getInstance();
       print("This is map : $mapData");
       var data = await APIServices.hitPlaceOrder(mapData);
-      print("Shipping Response is : $data");
+      showMessage("${data['message']}", AppColors.whiteBackgroundColor);
+      await DataBaseHelper.dataBaseHelper.deleteAllData();
+      refreshItems();
+      // print("Shipping Response is : $data");
     } catch (e) {
       print("Exception is :: ${e.toString()}");
       message.value = "You Are Not Eligible To Buy Products.";

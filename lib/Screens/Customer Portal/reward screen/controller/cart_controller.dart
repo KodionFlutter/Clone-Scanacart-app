@@ -55,28 +55,26 @@ class CartController extends GetxController {
   }
 
   // Method to increase quantity of an item
-  Future<void> increaseQuantity(
-      id, String? productColor, String? productSize) async {
+  Future<void> increaseQuantity(id, variants) async {
     print("increase the value");
-    await DataBaseHelper.dataBaseHelper
-        .updateProductQuantity(id, 1, productColor, productSize);
+    await DataBaseHelper.dataBaseHelper.updateProductQuantity(id, 1, variants);
     refreshItems();
   }
 
   // Method to decrease quantity of an item
   Future<void> decreaseQuantity(
-      id, String? productColor, String? productSize) async {
+      id,variants) async {
     var cartDataList = await DataBaseHelper.dataBaseHelper.fetchProduct();
 
     var currentItem = cartDataList.firstWhere((item) =>
         (item['id'] == id) &&
-        item['color'] == productColor &&
-        item['size'] == productSize);
+        item['variants'] == variants);
+
     currentQuantity.value = currentItem['quantity'];
     print("yyyyyy => $currentQuantity");
     if (currentQuantity.value > 1) {
       await DataBaseHelper.dataBaseHelper
-          .updateProductQuantity(id, -1, productColor, productSize);
+          .updateProductQuantity(id, -1, variants);
       refreshItems();
     } else {
       print('Cannot decrease quantity further.');

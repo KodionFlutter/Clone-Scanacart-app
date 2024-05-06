@@ -96,14 +96,16 @@ class DataBaseHelper {
   //! Insert Query
   Future insert(Map<String, dynamic> addCartData) async {
     var database = await dataBaseHelper.getDatabase;
-    await database.insert(_tableName, addCartData);
+    // await database.insert(_tableName, addCartData);
+    // print('ProductCart added into the Database..');
 
-    // //! Checking for productList Empty or Not..
-    List<Map<String, dynamic>> productCartRecords = await database.query(
-      'ProductCart',
-    );
+    //! Checking for productList Empty or Not..
+    List<Map<String, dynamic>> productCartRecords =
+        await database.query(_tableName);
+    print("This is into Db length is : ${productCartRecords.length}");
     // Check if record isNotEmpty .
-    if (productCartRecords.length > 0) {
+    if (productCartRecords.length > 0 && productCartRecords.isNotEmpty) {
+      print("No empty");
       //! Here if same client is...
       List<Map<String, dynamic>> cartRecords = await database.query(
         'ProductCart',
@@ -118,7 +120,6 @@ class DataBaseHelper {
       print("Matching product :: $cartRecords}");
       if (cartRecords.isNotEmpty) {
         print("Is how woking");
-        //! But if there are coming different Size or different color then add into the Lis..
         // Product already exists in the cart, update its quantity in the cartList...
         int newQuantity = cartRecords[0]['quantity'] + 1;
         print("New Quantity :: $newQuantity");
@@ -137,6 +138,7 @@ class DataBaseHelper {
         await database.insert(_tableName, addCartData);
       }
     } else {
+      print("yes empty");
       // Database has no records
       await database.insert(_tableName, addCartData);
       print('ProductCart database is empty!');
@@ -158,11 +160,17 @@ class DataBaseHelper {
   }
 
   //! Update the productQuantity , if they add want to add more quantity of the product ..
-  Future<void> updateProductQuantity(
-      id, quantity, String? productColor, String? productSize) async {
+  Future<void> updateProductQuantity(id, quantity, variants) async {
     final db = await dataBaseHelper.getDatabase;
     await db.rawUpdate(
-        'UPDATE $_tableName SET $productQuantity = quantity + ? WHERE  id = ? AND color = ? AND size = ?',
-        [quantity, id, productColor, productSize]);
+        'UPDATE $_tableName SET $productQuantity = quantity + ? WHERE  id = ? AND variants = ?',
+        [quantity, id, variants]);
+  }
+
+  //! Delete  the DataBase..
+
+  Future<void> deleteAllData() async {
+    var db = await dataBaseHelper.getDatabase;
+    await db.delete(_tableName);
   }
 }

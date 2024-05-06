@@ -253,15 +253,15 @@ class CategoryDetailsPage extends StatelessWidget {
                                       color: Colors.black,
                                     ),
                                   ),
-                                  SizedBox(width: 20),
+                                  const SizedBox(width: 20),
                                   variantEntry.value == "" &&
                                           variantEntry.value == null
-                                      ? SizedBox()
+                                      ? const SizedBox()
                                       : SizedBox(
                                           width: 80,
                                           child: DropdownButton<String>(
                                             value: categoryDeController
-                                                    .selectedVariants[
+                                                    .selectedVariants.value[
                                                 variantEntry.key],
                                             dropdownColor: Colors.white,
                                             style:
@@ -272,9 +272,9 @@ class CategoryDetailsPage extends StatelessWidget {
                                               height: 2,
                                               color: Colors.white,
                                             ),
-                                            onChanged: (String? newValue) {
+                                            onChanged: (newValue) {
                                               categoryDeController
-                                                      .selectedVariants[
+                                                      .selectedVariants.value[
                                                   variantEntry.key] = newValue;
                                             },
                                             items: list
@@ -412,7 +412,7 @@ class CategoryDetailsPage extends StatelessWidget {
                   : () async {
                       if (categoryDeController.stockQuantity.value == 0) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             content: Text(
                               textAlign: TextAlign.center,
                               "Product is Out of Stock",
@@ -426,16 +426,6 @@ class CategoryDetailsPage extends StatelessWidget {
                           ),
                         );
                       } else {
-                        // Map<String, dynamic> variants = {
-                        //   "color":
-                        //       "${categoryDeController.colorDropdownvalue.value}",
-                        //   "size":
-                        //       "${categoryDeController.sizeDropdownValue.value}"
-                        // };
-
-                        print(
-                            "Size :: ${categoryDeController.sizeDropdownValue.value}");
-                        // Get.to(CartPage());
                         await categoryDeController.addToCart({
                           DataBaseHelper.clientId: clientId,
                           DataBaseHelper.productId: productId,
@@ -449,11 +439,10 @@ class CategoryDetailsPage extends StatelessWidget {
                               categoryDeController.productTitle.value,
                           DataBaseHelper.productPoints:
                               categoryDeController.rewardPoints.value,
-                          DataBaseHelper.variantId: categoryDeController.varId ?? "0",
+                          DataBaseHelper.variantId: 41,
                           DataBaseHelper.categoryId:
                               categoryDeController.categoryId.value
                         });
-
                         cartController.refreshItems();
                       }
                     },

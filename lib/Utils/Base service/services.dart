@@ -336,12 +336,13 @@ class APIServices {
         '${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/customerShipping',
         map,
       );
-      log('address-----${response.body}');
+      log('place order : = ${response.body.toString()}');
       if (response.statusCode == 200) {
         var parseData = json.decode(response.body);
         if (parseData['success'] == true) {
           return parseData;
         } else {
+          print("There is Problem");
           throw Exception(parseData['message']);
         }
       }
