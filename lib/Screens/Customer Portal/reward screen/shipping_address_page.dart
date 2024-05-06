@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/widgets/common_TextField.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/controller/shipping_address_controller.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/common_drop_down_widget.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/oder_success_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'widgets/cart_counter_widget.dart';
@@ -40,6 +42,118 @@ class ShippingAddressPage extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
+                    //! Address List ..
+                    // Make a drop down ..
+
+                    // for (int i = 0; i < allAddresses.length; i++)
+                    //   AddressDropdown(
+                    //     addresses: allAddresses[i],
+                    //     onAddressSelected: (selectedAddress) {
+                    //       updateTextFields(selectedAddress, i);
+                    //     },
+                    //   ),
+
+                    Obx(
+                      () => shippingController.addressList.length == 0
+                          ? const SizedBox()
+                          : DropdownButtonFormField(
+                              decoration: InputDecoration(
+                                  suffixIcon:
+                                      shippingController.selectAddress.value ==
+                                              ''
+                                          ? const SizedBox()
+                                          : IconButton(
+                                              icon: Icon(
+                                                Icons.clear,
+                                                color: AppColors.blackColor,
+                                              ),
+                                              onPressed: () {
+                                                shippingController
+                                                    .selectAddress.value = '';
+                                                shippingController
+                                                    .nameController.value
+                                                    .clear();
+                                                shippingController
+                                                    .emailController.value
+                                                    .clear();
+                                                shippingController
+                                                    .phoneNumberController.value
+                                                    .clear();
+                                                shippingController
+                                                    .addressController.value
+                                                    .clear();
+                                                shippingController
+                                                    .cityController.value
+                                                    .clear();
+                                                shippingController
+                                                    .stateController.value
+                                                    .clear();
+                                                shippingController
+                                                    .zipCodeController.value
+                                                    .clear();
+                                              },
+                                            ),
+                                  enabled: true,
+                                  hintText: "Select Address",
+                                  // filled: true,
+                                  border: OutlineInputBorder(),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 10)),
+                              // isExpanded: true,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              isDense: true,
+                              value: shippingController
+                                      .selectAddress.value.isNotEmpty
+                                  ? shippingController.selectAddress.value
+                                      .toString()
+                                  : null,
+                              items: [
+                                ...shippingController.addressList
+                                    .map((element) {
+                                  return DropdownMenuItem(
+                                      enabled: true,
+                                      value: element.shippingId.toString(),
+                                      child: Text(element.address.toString()));
+                                }),
+                              ],
+                              onChanged: (newValue) {
+                                shippingController.selectAddress.value =
+                                    newValue.toString();
+
+                                //! This loop for index of selecting value and basic of index i can get data .
+                                for (int i = 0;
+                                    i < shippingController.addressList.length;
+                                    i++) {
+                                  var getData =
+                                      shippingController.addressModel.data![i];
+                                  if (newValue.toString() ==
+                                      shippingController
+                                          .addressModel.data![i].shippingId
+                                          .toString()) {
+                                    shippingController.nameController.value
+                                        .text = getData.name!;
+                                    shippingController.emailController.value
+                                        .text = getData.email!;
+                                    shippingController.phoneNumberController
+                                        .value.text = getData.phoneNumber!;
+                                    shippingController.addressController.value
+                                        .text = getData.address!;
+                                    shippingController.cityController.value
+                                        .text = getData.city!;
+                                    shippingController.stateController.value
+                                        .text = getData.state!;
+                                    shippingController.zipCodeController.value
+                                        .text = getData.zipCode!;
+                                  }
+                                }
+
+                                print(
+                                    "Value is :: ${shippingController.selectAddress.value}");
+                              }),
+                    ),
+
+                    SizedBox(height: 10),
                     CommonTxtFieldWidget(
                       textEditController:
                           shippingController.nameController.value,
@@ -174,20 +288,22 @@ class ShippingAddressPage extends StatelessWidget {
             ),
 
             //! For Save the Address
-            Obx(() => CheckboxListTile(
-                  title: const Text(
-                    "Save this address for next order",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  value: shippingController.select.value,
-                  onChanged: (newValue) {
-                    shippingController.select.value = newValue!;
-                    print(
-                        "for saving the address :: ${shippingController.select.value}");
-                  },
-                  controlAffinity:
-                      ListTileControlAffinity.leading, //  <-- leading Checkbox
-                )),
+            Obx(() => shippingController.selectAddress.value.isNotEmpty
+                ? SizedBox()
+                : CheckboxListTile(
+                    title: const Text(
+                      "Save this address for next order",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    value: shippingController.select.value,
+                    onChanged: (newValue) {
+                      shippingController.select.value = newValue!;
+                      print(
+                          "for saving the address :: ${shippingController.select.value}");
+                    },
+                    controlAffinity: ListTileControlAffinity
+                        .leading, //  <-- leading Checkbox
+                  )),
           ],
         ),
         bottomNavigationBar: Obx(
@@ -225,8 +341,14 @@ class ShippingAddressPage extends StatelessWidget {
                         mapData['client_id'] = clientId.toString();
                         mapData['cart_Items'] =
                             shippingController.addData.toString();
-                        mapData['save_address'] = "0";
-                        mapData['shipping_id'] = "";
+                        mapData['save_address'] =
+                            shippingController.select.value == true ? "1" : "0";
+                        mapData['shipping_id'] =
+                            shippingController.select.value == true
+                                ? shippingController.selectAddress.value.isEmpty
+                                    ? ""
+                                    : shippingController.selectAddress.value
+                                : "";
                         shippingController.productShipping(mapData);
                         print("This is want to send : $mapData");
                       }

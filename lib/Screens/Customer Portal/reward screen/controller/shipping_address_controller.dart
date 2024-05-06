@@ -1,12 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
-import 'package:scan_cart_clone/Common/common_services/common_services.dart';
 import 'package:scan_cart_clone/Common/validator_form.dart';
+import 'package:scan_cart_clone/Models/address_model.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/oder_success_widget.dart';
 import 'package:scan_cart_clone/Utils/Base%20service/services.dart';
 import 'package:scan_cart_clone/Utils/DataBase%20helper/data_base_helper.dart';
+import 'package:scan_cart_clone/Utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ShippingAddressController extends GetxController {
@@ -32,8 +34,13 @@ class ShippingAddressController extends GetxController {
   List storeData = [];
   List addData = [];
 
+  var selectAddress = ''.obs;
+  var addressList = <Data>[].obs;
+  AddressModel addressModel = AddressModel();
+
   @override
   void onInit() {
+    getAddressList();
     refreshItems();
     super.onInit();
   }
@@ -44,7 +51,6 @@ class ShippingAddressController extends GetxController {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     int? customerId = preferences.getInt('customer_id');
     print("CustomerID :: ${customerId}");
-
     //! Getting the Data From The DataBase ..
     cartItemsJson = await DataBaseHelper.dataBaseHelper.fetchProduct();
     storeData = await DataBaseHelper.dataBaseHelper.fetchProduct();
@@ -95,16 +101,47 @@ class ShippingAddressController extends GetxController {
   //! Make here function for adding the shipping or order....
   Future productShipping(Map<String, dynamic> mapData) async {
     try {
-      // SharedPreferences preferences = await SharedPreferences.getInstance();
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      int? customerId = preferences.getInt('customer_id');
+      print("CustomerID :: ${customerId}");
       print("This is map : $mapData");
       var data = await APIServices.hitPlaceOrder(mapData);
-      showMessage("${data['message']}", AppColors.whiteBackgroundColor);
+      // showMessage("${data['message']}", AppColors.whiteBackgroundColor);
+      showDialog(
+          context: navigatorKey.currentState!.context,
+          barrierDismissible: false,
+          builder: (_) {
+            return OrderSuccessWidget(
+              customerId: customerId!,
+            );
+          });
       await DataBaseHelper.dataBaseHelper.deleteAllData();
       refreshItems();
       // print("Shipping Response is : $data");
     } catch (e) {
       print("Exception is :: ${e.toString()}");
-      message.value = "You Are Not Eligible To Buy Products.";
+      message.value = e.toString().replaceAll('Exception:', '') ==
+                  " You don't have enough points to place this order." ||
+              e.toString().replaceAll('Exception:', '') ==
+                  " You Are Not Eligible To Buy Products."
+          ? e.toString().replaceAll('Exception:', '')
+          : "Something went wrong";
     }
+  }
+
+// Lets here get the all saved Address ..
+
+  Future getAddressList() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var token = await preferences.getString("Token");
+    var customerId = await preferences.getInt("customer_id");
+    addressModel = await APIServices.hitAddressList(customerId, token);
+    // addressList.clear();
+    print("This is responseData of Address : ${addressModel.data!.length}");
+    if (addressModel.success == true) {
+      //! Here i bind the Data
+      addressList.addAll(addressModel.data!);
+    }
+    print("This is list Address name : ${addressList.length}");
   }
 }

@@ -6,11 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/App%20Config/api_service_config.dart';
 import 'package:scan_cart_clone/Common/common_services/common_services.dart';
+import 'package:scan_cart_clone/Models/address_model.dart';
 import 'package:scan_cart_clone/Models/admin_login_model.dart';
 import 'package:scan_cart_clone/Models/category_details_model.dart';
 import 'package:scan_cart_clone/Models/category_model.dart';
+import 'package:scan_cart_clone/Models/common_model.dart';
 import 'package:scan_cart_clone/Models/customer_signup_model.dart';
 import 'package:scan_cart_clone/Models/employee_data_model.dart';
+import 'package:scan_cart_clone/Models/order_details_model.dart';
+import 'package:scan_cart_clone/Models/order_model.dart';
 import 'package:scan_cart_clone/Models/reward_model.dart';
 import 'package:scan_cart_clone/Models/view_category_model.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/widget/nfc_enable_error_dailog_widget.dart';
@@ -312,7 +316,7 @@ class APIServices {
         '${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/customerShipping';
     print("This is Shipping URL :: ${url}");
     try {
-      var response = await BaseService.baseServiceGet(url, map);
+      var response = await BaseService.baseServiceGet(url, map, "");
       log('Response of Shipping  :: ${response.body}');
       if (response.statusCode == 200) {
         var decodedData = json.decode(response.body);
@@ -327,15 +331,14 @@ class APIServices {
     }
   }
 
-
   //!  Shipping and Place order ..
 
   static hitPlaceOrder(Map<String, dynamic> map) async {
     try {
       var response = await BaseService.baseServiceGet(
-        '${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/customerShipping',
-        map,
-      );
+          '${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/customerShipping',
+          map,
+          "");
       log('place order : = ${response.body.toString()}');
       if (response.statusCode == 200) {
         var parseData = json.decode(response.body);
@@ -348,6 +351,115 @@ class APIServices {
       }
     } on SocketException {
       throw Exception('No Connection');
+    }
+  }
+
+  //! Hit here for address List ...
+
+  static hitAddressList(int? customerId, String? token) async {
+    var url =
+        '${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/customerShipping&customer_id=$customerId';
+
+    try {
+      final response = await BaseService.getMethod(url, token);
+      print("This is Address response : ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodedData = jsonDecode(response.body);
+        if (decodedData['success'] == true) {
+          return AddressModel.fromJson(decodedData);
+        } else {
+          print("There is Problem  to get the Address API");
+          throw Exception(decodedData['message']);
+        }
+      }
+    } on SocketException {
+      throw Exception('No Connection');
+    }
+  }
+
+  //! Hit the Order List
+
+  static hitOrderList(customerId, status) async {
+    var url =
+        '${ApiServiceConfig.apiBaseUrl}?endpoint=/rewards/rewardOrders&customer_id=$customerId&order_status=$status';
+    print("OrderList API : $url");
+    try {
+      final response = await BaseService.getAPI(url);
+      log("This is Order List response : ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodedData = jsonDecode(response.body);
+        if (decodedData['success'] == true) {
+          return OrderModel.fromJson(decodedData);
+        } else {
+          throw Exception(decodedData['message']);
+        }
+      }
+    } on SocketException {
+      throw Exception('No Connection');
+    }
+  }
+
+  //! Here we hit the ViewOrderDetails
+
+  static hitViewOrderDetails(orderId) async {
+    var url =
+        "${ApiServiceConfig.apiBaseUrl}?endpoint=/rewards/rewardOrderDetail&order_id=$orderId";
+    print("This is View Order details API : $url");
+    try {
+      final response = await BaseService.getAPI(url);
+      log("View Order Details : ${response.body.toString()}");
+
+      if (response.statusCode == 200) {
+        var decodedData = jsonDecode(response.body.toString());
+        if (decodedData['success'] == true) {
+          return OrderDetailsModel.fromJson(decodedData);
+        } else {
+          throw Exception(decodedData['message']);
+        }
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    }
+  }
+
+  //! Hit the cancel product API
+
+  static hitCancelProduct(map, token) async {
+    var url = '${ApiServiceConfig.apiBaseUrl}?endpoint=/rewards/cancelOrder';
+    print("This is cancel order URL : $url");
+    try {
+      var response = await BaseService.baseServiceGet(url, map, token);
+      log("Cancel response : ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodedData = jsonDecode(response.body);
+        if (decodedData['success'] == true) {
+          return CommonModel.fromJson(decodedData);
+        } else {
+          throw Exception(decodedData['message']);
+        }
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    }
+  }
+
+  //! hit here add note of product
+
+  static hitAddNotes(map) async {
+    var url = '${ApiServiceConfig.apiBaseUrl}?endpoint=/rewards/addOrderNotes';
+    print("Add notes in product details : $url");
+    try {
+      var response = await BaseService.putMethod(url, map);
+      log("Add note response : ${response.body.toString()}");
+      var decodedData = jsonDecode(response.body);
+
+      if (decodedData['success'] == true) {
+        return CommonModel.fromJson(decodedData);
+      } else {
+        throw Exception(decodedData['message']);
+      }
+    } on SocketException {
+      throw Exception("No Connection");
     }
   }
 }

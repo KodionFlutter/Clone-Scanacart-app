@@ -17,9 +17,10 @@ class _CommonDropDownWidgetState extends State<CommonDropDownWidget> {
     return DropdownButtonFormField(
         decoration: const InputDecoration(
             enabled: true,
+            hintText: "Select Address",
             // filled: true,
             border: OutlineInputBorder(),
-            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 5)),
+            contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 10)),
         // isExpanded: true,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         isDense: true,

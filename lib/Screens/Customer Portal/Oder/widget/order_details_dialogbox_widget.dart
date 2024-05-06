@@ -4,7 +4,17 @@ import 'package:scan_cart_clone/Common/widgets/common_button.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 
 class OrderDetailsDialogBoxWidget extends StatelessWidget {
-  const OrderDetailsDialogBoxWidget({super.key});
+  final String title;
+  final String subTitle;
+  final TextEditingController textEditingController;
+  final VoidCallback onPressed;
+
+  const OrderDetailsDialogBoxWidget(
+      {super.key,
+      required this.title,
+      required this.subTitle,
+      required this.textEditingController,
+      required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -19,15 +29,16 @@ class OrderDetailsDialogBoxWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("Commoents".toUpperCase(),
+            Text("$title".toUpperCase(),
                 style: TextStyle(fontWeight: FontWeight.bold)),
             SizedBox(height: 15),
-            Text("Your Note",
+            Text("$subTitle",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
             SizedBox(height: 15),
             //! Make A TextEditController for write the comment/feedback..
             TextFormField(
               maxLines: 5,
+              controller: textEditingController,
               scrollPadding: EdgeInsets.zero,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -43,7 +54,7 @@ class OrderDetailsDialogBoxWidget extends StatelessWidget {
             //! Make here a button ..
             Center(
               child: CommonButtonWidget(
-                onPressed: () {},
+                onPressed: onPressed,
                 buttonTxt: 'Submit',
                 btnHeight: AppConstant.size.height * 0.06,
                 btnWidth: AppConstant.size.width * 0.5,

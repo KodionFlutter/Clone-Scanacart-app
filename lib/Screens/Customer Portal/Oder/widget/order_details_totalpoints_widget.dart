@@ -3,7 +3,18 @@ import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 
 class OrderDetailsTotalPointsWidget extends StatelessWidget {
-  const OrderDetailsTotalPointsWidget({super.key});
+  final int pointsAmount;
+  final int cachingCon;
+  final int discount;
+  final int totalAmount;
+  final VoidCallback onTap;
+
+  const OrderDetailsTotalPointsWidget(
+      {super.key,
+      required this.pointsAmount,
+      required this.cachingCon,
+      required this.discount,
+      required this.totalAmount, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +45,7 @@ class OrderDetailsTotalPointsWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                "53",
+                "$pointsAmount",
                 style: TextStyle(
                     fontWeight: FontWeight.bold, color: Colors.black54),
               ),
@@ -52,7 +63,7 @@ class OrderDetailsTotalPointsWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                "0",
+                "$cachingCon",
                 style: TextStyle(
                     fontWeight: FontWeight.bold, color: Colors.black54),
               ),
@@ -70,7 +81,7 @@ class OrderDetailsTotalPointsWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                "0",
+                "$discount",
                 style: TextStyle(
                     fontWeight: FontWeight.bold, color: Colors.black54),
               ),
@@ -90,7 +101,7 @@ class OrderDetailsTotalPointsWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                "0",
+                "$totalAmount",
                 style: TextStyle(
                     fontWeight: FontWeight.bold, color: Colors.black54),
               ),
@@ -104,12 +115,15 @@ class OrderDetailsTotalPointsWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(child: SizedBox()),
-              Text(
-                "cancel order".toUpperCase(),
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.redAccent,
-                    fontSize: 13),
+              InkWell(
+                onTap: onTap,
+                child: Text(
+                  "cancel order".toUpperCase(),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.redAccent,
+                      fontSize: 13),
+                ),
               ),
             ],
           ),

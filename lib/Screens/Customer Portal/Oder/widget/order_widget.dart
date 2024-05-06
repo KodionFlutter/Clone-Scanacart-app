@@ -5,14 +5,26 @@ import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/order_details.dar
 import 'package:scan_cart_clone/Utils/constant.dart';
 
 class OrderWidget extends StatelessWidget {
-  const OrderWidget({super.key});
+  final Color statusColor;
+  final String title;
+  final int orderId;
+  final int totalPoints;
+  final String oderDate;
+  final VoidCallback onPressed;
+
+  const OrderWidget(
+      {super.key,
+      required this.statusColor,
+      required this.title,
+      required this.orderId,
+      required this.totalPoints,
+      required this.oderDate,
+      required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Get.to(OrderDetails());
-      },
+      onTap:onPressed,
       child: Container(
         margin: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 0),
         height: 80,
@@ -25,8 +37,8 @@ class OrderWidget extends StatelessWidget {
             //! Filled Color
             Container(
               width: 10,
-              decoration: const BoxDecoration(
-                  color: Colors.yellow,
+              decoration: BoxDecoration(
+                  color: statusColor,
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(10),
                       topLeft: Radius.circular(10))),
@@ -37,27 +49,29 @@ class OrderWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  "Packman",
+                Text(
+                  "$title",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  "Order Id: 153",
+                  "Order Id: ${orderId.toString()}",
                   style: TextStyle(color: Colors.grey.shade700),
                 )
               ],
             ),
             const Spacer(),
-            const Column(
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "POINTS: 53",
+                  "POINTS: ${totalPoints.toString()}",
                 ),
                 SizedBox(height: 5),
-                Text("24 Apr 2024")
+
+                //! Here show the Date into ddd/mmm/yyyy
+                Text("${oderDate.toString()}")
               ],
             ),
             SizedBox(width: 15),
