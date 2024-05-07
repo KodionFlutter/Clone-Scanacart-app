@@ -43,8 +43,11 @@ class ShippingAddressController extends GetxController {
 
   @override
   void onInit() {
-    getAddressList();
-    refreshItems();
+    //! We first call the getAddressList after that call the refer Items..
+    Future.delayed(Duration.zero)
+        .then((value) => getAddressList().then((value) => refreshItems()));
+    // getAddressList();
+    // refreshItems();
     super.onInit();
   }
 
@@ -111,6 +114,7 @@ class ShippingAddressController extends GetxController {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       int? customerId = preferences.getInt('customer_id');
+      int? backFlag = preferences.getInt("BackFlag");
       print("CustomerID :: ${customerId}");
       print("This is map : $mapData");
       var data = await APIServices.hitPlaceOrder(mapData);
@@ -122,9 +126,29 @@ class ShippingAddressController extends GetxController {
             return OrderSuccessWidget(
               customerId: customerId!,
               onPressed: () {
-                Get.until((route) => route.isCurrent);
-                Get.off(
-                    FloatingButtonPage(customerId: customerId, state: true));
+                // Get.until((route) => route.isCurrent);
+                // Two back for pop for dialog and cartpage
+
+                if (backFlag == 1) {
+                  Get.back();
+                  Get.back();
+                  Get.back();
+                  Get.back();
+                } else if (backFlag == 2) {
+                  Get.back();
+                  Get.back();
+                  Get.back();
+                  Get.back();
+                  Get.back();
+                } else if (backFlag == 3) {
+                  Get.back();
+                  Get.back();
+                  Get.back();
+                  Get.back();
+                  Get.back();
+                  Get.back();
+                }
+                preferences.remove("BackFlag");
               },
             );
           });

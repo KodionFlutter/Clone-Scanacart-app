@@ -17,6 +17,7 @@ class CartProductWidget extends StatelessWidget {
   final int currentQuantity;
   final int productId;
   final int clientId;
+  final String clientName;
 
   const CartProductWidget({
     Key? key,
@@ -32,6 +33,7 @@ class CartProductWidget extends StatelessWidget {
     this.productSize,
     required this.productId,
     required this.clientId,
+    required this.clientName,
   }) : super(key: key);
 
   @override
@@ -54,7 +56,6 @@ class CartProductWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //! Here the image Section
-
           Stack(
             children: [
               FutureBuilder<PaletteGenerator>(
@@ -66,25 +67,24 @@ class CartProductWidget extends StatelessWidget {
                     return Container(
                       width: 100,
                       height: 120,
-                      color: Colors.grey.withOpacity(0.5), // Placeholder color
+                      color: Colors.grey.withOpacity(0.5),
                       child: const Center(child: CupertinoActivityIndicator()),
                     );
                   } else if (snapshot.hasError) {
-                    // Handle error
                     return Container(
                       width: 100,
                       height: 120,
-                      color: Colors.grey.withOpacity(0.5), // Placeholder color
+                      color: Colors.grey.withOpacity(0.5),
                       child: const Center(child: Text('Error')),
                     );
                   } else if (snapshot.hasData) {
                     final palette = snapshot.data!.dominantColor?.color;
                     return Container(
-                      padding: EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(5),
                       width: 100,
                       height: 120,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(10),
                           bottomLeft: Radius.circular(10),
                         ),
@@ -95,6 +95,7 @@ class CartProductWidget extends StatelessWidget {
                           Get.to(CategoryDetailsPage(
                             productId: productId,
                             clientId: clientId,
+                            clientName: clientName,
                           ));
                         },
                         child: CachedNetworkImage(
@@ -119,35 +120,8 @@ class CartProductWidget extends StatelessWidget {
                   }
                 },
               ),
-
-              // Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child: CachedNetworkImage(
-              //     width: 80,
-              //     imageUrl: productImage,
-              //     fit: BoxFit.contain,
-              //     placeholder: (context, url) =>
-              //         const CupertinoActivityIndicator(),
-              //     errorWidget: (context, url, error) => const Icon(Icons.error),
-              //   ),
-              // ),
             ],
           ),
-
-          // SizedBox(
-          //   // height: 100,
-          //   width: 80,
-          //   child: ClipRRect(
-          //     borderRadius: BorderRadius.circular(12),
-          //     child: CachedNetworkImage(
-          //       imageUrl: productImage,
-          //       fit: BoxFit.contain,
-          //       placeholder: (context, url) =>
-          //           const CupertinoActivityIndicator(),
-          //       errorWidget: (context, url, error) => const Icon(Icons.error),
-          //     ),
-          //   ),
-          // ),
 
           Expanded(
             child: Container(

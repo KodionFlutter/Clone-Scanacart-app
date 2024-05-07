@@ -5,10 +5,12 @@ import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/widgets/common_scroll_behav_widget.dart';
 import 'package:scan_cart_clone/Common/widgets/custom_container.dart';
 import 'package:scan_cart_clone/Common/widgets/shimmer_widget.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/cart_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/controller/view_category_controller.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/common_appbar_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/common_view_category_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'category_details_page.dart';
 
@@ -33,71 +35,79 @@ class ViewCategoryPage extends StatelessWidget {
       clientId: clientId,
     ));
     return CommonAppbar(
+      onTap: () async {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.setInt("BackFlag", 2);
+        Get.to(CartPage(
+          clientId: clientId,
+          clientName: clientName,
+        ));
+      },
       clientId: clientId,
-      clientName:clientName,
+      clientName: clientName,
       title: clientName,
       body: Obx(() {
         if (viewCategoryController.isLoad.value == true) {
           return ShimmerWidget(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: CustomContainer(
-                      height: AppConstant.size.height * 0.02,
-                      width: AppConstant.size.width * 0.5,
-                      radius: 10,
-                    ),
-                  ),
-                  Expanded(
-                    child: ScrollConfiguration(
-                      behavior: CommonScrollBehaveWidget(),
-                      child: GridView.builder(
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.8,
-                            mainAxisSpacing: AppConstant.size.height * 0.02,
-                            crossAxisSpacing: AppConstant.size.width * 0.03,
-                          ),
-                          itemCount: 10,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CustomContainer(
-                                  height: 150,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CustomContainer(
+                  height: AppConstant.size.height * 0.02,
+                  width: AppConstant.size.width * 0.5,
+                  radius: 10,
+                ),
+              ),
+              Expanded(
+                child: ScrollConfiguration(
+                  behavior: CommonScrollBehaveWidget(),
+                  child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.8,
+                        mainAxisSpacing: AppConstant.size.height * 0.02,
+                        crossAxisSpacing: AppConstant.size.width * 0.03,
+                      ),
+                      itemCount: 10,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomContainer(
+                              height: 150,
+                              width: AppConstant.size.width,
+                              radius: 10,
+                            ),
+                            SizedBox(height: AppConstant.size.width * 0.01),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                  left: AppConstant.size.width * 0.03,
+                                ),
+                                child: CustomContainer(
+                                  height: 20,
                                   width: AppConstant.size.width,
                                   radius: 10,
-                                ),
-                                SizedBox(height: AppConstant.size.width * 0.01),
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                      left: AppConstant.size.width * 0.03,
-                                    ),
-                                    child: CustomContainer(
-                                      height: 20,
-                                      width: AppConstant.size.width,
-                                      radius: 10,
-                                    )),
-                                SizedBox(height: AppConstant.size.width * 0.01),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: AppConstant.size.width * 0.03,
-                                      bottom: 5),
-                                  child: CustomContainer(
-                                    height: 20,
-                                    width: 70,
-                                    radius: 10,
-                                  ),
-                                ),
-                              ],
-                            );
-                          }),
-                    ),
-                  ),
-                ],
-              ));
+                                )),
+                            SizedBox(height: AppConstant.size.width * 0.01),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: AppConstant.size.width * 0.03,
+                                  bottom: 5),
+                              child: CustomContainer(
+                                height: 20,
+                                width: 70,
+                                radius: 10,
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
+                ),
+              ),
+            ],
+          ));
         } else if (viewCategoryController.viewCategoryList.isEmpty) {
           return Column(
             children: [
@@ -145,8 +155,7 @@ class ViewCategoryPage extends StatelessWidget {
                     // total number of items
                     itemBuilder: (context, index) {
                       return CommonViewCategoryWidget(
-                        categoryName:
-                        viewCategoryController.categoryName.value,
+                        categoryName: viewCategoryController.categoryName.value,
                         productRewardPoints: viewCategoryController
                             .viewCategoryList[index].productRewardPoints!,
                         productTitle: viewCategoryController
@@ -160,6 +169,7 @@ class ViewCategoryPage extends StatelessWidget {
                             productId: viewCategoryController
                                 .viewCategoryList[index].productId!,
                             clientId: clientId,
+                            clientName: clientName,
                           ));
                         },
                       );
@@ -170,6 +180,7 @@ class ViewCategoryPage extends StatelessWidget {
             ],
           );
         }
-      }),);
+      }),
+    );
   }
 }

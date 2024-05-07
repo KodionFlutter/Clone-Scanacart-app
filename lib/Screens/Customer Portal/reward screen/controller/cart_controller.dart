@@ -7,8 +7,10 @@ class CartController extends GetxController {
   var itemLength = 0.obs;
   var items = [].obs;
   var cartItems = [].obs;
-  var currentClientID;
   var currentQuantity = 0.obs;
+  RxBool isLoading = false.obs;
+
+  var sameClient = 0.obs;
 
   @override
   void onInit() {
@@ -18,21 +20,17 @@ class CartController extends GetxController {
 
 //! Here fetch the cart Item ..
   Future refreshItems() async {
+    isLoading.value = true;
     items.value = await DataBaseHelper.dataBaseHelper.fetchProduct();
     print('CartItem : $items');
     itemLength.value = items.length;
     print("Item Length :: ${itemLength}");
-    currentClientID = items[0]['client_id'];
-    print('Client ID --: $currentClientID');
+    // currentClientID = items[0]['client_id'];
+    // print('Client ID --: $currentClientID');
     cartItems.assignAll(items);
-    // update();
+    isLoading.value = false;
+    sameClient.value  = items[0]['client_id'];
   }
-
-  //! Get the current client
-  // getCurrentClient(){
-  //   var c =items[0]['id'];
-  //   print('c: $c');
-  // }
 
   // RxInt totalQuantity = 0.obs;
   num get totalQuantity {
@@ -62,13 +60,11 @@ class CartController extends GetxController {
   }
 
   // Method to decrease quantity of an item
-  Future<void> decreaseQuantity(
-      id,variants) async {
+  Future<void> decreaseQuantity(id, variants) async {
     var cartDataList = await DataBaseHelper.dataBaseHelper.fetchProduct();
 
-    var currentItem = cartDataList.firstWhere((item) =>
-    (item['id'] == id) &&
-        item['variants'] == variants);
+    var currentItem = cartDataList.firstWhere(
+        (item) => (item['id'] == id) && item['variants'] == variants);
 
     currentQuantity.value = currentItem['quantity'];
     print("yyyyyy => $currentQuantity");
@@ -97,10 +93,4 @@ class CartController extends GetxController {
       print("Error deleting item: $e");
     }
   }
-
-// getColor(ImageProvider imagePath) async {
-//   var d = await PaletteGenerator.fromImageProvider(imagePath);
-//   final palette = d.dominantColor?.color;
-//   print("p ::$palette");
-// }
 }

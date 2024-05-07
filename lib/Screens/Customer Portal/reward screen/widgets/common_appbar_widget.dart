@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/cart_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/cart_counter_widget.dart';
 
 class CommonAppbar extends StatelessWidget {
@@ -8,6 +10,7 @@ class CommonAppbar extends StatelessWidget {
   Widget? bottomNavigationBar;
   final int clientId;
   final String clientName;
+  final VoidCallback onTap;
 
   CommonAppbar(
       {super.key,
@@ -15,7 +18,8 @@ class CommonAppbar extends StatelessWidget {
       required this.body,
       this.bottomNavigationBar,
       required this.clientId,
-      required this.clientName});
+      required this.clientName,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +36,7 @@ class CommonAppbar extends StatelessWidget {
           CartCounterWidget(
             clientId: clientId,
             clientName: clientName,
+            onTap: onTap,
           )
         ],
       ),

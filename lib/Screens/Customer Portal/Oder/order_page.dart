@@ -1,3 +1,4 @@
+// order_page.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -8,7 +9,7 @@ import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/widget/order_widg
 import 'package:scan_cart_clone/Utils/constant.dart';
 
 class OrderPage extends StatelessWidget {
-  OrderPage({super.key});
+  OrderPage({Key? key}) : super(key: key);
 
   final orderController = Get.put(OrderController());
 
@@ -26,7 +27,7 @@ class OrderPage extends StatelessWidget {
             () => PopupMenuButton(
               initialValue: orderController.status.value,
               onSelected: (value) {
-                orderController.status.value = value;
+                orderController.status(value);
                 orderController.getAllOrderProduct();
               },
               itemBuilder: (context) => const [
@@ -63,23 +64,23 @@ class OrderPage extends StatelessWidget {
         } else {
           return orderController.orderDataList.isEmpty
               ? Column(
-            children: [
-              SizedBox(height: AppConstant.size.height * 0.1),
-              Image.asset(
-                "assets/images/record.webp",
-                fit: BoxFit.contain,
-                height: AppConstant.size.height * 0.3,
-                width: AppConstant.size.width,
-              ),
-              SizedBox(height: AppConstant.size.height * 0.01),
-              Text(
-                "No order Found".toUpperCase(),
-                style: TextStyle(
-                    fontSize: AppConstant.size.height * 0.020,
-                    fontWeight: FontWeight.bold),
-              )
-            ],
-          )
+                  children: [
+                    SizedBox(height: AppConstant.size.height * 0.1),
+                    Image.asset(
+                      "assets/images/record.webp",
+                      fit: BoxFit.contain,
+                      height: AppConstant.size.height * 0.3,
+                      width: AppConstant.size.width,
+                    ),
+                    SizedBox(height: AppConstant.size.height * 0.01),
+                    Text(
+                      "No order Found".toUpperCase(),
+                      style: TextStyle(
+                          fontSize: AppConstant.size.height * 0.020,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                )
               : ListView.builder(
                   itemCount: orderController.orderDataList.length,
                   itemBuilder: (context, index) {
@@ -87,19 +88,25 @@ class OrderPage extends StatelessWidget {
                     DateTime format = DateFormat("MMMM, d yyyy HH:mm:ss")
                         .parse(data.oRDERDATE!);
                     var date = DateFormat("dd MMM yyyy").format(format);
-                    return OrderWidget(
-                      statusColor:
-                          orderController.getStatusColor(data.orderStatus),
-                      title: data.cOMPANYNAME!,
-                      orderId: data.oRDERID!,
-                      totalPoints: data.tOTALPOINTS!,
-                      oderDate: date,
-                      onPressed: () {
-                        Get.to(OrderDetails(
-                          oderId: data.oRDERID!,
-                        ));
-                      },
-                    );
+                    return GetBuilder<OrderController>(builder: (_){
+                      return OrderWidget(
+                        statusColor:
+                        orderController.getStatusColor(data.orderStatus),
+                        title: data.cOMPANYNAME!,
+                        orderId: data.oRDERID!,
+                        totalPoints: data.tOTALPOINTS!,
+                        oderDate: date,
+                        onPressed: () async {
+                          var result = await Get.to(OrderDetails(
+                            oderId: data.oRDERID!,
+                          ));
+                          if (result == "Canceled") {
+                            orderController.updateOrderStatus(
+                                data.oRDERID!, "Cancel");
+                          }
+                        },
+                      );
+                    });
                   });
         }
       }),

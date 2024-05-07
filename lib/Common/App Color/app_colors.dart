@@ -42,6 +42,7 @@ class AppColors {
 
   static var greyWithOpacity = Colors.grey.withOpacity(0.9);
   static var orTxtColor = Color(0xFFDDDDDD);
+  static var blueColor = Colors.blue;
 }
 
 //pak578

@@ -18,7 +18,7 @@ class OrderSuccessWidget extends StatelessWidget {
     return Dialog(
       backgroundColor: Colors.white,
       child: SizedBox(
-        height: AppConstant.size.height * 0.35,
+        // height: AppConstant.size.height * 0.35,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -57,6 +57,7 @@ class OrderSuccessWidget extends StatelessWidget {
               isEnabled: true,
               colors: Colors.lightBlueAccent,
             ),
+            SizedBox(height: 25),
           ],
         ),
       ),

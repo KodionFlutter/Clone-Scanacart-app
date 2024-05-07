@@ -14,10 +14,12 @@ import 'package:scan_cart_clone/Utils/constant.dart';
 class CategoryDetailsController extends GetxController {
   final int productId;
   final int clientId;
+  final String clientName;
 
   CategoryDetailsController({
     required this.productId,
     required this.clientId,
+    required this.clientName,
   });
 
   //! Variable declare
@@ -53,13 +55,13 @@ class CategoryDetailsController extends GetxController {
   Future<void> getCategoryDetails() async {
     try {
       categoryDetailsData =
-      await APIServices.hitCategoryDetails(clientId, productId);
+          await APIServices.hitCategoryDetails(clientId, productId);
       // deatilsImageList.addAll(categoryDetailsModel.data!.images!);
       log("Category Details Data :: ${categoryDetailsData['data']}");
 
       if (categoryDetailsData['success'] == true) {
         productDescription.value =
-        categoryDetailsData['data']['product_description'];
+            categoryDetailsData['data']['product_description'];
         print("D :: ${productDescription.value}");
         categoryId.value = categoryDetailsData['data']['category_id'];
         productTitle.value = categoryDetailsData['data']['product_title'];
@@ -136,7 +138,7 @@ class CategoryDetailsController extends GetxController {
       ScaffoldMessenger.of(navigatorKey.currentState!.context).showSnackBar(
         SnackBar(
           content:
-          Text(textAlign: TextAlign.center, "Product added to the card"),
+              Text(textAlign: TextAlign.center, "Product added to the card"),
           backgroundColor: AppColors.txtScanProductColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(

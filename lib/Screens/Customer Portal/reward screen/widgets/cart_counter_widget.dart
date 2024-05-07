@@ -7,11 +7,13 @@ import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/contro
 class CartCounterWidget extends StatelessWidget {
   final int clientId;
   final String clientName;
+  final VoidCallback onTap;
 
   CartCounterWidget({
     Key? key,
     required this.clientId,
     required this.clientName,
+    required this.onTap,
   }) : super(key: key);
 
   final cartController = Get.put(CartController());
@@ -25,12 +27,7 @@ class CartCounterWidget extends StatelessWidget {
         width: 30.0,
         child: InkWell(
           //! for going to cart page.
-          onTap: () {
-            Get.to(CartPage(
-              clientId: clientId,
-              clientName: clientName,
-            ));
-          },
+          onTap: onTap,
           child: Obx(
             () => Stack(
               clipBehavior: Clip.none,
