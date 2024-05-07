@@ -98,7 +98,7 @@ class OrderDetails extends StatelessWidget {
                                 orderDetailsController.addNotes({
                                   "notes": orderDetailsController
                                       .addNoteController.value.text,
-                                  "order_id": data.orderId.toString(),
+                                  "order_id": oderId.toString(),
                                   "customer_id": customerId.toString()
                                 }).then((value) {
                                   orderDetailsController.getOrderDetails();
@@ -167,24 +167,16 @@ class OrderDetails extends StatelessWidget {
                                                   .cancelNoteController.value,
                                           onPressed: () {
                                             orderDetailsController
-                                                .isLoading.value = false;
-                                            orderDetailsController
                                                 .cancelOrderProduct({
                                               "reason": orderDetailsController
                                                   .cancelNoteController
                                                   .value
                                                   .text,
-                                              'order_id':
-                                                  data.orderId!.toString(),
+                                              'order_id': oderId.toString(),
                                             }).then((value) {
-                                              Get.back();
                                               orderDetailsController
-                                                  .getOrderDetails()
-                                                  .then((_) {
-                                                // Update the page
-                                                orderDetailsController
-                                                    .isLoading.value = false;
-                                              });
+                                                  .getOrderDetails();
+                                              Get.back();
                                             });
                                           },
                                         );

@@ -8,7 +8,6 @@ class OrderDetailsController extends GetxController {
   final int oderId;
 
   OrderDetailsController({required this.oderId});
-
   //! Variable initialize
   OrderDetailsModel orderDetailsModel = OrderDetailsModel();
 
@@ -17,23 +16,28 @@ class OrderDetailsController extends GetxController {
   Rx<TextEditingController> addNoteController = TextEditingController().obs;
   Rx<TextEditingController> cancelNoteController = TextEditingController().obs;
   RxBool isLoading = false.obs;
+  RxString isCancel = ''.obs;
 
   //! onInit method
+
   @override
   void onInit() {
     getOrderDetails();
-    print("OrderId : $oderId");
     super.onInit();
   }
 
   //! here ew calling getOderDetails Method
 
   Future getOrderDetails() async {
-    isLoading.value = true ;
+    isLoading.value = true;
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    // int? oderId = preferences.getInt("oderId");
+    // print("oderId : $oderId");
     orderDetailsModel = await APIServices.hitViewOrderDetails(oderId);
     orderDetailsDataList.clear();
     if (orderDetailsModel.success == true) {
       orderDetailsDataList.addAll(orderDetailsModel.data!);
+      isCancel.value = orderDetailsModel.data![0].orderStatus!;
     }
     isLoading.value = false;
   }
@@ -41,15 +45,29 @@ class OrderDetailsController extends GetxController {
   //! Here we cancel the order ..
 
   Future cancelOrderProduct(Map<String, dynamic>? map) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    var token = preferences.getString("Token");
-    APIServices.hitCancelProduct(map, token);
+    isLoading.value = true;
+    try {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      var token = preferences.getString("Token");
+      APIServices.hitCancelProduct(map, token);
+      // preferences.remove("oderId");
+      isLoading.value = false;
+    } catch (e) {
+      isLoading.value = false;
+      return "exception :${e.toString()}";
+    }
   }
 
   //! AddNote method..
 
   Future addNotes(Map<String, dynamic> map) async {
-    var data = APIServices.hitAddNotes(map );
-    print("Data is $data");
+    try {
+      var data = APIServices.hitAddNotes(map);
+      print("Data is $data");
+    } catch (e) {
+      return "exception : ${e.toString()}";
+    }
   }
+
+  Future backMethod() async {}
 }

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/validator_form.dart';
@@ -46,8 +45,6 @@ class ShippingAddressController extends GetxController {
     //! We first call the getAddressList after that call the refer Items..
     Future.delayed(Duration.zero)
         .then((value) => getAddressList().then((value) => refreshItems()));
-    // getAddressList();
-    // refreshItems();
     super.onInit();
   }
 
@@ -127,13 +124,17 @@ class ShippingAddressController extends GetxController {
               customerId: customerId!,
               onPressed: () {
                 // Get.until((route) => route.isCurrent);
-                // Two back for pop for dialog and cartpage
-
                 if (backFlag == 1) {
                   Get.back();
                   Get.back();
                   Get.back();
                   Get.back();
+                  Get.off(
+                    FloatingButtonPage(
+                      customerId: customerId,
+                      state: true,
+                    ),
+                  );
                 } else if (backFlag == 2) {
                   Get.back();
                   Get.back();
@@ -157,6 +158,7 @@ class ShippingAddressController extends GetxController {
       isOrder.value = false;
       // print("Shipping Response is : $data");
     } catch (e) {
+      isOrder.value = false;
       print("Exception is :: ${e.toString()}");
       message.value = e.toString().replaceAll('Exception:', '') ==
                   " You don't have enough points to place this order." ||

@@ -9,12 +9,13 @@ class OrderDetailsTotalPointsWidget extends StatelessWidget {
   final int totalAmount;
   final Widget button;
 
-  const OrderDetailsTotalPointsWidget({super.key,
-    required this.pointsAmount,
-    required this.cachingCon,
-    required this.discount,
-    required this.totalAmount,
-    required this.button});
+  const OrderDetailsTotalPointsWidget(
+      {super.key,
+      required this.pointsAmount,
+      required this.cachingCon,
+      required this.discount,
+      required this.totalAmount,
+      required this.button});
 
   @override
   Widget build(BuildContext context) {
@@ -110,9 +111,7 @@ class OrderDetailsTotalPointsWidget extends StatelessWidget {
           SizedBox(height: 5),
           Divider(thickness: 1, color: Colors.black54),
           SizedBox(height: 10),
-          Container(
-              child: button
-          )
+          Container(child: button)
         ],
       ),
     );

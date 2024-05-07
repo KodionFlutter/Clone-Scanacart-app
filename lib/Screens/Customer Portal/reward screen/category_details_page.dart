@@ -237,75 +237,89 @@ class CategoryDetailsPage extends StatelessWidget {
                         //       )
                         //     : const SizedBox(),
 
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: categoryDeController.variants.entries
-                              .map<Widget>((variantEntry) {
-                            List<String> list = variantEntry.value.split(",");
-                            // Default value for the DropdownButton
-                            var defaultValue;
-                            list.forEach((element) {
-                              defaultValue = element;
-                            });
-                            categoryDeController.selectedVariants.putIfAbsent(
-                                variantEntry.key, () => defaultValue);
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: categoryDeController.variants.entries
+                                .map<Widget>((variantEntry) {
+                              List<String> list = variantEntry.value.split(",");
+                              // Default value for the DropdownButton
+                              var defaultValue;
+                              list.forEach((element) {
+                                defaultValue = element;
+                              });
+                              categoryDeController.selectedVariants.putIfAbsent(
+                                  variantEntry.key, () => defaultValue);
 
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 3.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    variantEntry.key.isNotEmpty
-                                        ? '${variantEntry.key[0].toUpperCase()}${variantEntry.key.substring(1)}'
-                                        : variantEntry.key,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 3.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      variantEntry.key.isNotEmpty
+                                          ? '${variantEntry.key[0].toUpperCase()}${variantEntry.key.substring(1)}  :'
+                                          : variantEntry.key,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 20),
-                                  variantEntry.value == "" &&
-                                          variantEntry.value == null
-                                      ? const SizedBox()
-                                      : SizedBox(
-                                          width: 80,
-                                          child: DropdownButton<String>(
-                                            value: categoryDeController
-                                                .selectedVariants
-                                                .value[variantEntry.key],
-                                            dropdownColor: Colors.white,
-                                            style:
-                                                TextStyle(color: Colors.black),
-                                            icon: Icon(Icons.arrow_drop_down,
-                                                color: Colors.black),
-                                            underline: Container(
-                                              height: 2,
-                                              color: Colors.white,
-                                            ),
-                                            onChanged: (newValue) {
-                                              categoryDeController
-                                                      .selectedVariants
-                                                      .value[variantEntry.key] =
-                                                  newValue;
-                                            },
-                                            items: list
-                                                .map<DropdownMenuItem<String>>(
-                                              (variantOption) {
-                                                return DropdownMenuItem<String>(
-                                                  value: variantOption,
-                                                  child: Text(variantOption),
-                                                );
+                                    const SizedBox(width: 20),
+                                    variantEntry.value == "" &&
+                                            variantEntry.value == null
+                                        ? const SizedBox()
+                                        : SizedBox(
+                                            width: 120,
+                                            child:
+                                                DropdownButtonFormField<String>(
+                                              decoration: const InputDecoration(
+                                                  enabled: true,
+                                                  // filled: true,
+                                                  border: OutlineInputBorder(),
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: 5)),
+                                                  autovalidateMode: AutovalidateMode
+                                                                            .onUserInteraction,
+                                                                        isDense: true,
+                                              value: categoryDeController
+                                                  .selectedVariants
+                                                  .value[variantEntry.key],
+                                              dropdownColor: Colors.white,
+                                              style: const TextStyle(
+                                                  color: Colors.black),
+                                              icon: const Icon(Icons.arrow_drop_down,
+                                                  color: Colors.black),
+                                              onChanged: (newValue) {
+                                                categoryDeController
+                                                        .selectedVariants[
+                                                    variantEntry
+                                                        .key] = newValue;
+                                                print("variants : ${ categoryDeController
+                                                    .selectedVariants}");
+
                                               },
-                                            ).toList(),
-                                            isExpanded: true,
+                                              items: list.map<
+                                                  DropdownMenuItem<String>>(
+                                                (variantOption) {
+                                                  return DropdownMenuItem<
+                                                      String>(
+                                                    value: variantOption,
+                                                    child: Text(variantOption),
+                                                  );
+                                                },
+                                              ).toList(),
+                                              isExpanded: true,
+                                            ),
                                           ),
-                                        ),
-                                ],
-                              ),
-                            );
-                          }).toList(),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          ),
                         ),
 
                         SizedBox(height: AppConstant.size.height * 0.01),

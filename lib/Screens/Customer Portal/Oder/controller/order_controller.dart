@@ -12,12 +12,6 @@ class OrderController extends GetxController {
   var status = 'All'.obs;
   var isLoading = false.obs;
 
-  @override
-  void onInit() {
-    getAllOrderProduct();
-    super.onInit();
-  }
-
   Future getAllOrderProduct() async {
     isLoading.value = true;
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -27,9 +21,6 @@ class OrderController extends GetxController {
     orderDataList.clear();
     if (orderModel.success == true) {
       orderDataList.addAll(orderModel.data!);
-      for (int i = 0; i < orderDataList.length; i++) {
-        getStatusColor(orderDataList[i].orderStatus);
-      }
     }
     isLoading.value = false;
   }
@@ -37,7 +28,6 @@ class OrderController extends GetxController {
   //! Get the order Status color ..
 
   getStatusColor(oderStatus) {
-    // isLoading.value = true;
     switch (oderStatus) {
       case "Pending":
         return Colors.yellowAccent;
@@ -53,9 +43,9 @@ class OrderController extends GetxController {
   }
 
   // Method to update order status
-  void updateOrderStatus(orderId, String status) {
-    var order = orderDataList.firstWhere((order) => order.oRDERID == orderId);
-    order.orderStatus = status;
-    update();
-  }
+  // void updateOrderStatus(orderId, String status) {
+  //   var order = orderDataList.firstWhere((order) => order.oRDERID == orderId);
+  //   order.orderStatus = status;
+  //   update();
+  // }
 }

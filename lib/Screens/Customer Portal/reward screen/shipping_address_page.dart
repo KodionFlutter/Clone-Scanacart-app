@@ -33,6 +33,8 @@ class ShippingAddressPage extends StatelessWidget {
         shippingController.stateController.value.clear();
         shippingController.zipCodeController.value.clear();
         shippingController.select.value = false;
+        shippingController.isOrder.value = false;
+        shippingController.message.value = '';
       },
       child: Scaffold(
           appBar: AppBar(
@@ -51,6 +53,8 @@ class ShippingAddressPage extends StatelessWidget {
                 shippingController.stateController.value.clear();
                 shippingController.zipCodeController.value.clear();
                 shippingController.select.value = false;
+                shippingController.isOrder.value = false;
+                shippingController.message.value = '';
                 Get.back();
               },
               child: Icon(
@@ -245,6 +249,7 @@ class ShippingAddressPage extends StatelessWidget {
                             icons: Icons.phone,
                             iconColor: AppColors.blueColor,
                             hinText: 'Phone Number',
+                            maxLength: 10,
                             preFixText: '',
                             validator: (String? value) {
                               if (value!.isEmpty) {
@@ -324,6 +329,7 @@ class ShippingAddressPage extends StatelessWidget {
                             textInputType: TextInputType.number,
                             icons: Icons.numbers,
                             iconColor: AppColors.blueColor,
+                            maxLength: 5,
                             hinText: 'Zip Code',
                             preFixText: '',
                             validator: (String? value) {

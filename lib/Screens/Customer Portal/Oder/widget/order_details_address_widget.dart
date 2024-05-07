@@ -16,16 +16,16 @@ class OrderDetailsAddressWidget extends StatelessWidget {
 
   const OrderDetailsAddressWidget(
       {super.key,
-      required this.orderId,
-      required this.date,
-      required this.address,
-      required this.name,
-      required this.city,
-      required this.email,
-      required this.zipCode,
-      required this.status,
-      required this.onTap,
-      required this.isFielded});
+        required this.orderId,
+        required this.date,
+        required this.address,
+        required this.name,
+        required this.city,
+        required this.email,
+        required this.zipCode,
+        required this.status,
+        required this.onTap,
+        required this.isFielded});
 
   @override
   Widget build(BuildContext context) {
@@ -87,13 +87,13 @@ class OrderDetailsAddressWidget extends StatelessWidget {
               SizedBox(width: 5),
               isFielded == true
                   ? Container(
-                      height: 8,
-                      width: 8,
-                      decoration: BoxDecoration(
-                        color: Colors.green,
-                        shape: BoxShape.circle,
-                      ),
-                    )
+                height: 8,
+                width: 8,
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  shape: BoxShape.circle,
+                ),
+              )
                   : SizedBox(),
             ],
           ),

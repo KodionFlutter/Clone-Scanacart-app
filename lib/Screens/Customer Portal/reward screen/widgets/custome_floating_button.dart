@@ -50,7 +50,7 @@ class _CustomeFloatingButtonWidgetState
                     barcontroller.onCheckIndex(0),
                     controller.reverse(),
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.home,
                     color: Colors.white,
                   ),
@@ -63,7 +63,7 @@ class _CustomeFloatingButtonWidgetState
                     barcontroller.onCheckIndex(1),
                     controller.reverse(),
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.card_giftcard,
                     color: Colors.white,
                   ),
@@ -76,7 +76,7 @@ class _CustomeFloatingButtonWidgetState
                     barcontroller.onCheckIndex(2);
                     controller.reverse();
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.shopping_cart,
                     color: Colors.white,
                   ),
