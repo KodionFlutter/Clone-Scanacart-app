@@ -8,8 +8,10 @@ import 'package:scan_cart_clone/Utils/constant.dart';
 
 class OrderSuccessWidget extends StatelessWidget {
   final int customerId;
+  final VoidCallback onPressed;
 
-  const OrderSuccessWidget({super.key, required this.customerId});
+  const OrderSuccessWidget(
+      {super.key, required this.customerId, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -47,16 +49,7 @@ class OrderSuccessWidget extends StatelessWidget {
 
             //! Here we make a button ..
             CommonButtonWidget(
-              onPressed: () {
-                Get.back();
-                Get.back();
-                Get.back();
-                Get.back();
-                Get.back();
-                Get.back();
-                Get.off(
-                    FloatingButtonPage(customerId: customerId, state: true));
-              },
+              onPressed: onPressed,
               buttonTxt: "Ok".toUpperCase(),
               btnHeight: 40,
               btnWidth: 120,

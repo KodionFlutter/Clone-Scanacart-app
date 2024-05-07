@@ -15,7 +15,7 @@ import '../../../Utils/constant.dart';
 class OrderDetails extends StatelessWidget {
   final int oderId;
 
-  const OrderDetails({super.key, required this.oderId});
+  const OrderDetails({Key? key, required this.oderId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,160 +29,185 @@ class OrderDetails extends StatelessWidget {
         centerTitle: true,
       ),
       body: Obx(
-        () => orderDetailsController.orderDetailsDataList.isEmpty
-            ? Center(child: CupertinoActivityIndicator())
-            : orderDetailsController.isLoaded.value == false
-                ? Center(
-                    child: CupertinoActivityIndicator(),
-                  )
-                : ListView.builder(
-                    shrinkWrap: true,
-                    itemCount:
-                        orderDetailsController.orderDetailsDataList.length,
-                    itemBuilder: (context, index) {
-                      var data =
-                          orderDetailsController.orderDetailsDataList[index];
-                      var itemDetails = orderDetailsController
-                          .orderDetailsDataList[index].orderitem;
-                      DateTime format = DateFormat("MMMM, d yyyy HH:mm:ss")
-                          .parse(data.orderDate!);
-                      var date = DateFormat("dd MMM yyyy").format(format);
-                      return Column(
+        () {
+          if (orderDetailsController.isLoading.value) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (orderDetailsController.orderDetailsDataList.isEmpty) {
+            return Column(
+              children: [
+                SizedBox(height: AppConstant.size.height * 0.1),
+                Image.asset(
+                  "assets/images/record.webp",
+                  fit: BoxFit.contain,
+                  height: AppConstant.size.height * 0.3,
+                  width: AppConstant.size.width,
+                ),
+                SizedBox(height: AppConstant.size.height * 0.01),
+                Text(
+                  "No order Found".toUpperCase(),
+                  style: TextStyle(
+                      fontSize: AppConstant.size.height * 0.020,
+                      fontWeight: FontWeight.bold),
+                )
+              ],
+            );
+          } else {
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: orderDetailsController.orderDetailsDataList.length,
+              itemBuilder: (context, index) {
+                var data = orderDetailsController.orderDetailsDataList[index];
+                var itemDetails = orderDetailsController
+                    .orderDetailsDataList[index].orderitem;
+                DateTime format =
+                    DateFormat("MMMM, d yyyy HH:mm:ss").parse(data.orderDate!);
+                var date = DateFormat("dd MMM yyyy").format(format);
+                return Column(
+                  children: [
+                    OrderDetailsAddressWidget(
+                      orderId: data.orderId!,
+                      date: date,
+                      address: data.address!,
+                      name: data.name!,
+                      city: data.city!,
+                      email: data.email!,
+                      zipCode: data.zipCode!,
+                      status: data.orderStatus!,
+                      onTap: () => showDialog(
+                        context: context,
+                        builder: (_) {
+                          orderDetailsController.addNoteController.value.text =
+                              data.customerNotes!;
+                          return OrderDetailsDialogBoxWidget(
+                            title: 'Comments',
+                            subTitle: 'Your Note',
+                            textEditingController:
+                                orderDetailsController.addNoteController.value,
+                            onPressed: () async {
+                              if (orderDetailsController
+                                  .addNoteController.value.text.isEmpty) {
+                                showMessage(
+                                    "Note can't be left blank", Colors.white);
+                              } else {
+                                SharedPreferences preferences =
+                                    await SharedPreferences.getInstance();
+                                var customerId =
+                                    preferences.getInt("customer_id");
+                                orderDetailsController.addNotes({
+                                  "notes": orderDetailsController
+                                      .addNoteController.value.text,
+                                  "order_id": data.orderId.toString(),
+                                  "customer_id": customerId.toString()
+                                }).then((value) {
+                                  orderDetailsController.getOrderDetails();
+                                  Get.back();
+                                });
+                              }
+                            },
+                          );
+                        },
+                      ),
+                      isFielded: data.customerNotes!.isEmpty ? false : true,
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(5),
+                      padding: EdgeInsets.all(15),
+                      width: AppConstant.size.width * 1,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        gradient: AppColors.orderPage,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          OrderDetailsAddressWidget(
-                            orderId: data.orderId!,
-                            date: date,
-                            address: data.address!,
-                            name: data.name!,
-                            city: data.city!,
-                            email: data.email!,
-                            zipCode: data.zipCode!,
-                            status: data.orderStatus!,
-                            onTap: () => showDialog(
-                                context: context,
-                                builder: (_) {
-                                  orderDetailsController.addNoteController.value
-                                      .text = data.customerNotes!;
-                                  return OrderDetailsDialogBoxWidget(
-                                    title: 'Comments',
-                                    subTitle: 'Your Note',
-                                    textEditingController:
-                                        orderDetailsController
-                                            .addNoteController.value,
-                                    onPressed: () async {
-                                      if (orderDetailsController
-                                          .addNoteController
-                                          .value
-                                          .text
-                                          .isEmpty) {
-                                        showMessage("Note can't be left blank",
-                                            Colors.white);
-                                      } else {
-                                        SharedPreferences preferences =
-                                            await SharedPreferences
-                                                .getInstance();
-                                        var customerId =
-                                            preferences.getInt("customer_id");
-                                        orderDetailsController.addNotes({
-                                          "notes": orderDetailsController
-                                              .addNoteController.value.text,
-                                          "order_id": data.orderId.toString(),
-                                          "customer_id": customerId.toString()
-                                        }).then((value) {
-                                          orderDetailsController
-                                              .getOrderDetails();
-                                          Get.back();
-                                        });
-                                      }
-                                    },
-                                  );
-                                }),
-                            isFielded:
-                                data.customerNotes!.isEmpty ? false : true,
-                          ),
-
-                          //! Items List
-
-                          Container(
-                            margin: EdgeInsets.all(5),
-                            padding: EdgeInsets.all(15),
-                            width: AppConstant.size.width * 1,
-                            // height: AppConstant.size.height*1,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              gradient: AppColors.orderPage,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                //! Order Details
-                                Text("Items".toUpperCase(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16)),
-                                const SizedBox(height: 10),
-                                //! ListTile ..
-                                ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: itemDetails!.length,
-                                    itemBuilder: (ctx, i) {
-                                      return OrderDetailsItemWidget(
-                                        title: itemDetails[i]
-                                            .productName![0]
-                                            .productTitle!,
-                                        quantity: itemDetails[i].quantity!,
-                                        points: itemDetails[i].pointsUsed!,
-                                      );
-                                    })
-                              ],
-                            ),
-                          ),
-
-                          //! Here show the  All amount ..
-
-                          OrderDetailsTotalPointsWidget(
-                            pointsAmount: data.totalPoints!,
-                            cachingCon: 0,
-                            discount: 0,
-                            totalAmount: data.totalPoints!,
-                            onTap: () {
-                              //! Here we call the cancel order api..
-                              showDialog(
-                                  context: context,
-                                  builder: (_) {
-                                    return OrderDetailsDialogBoxWidget(
-                                      title: 'Cancel order',
-                                      subTitle: 'Reason',
-                                      textEditingController:
-                                          orderDetailsController
-                                              .cancelNoteController.value,
-                                      onPressed: () {
-                                        orderDetailsController.isLoaded.value =
-                                            false;
-                                        //! Her we call the cancel method
-                                        orderDetailsController
-                                            .cancelOrderProduct({
-                                          "reason": orderDetailsController
-                                              .cancelNoteController.value.text,
-                                          'order_id': data.orderId!.toString(),
-                                        }).then((value) {
-                                          Get.back();
-
-                                          orderDetailsController
-                                              .getOrderDetails();
-                                          orderDetailsController
-                                              .isLoaded.value = true;
-                                        });
-                                      },
-                                    );
-                                  });
+                          Text("Items".toUpperCase(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16)),
+                          const SizedBox(height: 10),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: itemDetails!.length,
+                            itemBuilder: (ctx, i) {
+                              return OrderDetailsItemWidget(
+                                title: itemDetails[i]
+                                    .productName![0]
+                                    .productTitle!,
+                                quantity: itemDetails[i].quantity!,
+                                points: itemDetails[i].pointsUsed!,
+                              );
                             },
                           ),
                         ],
-                      );
-                    },
-                  ),
+                      ),
+                    ),
+                    OrderDetailsTotalPointsWidget(
+                      pointsAmount: data.totalPoints!,
+                      cachingCon: 0,
+                      discount: 0,
+                      totalAmount: data.totalPoints!,
+                      button: data.orderStatus == 'Cancel'
+                          ? const SizedBox()
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(child: SizedBox()),
+                                InkWell(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (_) {
+                                        return OrderDetailsDialogBoxWidget(
+                                          title: 'Cancel order',
+                                          subTitle: 'Reason',
+                                          textEditingController:
+                                              orderDetailsController
+                                                  .cancelNoteController.value,
+                                          onPressed: () {
+                                            orderDetailsController
+                                                .isLoading.value = false;
+                                            orderDetailsController
+                                                .cancelOrderProduct({
+                                              "reason": orderDetailsController
+                                                  .cancelNoteController
+                                                  .value
+                                                  .text,
+                                              'order_id':
+                                                  data.orderId!.toString(),
+                                            }).then((value) {
+                                              Get.back();
+                                              orderDetailsController
+                                                  .getOrderDetails()
+                                                  .then((_) {
+                                                // Update the page
+                                                orderDetailsController
+                                                    .isLoading.value = false;
+                                              });
+                                            });
+                                          },
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: Text(
+                                    "cancel order".toUpperCase(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.redAccent,
+                                        fontSize: 13),
+                                  ),
+                                ),
+                              ],
+                            ),
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+        },
       ),
     );
   }

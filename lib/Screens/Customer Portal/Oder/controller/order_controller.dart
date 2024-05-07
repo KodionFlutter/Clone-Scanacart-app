@@ -10,6 +10,7 @@ class OrderController extends GetxController {
   OrderModel orderModel = OrderModel();
   var orderDataList = <Data>[].obs;
   var status = 'All'.obs;
+  var isLoading = false.obs;
 
   @override
   void onInit() {
@@ -18,6 +19,7 @@ class OrderController extends GetxController {
   }
 
   Future getAllOrderProduct() async {
+    isLoading.value = true;
     SharedPreferences preferences = await SharedPreferences.getInstance();
     int? customerId = preferences.getInt('customer_id');
     orderModel = await APIServices.hitOrderList(customerId, status.value);
@@ -26,6 +28,7 @@ class OrderController extends GetxController {
     if (orderModel.success == true) {
       orderDataList.addAll(orderModel.data!);
     }
+    isLoading.value = false;
   }
 
   //! Get the order Status color ..
@@ -40,6 +43,8 @@ class OrderController extends GetxController {
         return Colors.red;
       case "Fulfilled":
         return Colors.green;
+      default:
+        return Colors.grey;
     }
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/validator_form.dart';
 import 'package:scan_cart_clone/Models/address_model.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/Floating%20bottom%20bar/floating_button.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/oder_success_widget.dart';
 import 'package:scan_cart_clone/Utils/Base%20service/services.dart';
 import 'package:scan_cart_clone/Utils/DataBase%20helper/data_base_helper.dart';
@@ -37,6 +38,8 @@ class ShippingAddressController extends GetxController {
   var selectAddress = ''.obs;
   var addressList = <Data>[].obs;
   AddressModel addressModel = AddressModel();
+  RxBool isLoading = false.obs;
+  RxBool isOrder = false.obs;
 
   @override
   void onInit() {
@@ -56,7 +59,6 @@ class ShippingAddressController extends GetxController {
     storeData = await DataBaseHelper.dataBaseHelper.fetchProduct();
     print('CartItem :=>> ${cartItemsJson}');
     // sendOrderData = jsonEncode(cartItemsJson);
-    // print("000 : $sendOrderData");
 
     // You need to get the variants and decode to this ...
     Map<String, dynamic> sendVariantsData = {};
@@ -65,19 +67,24 @@ class ShippingAddressController extends GetxController {
     for (var items in cartItemsJson) {
       variants = items['variants'];
     }
-
     print("The variants all  :${variants}");
     //! Here i convert the data into sending form...
 
-    String extractedData = variants.split('{')[1].split('}')[0];
-    List<String> keyValuePairs = extractedData.split(', ');
+    if (variants != null) {
+      String extractedData = variants.split('{')[1].split('}')[0];
+      List<String> keyValuePairs = extractedData.split(', ');
 
-    keyValuePairs.forEach((pair) {
-      List<String> parts = pair.split('=');
-      String key = parts[0].trim();
-      String value = parts[1].replaceAll('"', '').trim();
-      variantsMap[key] = value;
-    });
+      keyValuePairs.forEach((pair) {
+        List<String> parts = pair.split('=');
+        String key = parts[0].trim();
+        String value = parts[1].replaceAll('"', '').trim();
+        variantsMap[key] = value;
+      });
+    } else {
+      // Handle the case where variants is null, for example:
+      print('Variants is null');
+      variantsMap = {};
+    }
 
     var endciesendVariantsData = sendVariantsData;
     for (var items in cartItemsJson) {
@@ -100,6 +107,7 @@ class ShippingAddressController extends GetxController {
 
   //! Make here function for adding the shipping or order....
   Future productShipping(Map<String, dynamic> mapData) async {
+    isOrder.value = true;
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       int? customerId = preferences.getInt('customer_id');
@@ -113,10 +121,16 @@ class ShippingAddressController extends GetxController {
           builder: (_) {
             return OrderSuccessWidget(
               customerId: customerId!,
+              onPressed: () {
+                Get.until((route) => route.isCurrent);
+                Get.off(
+                    FloatingButtonPage(customerId: customerId, state: true));
+              },
             );
           });
       await DataBaseHelper.dataBaseHelper.deleteAllData();
       refreshItems();
+      isOrder.value = false;
       // print("Shipping Response is : $data");
     } catch (e) {
       print("Exception is :: ${e.toString()}");
@@ -132,6 +146,7 @@ class ShippingAddressController extends GetxController {
 // Lets here get the all saved Address ..
 
   Future getAddressList() async {
+    isLoading.value = true;
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var token = await preferences.getString("Token");
     var customerId = await preferences.getInt("customer_id");
@@ -142,6 +157,7 @@ class ShippingAddressController extends GetxController {
       //! Here i bind the Data
       addressList.addAll(addressModel.data!);
     }
+    isLoading.value = false;
     print("This is list Address name : ${addressList.length}");
   }
 }
