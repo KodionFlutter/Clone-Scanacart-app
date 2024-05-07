@@ -8,6 +8,7 @@ class OrderDetailsController extends GetxController {
   final int oderId;
 
   OrderDetailsController({required this.oderId});
+
   //! Variable initialize
   OrderDetailsModel orderDetailsModel = OrderDetailsModel();
 
@@ -17,6 +18,7 @@ class OrderDetailsController extends GetxController {
   Rx<TextEditingController> cancelNoteController = TextEditingController().obs;
   RxBool isLoading = false.obs;
   RxString isCancel = ''.obs;
+  RxBool isCalled = false.obs;
 
   //! onInit method
 
@@ -61,12 +63,24 @@ class OrderDetailsController extends GetxController {
   //! AddNote method..
 
   Future addNotes(Map<String, dynamic> map) async {
+    isCalled.value = true;
     try {
       var data = APIServices.hitAddNotes(map);
       print("Data is $data");
+      isCalled.value = false;
     } catch (e) {
+      isCalled.value = false;
       return "exception : ${e.toString()}";
     }
+  }
+
+  void updateButtonState() {
+    isLoading.value = true;
+  }
+
+  // Method to reset the button state
+  void resetButtonState() {
+    isLoading.value = false;
   }
 
   Future backMethod() async {}

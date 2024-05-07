@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/common_services/common_services.dart';
+import 'package:scan_cart_clone/Common/widgets/common_button.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/controller/oder_details_controller.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/widget/order_details_address_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/widget/order_details_dialogbox_widget.dart';
@@ -81,32 +82,53 @@ class OrderDetails extends StatelessWidget {
                           orderDetailsController.addNoteController.value.text =
                               data.customerNotes!;
                           return OrderDetailsDialogBoxWidget(
-                            title: 'Comments',
-                            subTitle: 'Your Note',
-                            textEditingController:
-                                orderDetailsController.addNoteController.value,
-                            onPressed: () async {
-                              if (orderDetailsController
-                                  .addNoteController.value.text.isEmpty) {
-                                showMessage(
-                                    "Note can't be left blank", Colors.white);
-                              } else {
-                                SharedPreferences preferences =
-                                    await SharedPreferences.getInstance();
-                                var customerId =
-                                    preferences.getInt("customer_id");
-                                orderDetailsController.addNotes({
-                                  "notes": orderDetailsController
-                                      .addNoteController.value.text,
-                                  "order_id": oderId.toString(),
-                                  "customer_id": customerId.toString()
-                                }).then((value) {
-                                  orderDetailsController.getOrderDetails();
-                                  Get.back();
-                                });
-                              }
-                            },
-                          );
+                              title: 'Comments',
+                              subTitle: 'Your Note',
+                              textEditingController: orderDetailsController
+                                  .addNoteController.value,
+                              widget: Obx(
+                                () => orderDetailsController.isCalled.value
+                                    ? Center(
+                                        child: CircularProgressIndicator(),
+                                      )
+                                    : CommonButtonWidget(
+                                        onPressed: () async {
+                                          if (orderDetailsController
+                                              .addNoteController
+                                              .value
+                                              .text
+                                              .isEmpty) {
+                                            showMessage(
+                                                "Note can't be left blank",
+                                                Colors.white);
+                                          } else {
+                                            SharedPreferences preferences =
+                                                await SharedPreferences
+                                                    .getInstance();
+                                            var customerId = preferences
+                                                .getInt("customer_id");
+                                            orderDetailsController.addNotes({
+                                              "notes": orderDetailsController
+                                                  .addNoteController.value.text,
+                                              "order_id": oderId.toString(),
+                                              "customer_id":
+                                                  customerId.toString()
+                                            }).then((value) {
+                                              orderDetailsController
+                                                  .getOrderDetails();
+                                              Get.back();
+                                            });
+                                          }
+                                        },
+                                        buttonTxt: 'Submit',
+                                        btnHeight:
+                                            AppConstant.size.height * 0.06,
+                                        btnWidth: AppConstant.size.width * 0.5,
+                                        txtColor: AppColors.txtWhiteColor,
+                                        colors: Colors.lightBlue,
+                                        isEnabled: true,
+                                      ),
+                              ));
                         },
                       ),
                       isFielded: data.customerNotes!.isEmpty ? false : true,
@@ -159,27 +181,49 @@ class OrderDetails extends StatelessWidget {
                                     showDialog(
                                       context: context,
                                       builder: (_) {
-                                        return OrderDetailsDialogBoxWidget(
-                                          title: 'Cancel order',
-                                          subTitle: 'Reason',
-                                          textEditingController:
-                                              orderDetailsController
-                                                  .cancelNoteController.value,
-                                          onPressed: () {
-                                            orderDetailsController
-                                                .cancelOrderProduct({
-                                              "reason": orderDetailsController
-                                                  .cancelNoteController
-                                                  .value
-                                                  .text,
-                                              'order_id': oderId.toString(),
-                                            }).then((value) {
-                                              orderDetailsController
-                                                  .getOrderDetails();
-                                              Get.back();
-                                            });
-                                          },
-                                        );
+                                        return Obx(() =>
+                                            OrderDetailsDialogBoxWidget(
+                                              title: 'Cancel order',
+                                              subTitle: 'Reason',
+                                              textEditingController:
+                                                  orderDetailsController
+                                                      .cancelNoteController
+                                                      .value,
+                                              widget: orderDetailsController
+                                                      .isLoading.value
+                                                  ? Center(
+                                                      child:
+                                                          CircularProgressIndicator())
+                                                  : CommonButtonWidget(
+                                                      buttonTxt: 'Submit',
+                                                      btnHeight: AppConstant
+                                                              .size.height *
+                                                          0.06,
+                                                      btnWidth: AppConstant
+                                                              .size.width *
+                                                          0.5,
+                                                      txtColor: AppColors
+                                                          .txtWhiteColor,
+                                                      colors: Colors.lightBlue,
+                                                      isEnabled: true,
+                                                      onPressed: () {
+                                                        orderDetailsController
+                                                            .cancelOrderProduct({
+                                                          "reason":
+                                                              orderDetailsController
+                                                                  .cancelNoteController
+                                                                  .value
+                                                                  .text,
+                                                          'order_id':
+                                                              oderId.toString(),
+                                                        }).then((value) {
+                                                          orderDetailsController
+                                                              .getOrderDetails();
+                                                          Get.back();
+                                                        });
+                                                      },
+                                                    ),
+                                            ));
                                       },
                                     );
                                   },

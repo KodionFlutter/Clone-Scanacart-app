@@ -117,23 +117,29 @@ class DataBaseHelper {
         limit: 1,
       );
       print("Matching product :: $cartRecords}");
-      if (cartRecords.isNotEmpty) {
-        print("Is how woking");
-        // Product already exists in the cart, update its quantity in the cartList...
-        int newQuantity = cartRecords[0]['quantity'] + 1;
-        print("New Quantity :: $newQuantity");
+      List<Map<String, dynamic>> existingProducts = await database.query(
+        _tableName,
+        where: '$productId = ? AND $variants = ?',
+        whereArgs: [
+          addCartData[productId],
+          addCartData['variants'].toString(),
+        ],
+      );
+
+      if (existingProducts.isNotEmpty) {
+        // Product with the same variant exists, update its quantity
+        int newQuantity = existingProducts[0][productQuantity] + 1;
         await database.update(
-          'ProductCart',
-          {'quantity': newQuantity},
+          _tableName,
+          {productQuantity: newQuantity},
           where: '$productId = ? AND $variants = ?',
           whereArgs: [
             addCartData[productId],
-            addCartData[variants],
+            addCartData['variants'].toString(),
           ],
         );
       } else {
-        print("Is this working");
-        // Product List in empty , then add into the List..
+        // Insert as a new entry
         await database.insert(_tableName, addCartData);
       }
     } else {
@@ -143,6 +149,14 @@ class DataBaseHelper {
       print('ProductCart database is empty!');
     }
   }
+
+  //! Insert Query
+  // Future insert(Map<String, dynamic> addCartData) async {
+  //   var database = await dataBaseHelper.getDatabase;
+  //
+  //   // Check if the same product with the same variants exists
+  //
+  // }
 
   //! Fetch The Product Data..
   Future fetchProduct() async {
