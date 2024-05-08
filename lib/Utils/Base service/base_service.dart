@@ -95,7 +95,7 @@ class BaseService {
               'Content-Type': 'application/json; charset=UTF-8',
             },
             body: jsonEncode(map))
-        .timeout(Duration(seconds: 20));
+        .timeout(Duration(seconds: 30));
     return data;
   }
 }

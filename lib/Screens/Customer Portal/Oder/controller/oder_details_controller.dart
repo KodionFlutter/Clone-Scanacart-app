@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:scan_cart_clone/Models/common_model.dart';
 import 'package:scan_cart_clone/Models/order_details_model.dart';
 import 'package:scan_cart_clone/Utils/Base%20service/services.dart';
+import 'package:scan_cart_clone/Utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OrderDetailsController extends GetxController {
@@ -13,12 +15,14 @@ class OrderDetailsController extends GetxController {
   OrderDetailsModel orderDetailsModel = OrderDetailsModel();
 
   var orderDetailsDataList = <Data>[].obs;
+  var orderItemList = <Orderitem>[].obs;
 
   Rx<TextEditingController> addNoteController = TextEditingController().obs;
   Rx<TextEditingController> cancelNoteController = TextEditingController().obs;
   RxBool isLoading = false.obs;
   RxString isCancel = ''.obs;
   RxBool isCalled = false.obs;
+  CommonModel commonModel = CommonModel();
 
   //! onInit method
 
@@ -39,7 +43,10 @@ class OrderDetailsController extends GetxController {
     orderDetailsDataList.clear();
     if (orderDetailsModel.success == true) {
       orderDetailsDataList.addAll(orderDetailsModel.data!);
+      print("This is all data Coming : ${orderDetailsDataList[0].orderitem![0].quantity}");
+      // orderItemList.addAll(orderDetailsModel.data![0].orderitem!);
       isCancel.value = orderDetailsModel.data![0].orderStatus!;
+      print("This is the orderItem List : ${orderItemList}");
     }
     isLoading.value = false;
   }
@@ -47,15 +54,17 @@ class OrderDetailsController extends GetxController {
   //! Here we cancel the order ..
 
   Future cancelOrderProduct(Map<String, dynamic>? map) async {
-    isLoading.value = true;
+    isCalled.value = true;
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       var token = preferences.getString("Token");
-      APIServices.hitCancelProduct(map, token);
-      // preferences.remove("oderId");
-      isLoading.value = false;
+      commonModel = await APIServices.hitCancelProduct(map, token);
+      print("This is cancel response : ${commonModel.message.toString()}");
+      getOrderDetails();
+      Get.back();
+      isCalled.value = false;
     } catch (e) {
-      isLoading.value = false;
+      isCalled.value = false;
       return "exception :${e.toString()}";
     }
   }
@@ -63,25 +72,16 @@ class OrderDetailsController extends GetxController {
   //! AddNote method..
 
   Future addNotes(Map<String, dynamic> map) async {
-    isCalled.value = true;
     try {
-      var data = APIServices.hitAddNotes(map);
-      print("Data is $data");
+      isCalled.value = true;
+      commonModel = await APIServices.hitAddNotes(map);
+      print("Message of response : ${commonModel.message.toString()}");
+      getOrderDetails();
+      Get.back();
       isCalled.value = false;
     } catch (e) {
       isCalled.value = false;
       return "exception : ${e.toString()}";
     }
   }
-
-  void updateButtonState() {
-    isLoading.value = true;
-  }
-
-  // Method to reset the button state
-  void resetButtonState() {
-    isLoading.value = false;
-  }
-
-  Future backMethod() async {}
 }

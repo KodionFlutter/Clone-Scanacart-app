@@ -1,35 +1,65 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:palette_generator/palette_generator.dart';
 import 'package:scan_cart_clone/Utils/DataBase%20helper/data_base_helper.dart';
 
 class CartController extends GetxController {
 //! Declare the variable ..
 
-  var itemLength = 0.obs;
   var items = [].obs;
   var cartItems = [].obs;
   var currentQuantity = 0.obs;
   RxBool isLoading = false.obs;
+  var colorList = ''.obs;
+  var sizeList = ''.obs;
+  RxString size = ''.obs;
 
   var sameClient = 0.obs;
+  var colorsList = <PaletteColor>[].obs;
+  RxBool isImageLoading = false.obs;
 
   @override
   void onInit() {
-    refreshItems();
+    // Future.delayed(Duration.zero)
+    //     .then((value) => refreshItems().then((value) => updatePaletteColor()));
+    refreshCartItems();
     super.onInit();
   }
 
+// Here we make the update the palette
+
+  updatePaletteColor() async {
+    isImageLoading.value = true;
+    colorsList.clear();
+    for (int i = 0; i < items.length; i++) {
+      print("object : ${items[i]['imageURL']}");
+      final PaletteGenerator generator =
+          await PaletteGenerator.fromImageProvider(
+        NetworkImage(cartItems[i]['imageURL']),
+      );
+      colorsList.add(generator.lightMutedColor != null
+          ? generator.lightMutedColor!
+          : PaletteColor(Colors.blue, items.length));
+      isImageLoading.value = false;
+    }
+    print("Color : ${colorsList.length}");
+  }
+
 //! Here fetch the cart Item ..
-  Future refreshItems() async {
+  Future refreshCartItems() async {
     isLoading.value = true;
+    items.clear();
     items.value = await DataBaseHelper.dataBaseHelper.fetchProduct();
-    print('CartItem : $items');
-    itemLength.value = items.length;
-    print("Item Length :: ${itemLength}");
-    // currentClientID = items[0]['client_id'];
-    // print('Client ID --: $currentClientID');
-    cartItems.assignAll(items);
+    if (items.length > 0) {
+      print('CartItem : $items');
+      cartItems.assignAll(items);
+      sameClient.value = items[0]['client_id'];
+      isLoading.value = false;
+      // updatePaletteColor();
+    } else {
+      isLoading.value = false;
+    }
     isLoading.value = false;
-    sameClient.value  = items[0]['client_id'];
   }
 
   // RxInt totalQuantity = 0.obs;
@@ -56,7 +86,7 @@ class CartController extends GetxController {
   Future<void> increaseQuantity(id, variants) async {
     print("increase the value");
     await DataBaseHelper.dataBaseHelper.updateProductQuantity(id, 1, variants);
-    refreshItems();
+    refreshCartItems();
   }
 
   // Method to decrease quantity of an item
@@ -71,7 +101,7 @@ class CartController extends GetxController {
     if (currentQuantity.value > 1) {
       await DataBaseHelper.dataBaseHelper
           .updateProductQuantity(id, -1, variants);
-      refreshItems();
+      refreshCartItems();
     } else {
       print('Cannot decrease quantity further.');
     }

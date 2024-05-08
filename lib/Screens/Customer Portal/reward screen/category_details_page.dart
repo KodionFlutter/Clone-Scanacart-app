@@ -282,25 +282,25 @@ class CategoryDetailsPage extends StatelessWidget {
                                                   contentPadding:
                                                       EdgeInsets.symmetric(
                                                           horizontal: 5)),
-                                                  autovalidateMode: AutovalidateMode
-                                                                            .onUserInteraction,
-                                                                        isDense: true,
+                                              autovalidateMode: AutovalidateMode
+                                                  .onUserInteraction,
+                                              isDense: true,
                                               value: categoryDeController
                                                   .selectedVariants
                                                   .value[variantEntry.key],
                                               dropdownColor: Colors.white,
                                               style: const TextStyle(
                                                   color: Colors.black),
-                                              icon: const Icon(Icons.arrow_drop_down,
+                                              icon: const Icon(
+                                                  Icons.arrow_drop_down,
                                                   color: Colors.black),
                                               onChanged: (newValue) {
                                                 categoryDeController
-                                                        .selectedVariants[
-                                                    variantEntry
-                                                        .key] = newValue;
-                                                print("variants : ${ categoryDeController
-                                                    .selectedVariants}");
-
+                                                            .selectedVariants[
+                                                        variantEntry.key] =
+                                                    newValue;
+                                                print(
+                                                    "variants : ${categoryDeController.selectedVariants}");
                                               },
                                               items: list.map<
                                                   DropdownMenuItem<String>>(
@@ -470,7 +470,7 @@ class CategoryDetailsPage extends StatelessWidget {
                           DataBaseHelper.categoryId:
                               categoryDeController.categoryId.value
                         });
-                        cartController.refreshItems();
+                        cartController.refreshCartItems();
                       }
                     },
               style: ElevatedButton.styleFrom(

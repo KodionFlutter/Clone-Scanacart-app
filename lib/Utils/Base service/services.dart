@@ -445,18 +445,22 @@ class APIServices {
 
   //! hit here add note of product
 
-  static hitAddNotes(map) async {
+  static Future hitAddNotes(map) async {
     var url = '${ApiServiceConfig.apiBaseUrl}?endpoint=/rewards/addOrderNotes';
     print("Add notes in product details : $url");
     try {
-      var response = await BaseService.putMethod(url, map);
-      log("Add note response : ${response.body.toString()}");
-      var decodedData = jsonDecode(response.body);
-
-      if (decodedData['success'] == true) {
-        return CommonModel.fromJson(decodedData);
-      } else {
-        throw Exception(decodedData['message']);
+      var response = null;
+      response = await BaseService.putMethod(url, map);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        var decodedData = jsonDecode(response.body);
+        if (decodedData['success'] == true) {
+          log("Add note response : ${decodedData}");
+          return CommonModel.fromJson(decodedData);
+        } else {
+          print("Exception is working");
+          throw Exception(decodedData['message']);
+        }
       }
     } on SocketException {
       throw Exception("No Connection");

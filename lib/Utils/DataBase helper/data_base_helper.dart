@@ -5,22 +5,6 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:developer' as developer;
-
-// {
-// "quantity": 1,
-// "imageURL": "https://dev.scanacart.com/admin/products/assets/product/images/41SRhmed-cL.jpg",
-// "variants": {
-// "color": "brown",
-// "size": "S"
-// },
-// "variantId": 50,
-// "productId": 217,
-// "productName": "Madame Rust K Top for Women",
-// "points": 200,
-// "client_id": 1910,
-// "category_id": "21"
-// }
-
 class DataBaseHelper {
   static const id = "id";
   static const clientId = "client_id";
@@ -33,9 +17,6 @@ class DataBaseHelper {
   static const variantId = "variantId";
   static const variants = "variants";
 
-  // static const productColor = "color";
-  // static const productSize = "size";
-
   //! Create a map variants
   static const _tableName = "ProductCart";
   static const _databaseName = "CartDatabase.db";
@@ -43,10 +24,8 @@ class DataBaseHelper {
 
   //! Here first
   DataBaseHelper._private();
-
   static final dataBaseHelper = DataBaseHelper._private();
   Database? _database;
-
   //!  First we get the dataBase..
   Future<Database> get getDatabase async {
     if (_database != null) {
@@ -60,7 +39,6 @@ class DataBaseHelper {
   }
 
   //! Let's initialize the Database
-
   Future initialize() async {
     print("Database init");
     Directory directory = await getApplicationCacheDirectory();
@@ -73,8 +51,6 @@ class DataBaseHelper {
     );
     return _database;
   }
-
-// $productSize TEXT, $productColor TEXT
 
   //! Create the Database
   Future _onCreate(Database db, int version) async {
@@ -95,9 +71,6 @@ class DataBaseHelper {
   //! Insert Query
   Future insert(Map<String, dynamic> addCartData) async {
     var database = await dataBaseHelper.getDatabase;
-    // await database.insert(_tableName, addCartData);
-    // print('ProductCart added into the Database..');
-
     //! Checking for productList Empty or Not..
     List<Map<String, dynamic>> productCartRecords =
         await database.query(_tableName);
@@ -186,4 +159,6 @@ class DataBaseHelper {
     var db = await dataBaseHelper.getDatabase;
     await db.delete(_tableName);
   }
+
+
 }

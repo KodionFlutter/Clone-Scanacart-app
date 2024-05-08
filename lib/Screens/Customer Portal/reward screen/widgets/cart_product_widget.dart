@@ -18,6 +18,7 @@ class CartProductWidget extends StatelessWidget {
   final int productId;
   final int clientId;
   final String clientName;
+  final Widget widget;
 
   const CartProductWidget({
     Key? key,
@@ -33,7 +34,7 @@ class CartProductWidget extends StatelessWidget {
     this.productSize,
     required this.productId,
     required this.clientId,
-    required this.clientName,
+    required this.clientName, required this.widget,
   }) : super(key: key);
 
   @override
@@ -58,68 +59,71 @@ class CartProductWidget extends StatelessWidget {
           //! Here the image Section
           Stack(
             children: [
-              FutureBuilder<PaletteGenerator>(
-                future: PaletteGenerator.fromImageProvider(
-                  NetworkImage(productImage),
-                ),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Container(
-                      width: 100,
-                      height: 120,
-                      color: Colors.grey.withOpacity(0.5),
-                      child: const Center(child: CupertinoActivityIndicator()),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Container(
-                      width: 100,
-                      height: 120,
-                      color: Colors.grey.withOpacity(0.5),
-                      child: const Center(child: Text('Error')),
-                    );
-                  } else if (snapshot.hasData) {
-                    final palette = snapshot.data!.dominantColor?.color;
-                    return Container(
-                      padding: const EdgeInsets.all(5),
-                      width: 100,
-                      height: 120,
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          bottomLeft: Radius.circular(10),
-                        ),
-                        color: palette!.withOpacity(0.5) ?? Colors.white,
-                      ),
-                      child: InkWell(
-                        onTap: () {
-                          Get.to(CategoryDetailsPage(
-                            productId: productId,
-                            clientId: clientId,
-                            clientName: clientName,
-                          ));
-                        },
-                        child: CachedNetworkImage(
-                          width: 80,
-                          imageUrl: productImage,
-                          fit: BoxFit.contain,
-                          placeholder: (context, url) =>
-                              const CupertinoActivityIndicator(),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
-                        ),
-                      ),
-                    );
-                  } else {
-                    // Handle other cases
-                    return Container(
-                      width: 100,
-                      height: 120,
-                      color: Colors.grey.withOpacity(0.5), // Placeholder color
-                      child: const Center(child: Text('No Data')),
-                    );
-                  }
-                },
-              ),
+              // FutureBuilder<PaletteGenerator>(
+              //   future: PaletteGenerator.fromImageProvider(
+              //     NetworkImage(productImage),
+              //   ),
+              //   builder: (context, snapshot) {
+              //     if (snapshot.connectionState == ConnectionState.waiting) {
+              //       return Container(
+              //         width: 100,
+              //         height: 120,
+              //         color: Colors.grey.withOpacity(0.5),
+              //         child: const Center(child: CupertinoActivityIndicator()),
+              //       );
+              //     } else if (snapshot.hasError) {
+              //       return Container(
+              //         width: 100,
+              //         height: 120,
+              //         color: Colors.grey.withOpacity(0.5),
+              //         child: const Center(child: Text('Error')),
+              //       );
+              //     } else if (snapshot.hasData) {
+              //       final palette = snapshot.data!.dominantColor?.color;
+              //       return Container(
+              //         padding: const EdgeInsets.all(5),
+              //         width: 100,
+              //         height: 120,
+              //         decoration: BoxDecoration(
+              //           borderRadius: const BorderRadius.only(
+              //             topLeft: Radius.circular(10),
+              //             bottomLeft: Radius.circular(10),
+              //           ),
+              //           color: palette!.withOpacity(0.5) ?? Colors.white,
+              //         ),
+              //         child: InkWell(
+              //           onTap: () {
+              //             Get.to(CategoryDetailsPage(
+              //               productId: productId,
+              //               clientId: clientId,
+              //               clientName: clientName,
+              //             ));
+              //           },
+              //           child: CachedNetworkImage(
+              //             width: 80,
+              //             imageUrl: productImage,
+              //             fit: BoxFit.contain,
+              //             placeholder: (context, url) =>
+              //                 const CupertinoActivityIndicator(),
+              //             errorWidget: (context, url, error) =>
+              //                 const Icon(Icons.error),
+              //           ),
+              //         ),
+              //       );
+              //     } else {
+              //       // Handle other cases
+              //       return Container(
+              //         width: 100,
+              //         height: 120,
+              //         color: Colors.grey.withOpacity(0.5), // Placeholder color
+              //         child: const Center(child: Text('No Data')),
+              //       );
+              //     }
+              //   },
+              // ),
+              Container(
+                child: widget,
+              )
             ],
           ),
 
@@ -143,7 +147,7 @@ class CartProductWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
                   //!  Display the Color of the Product ..
-                  productColor == null || productColor!.isEmpty
+                  productColor != null || productColor!.isNotEmpty
                       ? const SizedBox()
                       : RichText(
                           text: TextSpan(
@@ -290,21 +294,6 @@ class CartProductWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-
-                // ElevatedButton(
-                //     onPressed: deleteProduct,
-                //     style: ElevatedButton.styleFrom(
-                //         // shape: RoundedRectangleBorder(
-                //         //   borderRadius: BorderRadius.circular(4)
-                //         // )
-                //         elevation: 0,
-                //         backgroundColor: Colors.transparent,
-                //         side: const BorderSide(
-                //             color: Colors.redAccent, width: 1)),
-                //     child: const Icon(
-                //       Icons.delete_outline,
-                //       color: Colors.red,
-                //     )),
               ],
             ),
           ),

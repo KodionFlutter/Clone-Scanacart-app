@@ -1,13 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:palette_generator/palette_generator.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Screens/Customer Portal/reward screen/controller/cart_controller.dart';
 import 'package:scan_cart_clone/Screens/Customer Portal/reward screen/widgets/cart_product_widget.dart';
-import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/category_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/shipping_address_page.dart';
-import 'package:scan_cart_clone/Utils/DataBase%20helper/data_base_helper.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,6 +14,7 @@ class CartPage extends StatelessWidget {
 
   CartPage({Key? key, required this.clientId, required this.clientName})
       : super(key: key);
+
   final CartController cartController = Get.put(CartController());
 
   @override
@@ -34,7 +32,7 @@ class CartPage extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         } else {
-          return cartController.items.isEmpty
+          return cartController.items.length == 0
               ? Column(
                   children: [
                     SizedBox(height: AppConstant.size.height * 0.1),
@@ -59,11 +57,12 @@ class CartPage extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: cartController.items.length,
                         itemBuilder: (context, index) {
+                          print("Cart length : ${cartController.items.length}");
                           return CartProductWidget(
                             productId: cartController.items[index]['productId'],
                             clientId: cartController.items[index]['client_id'],
-                            productColor: cartController.items[index]['color'],
-                            productSize: cartController.items[index]['size'],
+                            productColor: "",
+                            productSize: "",
                             productImage: cartController.items[index]
                                 ['imageURL'],
                             productTitle: cartController.items[index]
@@ -90,6 +89,54 @@ class CartPage extends StatelessWidget {
                             currentQuantity:
                                 cartController.currentQuantity.value,
                             clientName: clientName,
+                            // widget: Container(
+                            //   height: 100,
+                            //   width: 100,
+                            //   color: cartController.colorsList.isNotEmpty
+                            //       ? cartController.colorsList[index].color
+                            //       : Colors.grey,
+                            // ),
+                            // widget: cartController.isImageLoading.value
+                            //     ? Center(
+                            //         child: CupertinoActivityIndicator())
+                            //     : Container(
+                            //         padding: const EdgeInsets.all(5),
+                            //         width: 100,
+                            //         height: 120,
+                            //         decoration: BoxDecoration(
+                            //           borderRadius: const BorderRadius.only(
+                            //             topLeft: Radius.circular(10),
+                            //             bottomLeft: Radius.circular(10),
+                            //           ),
+                            //           // color: cartController
+                            //           //         .colorsList.isNotEmpty
+                            //           //     ? cartController
+                            //           //         .colorsList[index].color
+                            //           //     :
+                            //         color:   Colors.grey,
+                            //         ),
+                            //         child: InkWell(
+                            //           onTap: () {
+                            //             Get.to(CategoryDetailsPage(
+                            //               productId: 0,
+                            //               clientId: clientId,
+                            //               clientName: clientName,
+                            //             ));
+                            //           },
+                            //           child: CachedNetworkImage(
+                            //             width: 80,
+                            //             imageUrl: cartController
+                            //                 .items[index]['imageURL'],
+                            //             fit: BoxFit.contain,
+                            //             placeholder: (context, url) =>
+                            //                 const CupertinoActivityIndicator(),
+                            //             errorWidget:
+                            //                 (context, url, error) =>
+                            //                     const Icon(Icons.error),
+                            //           ),
+                            //         ),
+                            //       ),
+                            widget: SizedBox(),
                           );
                         },
                       ),
