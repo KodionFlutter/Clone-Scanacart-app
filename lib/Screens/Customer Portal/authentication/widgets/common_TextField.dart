@@ -36,7 +36,7 @@ class CommonTxtFieldWidget extends StatelessWidget {
       validator: validator,
       maxLength: maxLength,
       decoration: InputDecoration(
-        counter: SizedBox(),
+        counter:const SizedBox(),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: Colors.white),

@@ -21,8 +21,8 @@ class AppColors {
 
   static var orderPage = LinearGradient(
     colors: [
-      Color(0xFFBE6EFF).withOpacity(0.1),
-      Color(0xFF44AAFF).withOpacity(0.1),
+      const  Color(0xFFBE6EFF).withOpacity(0.1),
+      const   Color(0xFF44AAFF).withOpacity(0.1),
     ],
     begin: Alignment.bottomLeft,
     end: Alignment.topRight,
@@ -36,12 +36,12 @@ class AppColors {
 
   //! Colors for text Colors
   static var txtWhiteColor = Colors.white;
-  static var txtBlackColor = Color(0xFF010D49);
-  static var txtScanProductColor = Color(0xFFB672FF);
-  static var txtErrorTxtColor = Color(0xFFE2050B);
+  static var txtBlackColor = const Color(0xFF010D49);
+  static var txtScanProductColor =const Color(0xFFB672FF);
+  static var txtErrorTxtColor =const Color(0xFFE2050B);
 
   static var greyWithOpacity = Colors.grey.withOpacity(0.9);
-  static var orTxtColor = Color(0xFFDDDDDD);
+  static var orTxtColor =const Color(0xFFDDDDDD);
   static var blueColor = Colors.blue;
 }
 

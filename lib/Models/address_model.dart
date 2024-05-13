@@ -15,8 +15,8 @@ class AddressModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
+    final Map<String, dynamic> data =<String, dynamic>{};
+    data['success'] = success;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -59,16 +59,16 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['city'] = this.city;
-    data['country'] = this.country;
-    data['zip_code'] = this.zipCode;
-    data['address'] = this.address;
-    data['state'] = this.state;
-    data['shipping_id'] = this.shippingId;
-    data['email'] = this.email;
-    data['phone_number'] = this.phoneNumber;
-    data['name'] = this.name;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['city'] = city;
+    data['country'] = country;
+    data['zip_code'] = zipCode;
+    data['address'] = address;
+    data['state'] = state;
+    data['shipping_id'] = shippingId;
+    data['email'] = email;
+    data['phone_number'] = phoneNumber;
+    data['name'] = name;
     return data;
   }
 }

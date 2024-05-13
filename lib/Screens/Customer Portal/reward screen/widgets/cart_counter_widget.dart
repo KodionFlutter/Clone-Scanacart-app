@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App Color/app_colors.dart';
-import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/cart_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/controller/cart_controller.dart';
 
 class CartCounterWidget extends StatelessWidget {
   final int clientId;
   final String clientName;
   final VoidCallback onTap;
-
   CartCounterWidget({
-    Key? key,
+    super.key,
     required this.clientId,
     required this.clientName,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final cartController = Get.put(CartController());
 

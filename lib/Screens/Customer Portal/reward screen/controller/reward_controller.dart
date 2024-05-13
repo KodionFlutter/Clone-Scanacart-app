@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:scan_cart_clone/Models/reward_model.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/category_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/reward_collect_widget.dart';
-import 'dart:math' as math;
 
 import 'package:scan_cart_clone/Utils/Base%20service/services.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';

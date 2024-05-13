@@ -12,7 +12,7 @@ class OrderDetailsModel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add( Data.fromJson(v));
       });
     }
     totalProductsCount = json['totalProductsCount'];
@@ -20,13 +20,13 @@ class OrderDetailsModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['totalProductsCount'] = this.totalProductsCount;
-    data['total_points_used'] = this.totalPointsUsed;
+    data['totalProductsCount'] = totalProductsCount;
+    data['total_points_used'] = totalPointsUsed;
     return data;
   }
 }
@@ -77,7 +77,7 @@ class Data {
     if (json['orderitem'] != null) {
       orderitem = <Orderitem>[];
       json['orderitem'].forEach((v) {
-        orderitem!.add(new Orderitem.fromJson(v));
+        orderitem!.add(Orderitem.fromJson(v));
       });
     }
     email = json['email'];
@@ -95,26 +95,26 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['total_points'] = this.totalPoints;
-    data['order_date'] = this.orderDate;
-    data['zip_code'] = this.zipCode;
-    data['state'] = this.state;
-    if (this.orderitem != null) {
-      data['orderitem'] = this.orderitem!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['total_points'] = totalPoints;
+    data['order_date'] = orderDate;
+    data['zip_code'] = zipCode;
+    data['state'] = state;
+    if (orderitem != null) {
+      data['orderitem'] = orderitem!.map((v) => v.toJson()).toList();
     }
-    data['email'] = this.email;
-    data['shipping_id'] = this.shippingId;
-    data['customer_notes'] = this.customerNotes;
-    data['name'] = this.name;
-    data['order_id'] = this.orderId;
-    data['city'] = this.city;
-    data['country'] = this.country;
-    data['client_notes'] = this.clientNotes;
-    data['address'] = this.address;
-    data['order_status'] = this.orderStatus;
-    data['order_item_id'] = this.orderItemId;
-    data['phone_number'] = this.phoneNumber;
+    data['email'] = email;
+    data['shipping_id'] = shippingId;
+    data['customer_notes'] = customerNotes;
+    data['name'] = name;
+    data['order_id'] = orderId;
+    data['city'] = city;
+    data['country'] = country;
+    data['client_notes'] = clientNotes;
+    data['address'] = address;
+    data['order_status'] = orderStatus;
+    data['order_item_id'] = orderItemId;
+    data['phone_number'] = phoneNumber;
     return data;
   }
 }
@@ -141,19 +141,19 @@ class Orderitem {
     if (json['product_name'] != null) {
       productName = <ProductName>[];
       json['product_name'].forEach((v) {
-        productName!.add(new ProductName.fromJson(v));
+        productName!.add( ProductName.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['product_variants'] = this.productVariants;
-    data['quantity'] = this.quantity;
-    data['points_used'] = this.pointsUsed;
-    data['product_id'] = this.productId;
-    if (this.productName != null) {
-      data['product_name'] = this.productName!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['product_variants'] = productVariants;
+    data['quantity'] = quantity;
+    data['points_used'] = pointsUsed;
+    data['product_id'] = productId;
+    if (productName != null) {
+      data['product_name'] = productName!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -169,8 +169,8 @@ class ProductName {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['product_title'] = this.productTitle;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['product_title'] =productTitle;
     return data;
   }
 }

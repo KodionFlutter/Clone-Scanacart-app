@@ -10,19 +10,19 @@ class ViewCategoryModel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
     categoryName = json['category_name'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['category_name'] = this.categoryName;
+    data['category_name'] = categoryName;
     return data;
   }
 }
@@ -57,14 +57,13 @@ class Data {
     categoryId = json['category_id'];
     productDescription = json['product_description'];
     createdAt = json['created_at'];
-    variants = json['variants'] != null
-        ? new Variants.fromJson(json['variants'])
-        : null;
+    variants =
+        json['variants'] != null ? Variants.fromJson(json['variants']) : null;
     productStatus = json['product_status'];
     if (json['images'] != null) {
       images = <Images>[];
       json['images'].forEach((v) {
-        images!.add(new Images.fromJson(v));
+        images!.add(Images.fromJson(v));
       });
     }
     productTitle = json['product_title'];
@@ -75,22 +74,22 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['category_id'] = this.categoryId;
-    data['product_description'] = this.productDescription;
-    data['created_at'] = this.createdAt;
-    if (this.variants != null) {
-      data['variants'] = this.variants!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['category_id'] = categoryId;
+    data['product_description'] = productDescription;
+    data['created_at'] = createdAt;
+    if (variants != null) {
+      data['variants'] = variants!.toJson();
     }
-    data['product_status'] = this.productStatus;
-    if (this.images != null) {
-      data['images'] = this.images!.map((v) => v.toJson()).toList();
+    data['product_status'] = productStatus;
+    if (images != null) {
+      data['images'] = images!.map((v) => v.toJson()).toList();
     }
-    data['product_title'] = this.productTitle;
-    data['product_reward_points'] = this.productRewardPoints;
-    data['product_id'] = this.productId;
-    data['product_image'] = this.productImage;
-    data['tags'] = this.tags;
+    data['product_title'] = productTitle;
+    data['product_reward_points'] = productRewardPoints;
+    data['product_id'] = productId;
+    data['product_image'] = productImage;
+    data['tags'] = tags;
     return data;
   }
 }
@@ -101,7 +100,7 @@ class Variants {
   Variants.fromJson(Map<String, dynamic> json) {}
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     return data;
   }
 }
@@ -118,9 +117,9 @@ class Images {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['image_path'] = this.imagePath;
-    data['image_id'] = this.imageId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['image_path'] = imagePath;
+    data['image_id'] = imageId;
     return data;
   }
 }

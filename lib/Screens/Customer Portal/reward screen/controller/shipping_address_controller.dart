@@ -114,7 +114,7 @@ class ShippingAddressController extends GetxController {
       int? backFlag = preferences.getInt("BackFlag");
       print("CustomerID :: ${customerId}");
       print("This is map : $mapData");
-      var data = await APIServices.hitPlaceOrder(mapData);
+      await APIServices.hitPlaceOrder(mapData);
       // showMessage("${data['message']}", AppColors.whiteBackgroundColor);
       showDialog(
           context: navigatorKey.currentState!.context,

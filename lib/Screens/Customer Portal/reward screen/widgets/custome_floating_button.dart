@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
@@ -121,10 +122,10 @@ class FlowMenuDelegate extends FlowDelegate {
     final n = context.childCount;
     for (int i = 0; i < n; i++) {
       final isLastItem = i == context.childCount - 1;
-      print("Last item $isLastItem");
+      if (kDebugMode) {
+        print("Last item $isLastItem");
+      }
       final setValue = (value) {
-        // print("Value ${value}");
-
         return isLastItem ? 0.0 : value;
       };
       double theta = 0;

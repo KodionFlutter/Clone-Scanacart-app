@@ -1,14 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/routes/default_transitions.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/common_services/common_services.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/Floating%20bottom%20bar/floating_button.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/signin%20screen/customer_login_page.dart';
-import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/signup%20screen/customer_signup_screen.dart';
-import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/reward_screen.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/controller/scan_nfc_controller.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/widget/client_login_widget.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/widget/promo_code_widget.dart';
@@ -147,8 +142,6 @@ class ScanNFCScreen extends StatelessWidget {
                                 AppColors.whiteBackgroundColor,
                               );
                             } else {
-                              // FocusScope.of(context).unfocus();
-
                               scanNfcController.selected.value =
                                   !scanNfcController.selected.value;
                               scanNfcController.promoCode.value =

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -6,6 +5,7 @@ import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/common_services/common_services.dart';
 import 'package:scan_cart_clone/Common/widgets/common_button.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/controller/oder_details_controller.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/widget/oder_details_loading_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/widget/order_details_address_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/widget/order_details_dialogbox_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/widget/order_details_item_widget.dart';
@@ -34,9 +34,10 @@ class OrderDetails extends StatelessWidget {
         () {
           if (orderDetailsController!.isLoading.value) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: OrderDetailsLoadingWidget(),
             );
-          } else if (orderDetailsController!.orderDetailsDataList.length == 0) {
+          } else if (orderDetailsController!.orderDetailsDataList.isEmpty ||
+              orderDetailsController!.orderDetailsDataList.length == 0) {
             return Column(
               children: [
                 SizedBox(height: AppConstant.size.height * 0.1),
@@ -99,12 +100,12 @@ class OrderDetails extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Items".toUpperCase(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 16)),
                           const SizedBox(height: 10),
                           ListView.builder(
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             itemCount: itemDetails!.length,
                             itemBuilder: (ctx, i) {
                               return OrderDetailsItemWidget(
@@ -129,7 +130,7 @@ class OrderDetails extends StatelessWidget {
                           : Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Expanded(child: SizedBox()),
+                                const Expanded(child: SizedBox()),
                                 InkWell(
                                   onTap: () {
                                     showDialog(
@@ -169,7 +170,7 @@ class OrderDetails extends StatelessWidget {
       textEditingController: orderDetailsController!.addNoteController.value,
       widget: Obx(
         () => orderDetailsController!.isCalled.value
-            ? Center(
+            ? const Center(
                 child: CircularProgressIndicator(),
               )
             : CommonButtonWidget(
@@ -208,7 +209,7 @@ class OrderDetails extends StatelessWidget {
       subTitle: 'Reason',
       textEditingController: orderDetailsController!.cancelNoteController.value,
       widget: orderDetailsController!.isCalled.value
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : CommonButtonWidget(
               buttonTxt: 'Submit',
               btnHeight: AppConstant.size.height * 0.06,

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/widgets/common_scroll_behav_widget.dart';
 import 'package:scan_cart_clone/Common/widgets/custom_container.dart';
 import 'package:scan_cart_clone/Common/widgets/shimmer_widget.dart';
@@ -95,7 +94,7 @@ class ViewCategoryPage extends StatelessWidget {
                               padding: EdgeInsets.only(
                                   left: AppConstant.size.width * 0.03,
                                   bottom: 5),
-                              child: CustomContainer(
+                              child:const CustomContainer(
                                 height: 20,
                                 width: 70,
                                 radius: 10,
@@ -120,7 +119,7 @@ class ViewCategoryPage extends StatelessWidget {
               ),
               SizedBox(height: AppConstant.size.height * 0.01),
               Text(
-                "No ${categoryName} Found".toUpperCase(),
+                "No $categoryName Found".toUpperCase(),
                 style: TextStyle(
                     fontSize: AppConstant.size.height * 0.020,
                     fontWeight: FontWeight.bold),
@@ -134,8 +133,8 @@ class ViewCategoryPage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(left: AppConstant.size.width * 0.04),
                 child: Text(
-                  "$categoryName",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  categoryName.toString(),
+                  style:const  TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
               Expanded(
@@ -149,7 +148,7 @@ class ViewCategoryPage extends StatelessWidget {
                       crossAxisSpacing: AppConstant.size.width * 0.03,
                     ),
 
-                    padding: EdgeInsets.all(8.0),
+                    padding:const EdgeInsets.all(8.0),
                     // padding around the grid
                     itemCount: viewCategoryController.viewCategoryList.length,
                     // total number of items

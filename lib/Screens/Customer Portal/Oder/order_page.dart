@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/controller/order_controller.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/order_details.dart';
+import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/widget/order_page_loading_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/widget/order_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 
@@ -17,7 +18,7 @@ class OrderPage extends StatelessWidget {
     return Obx(() {
       if (orderController.isLoading.value) {
         return const Center(
-          child: CircularProgressIndicator(),
+          child: OrderPageLoadingPageWidget(),
         );
       } else {
         return orderController.orderDataList.isEmpty

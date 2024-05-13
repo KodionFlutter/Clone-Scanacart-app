@@ -10,7 +10,7 @@ class OrderModel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add( Data.fromJson(v));
       });
     }
     orderCount = json['order_count'];
@@ -40,14 +40,14 @@ class Data {
 
   Data(
       {this.cOMPANYNAME,
-        this.tOTALPOINTS,
-        this.oRDERID,
-        this.oRDERDATE,
-        this.clientId,
-        this.aDDRESS,
-        this.orderStatus,
-        this.sHIPPINGID,
-        this.pHONENUMBER});
+      this.tOTALPOINTS,
+      this.oRDERID,
+      this.oRDERDATE,
+      this.clientId,
+      this.aDDRESS,
+      this.orderStatus,
+      this.sHIPPINGID,
+      this.pHONENUMBER});
 
   Data.fromJson(Map<String, dynamic> json) {
     cOMPANYNAME = json['COMPANY_NAME'];

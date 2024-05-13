@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Models/common_model.dart';
 import 'package:scan_cart_clone/Models/order_details_model.dart';
 import 'package:scan_cart_clone/Utils/Base%20service/services.dart';
-import 'package:scan_cart_clone/Utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OrderDetailsController extends GetxController {
@@ -36,17 +36,20 @@ class OrderDetailsController extends GetxController {
 
   Future getOrderDetails() async {
     isLoading.value = true;
-    SharedPreferences preferences = await SharedPreferences.getInstance();
     // int? oderId = preferences.getInt("oderId");
     // print("oderId : $oderId");
     orderDetailsModel = await APIServices.hitViewOrderDetails(oderId);
     orderDetailsDataList.clear();
     if (orderDetailsModel.success == true) {
       orderDetailsDataList.addAll(orderDetailsModel.data!);
-      print("This is all data Coming : ${orderDetailsDataList[0].orderitem![0].quantity}");
+      if (kDebugMode) {
+        print("This is all data Coming : ${orderDetailsDataList[0].orderitem![0].quantity}");
+      }
       // orderItemList.addAll(orderDetailsModel.data![0].orderitem!);
       isCancel.value = orderDetailsModel.data![0].orderStatus!;
-      print("This is the orderItem List : ${orderItemList}");
+      if (kDebugMode) {
+        print("This is the orderItem List : $orderItemList");
+      }
     }
     isLoading.value = false;
   }
@@ -59,7 +62,9 @@ class OrderDetailsController extends GetxController {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       var token = preferences.getString("Token");
       commonModel = await APIServices.hitCancelProduct(map, token);
-      print("This is cancel response : ${commonModel.message.toString()}");
+      if (kDebugMode) {
+        print("This is cancel response : ${commonModel.message.toString()}");
+      }
       getOrderDetails();
       Get.back();
       isCalled.value = false;
@@ -75,7 +80,9 @@ class OrderDetailsController extends GetxController {
     try {
       isCalled.value = true;
       commonModel = await APIServices.hitAddNotes(map);
-      print("Message of response : ${commonModel.message.toString()}");
+      if (kDebugMode) {
+        print("Message of response : ${commonModel.message.toString()}");
+      }
       getOrderDetails();
       Get.back();
       isCalled.value = false;

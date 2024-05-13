@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/widgets/common_scroll_behav_widget.dart';
@@ -9,9 +7,7 @@ import 'package:scan_cart_clone/Common/widgets/common_web_view.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/controller/reward_controller.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/category_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/client_widget.dart';
-import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/custome_floating_button.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/loading_widget.dart';
-import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/logout_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/reward_card_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/reward_point_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';

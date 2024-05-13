@@ -36,17 +36,17 @@ class AdminLoginModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['role'] = this.role;
-    data['super_admin'] = this.superAdmin;
-    data['message'] = this.message;
-    data['success'] = this.success;
-    data['client_id'] = this.clientId;
-    data['user_id'] = this.userId;
-    data['email'] = this.email;
-    data['clientLogo'] = this.clientLogo;
-    data['reset_password'] = this.resetPassword;
-    data['token'] = this.token;
+    final Map<String, dynamic> data =  <String, dynamic>{};
+    data['role'] = role;
+    data['super_admin'] = superAdmin;
+    data['message'] =message;
+    data['success'] = success;
+    data['client_id'] = clientId;
+    data['user_id'] = userId;
+    data['email'] = email;
+    data['clientLogo'] = clientLogo;
+    data['reset_password'] = resetPassword;
+    data['token'] = token;
     return data;
   }
 }

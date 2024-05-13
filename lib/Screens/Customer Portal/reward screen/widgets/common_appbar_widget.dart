@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
-import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/cart_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/cart_counter_widget.dart';
+
 
 class CommonAppbar extends StatelessWidget {
   final String title;

@@ -34,7 +34,7 @@ class SaveData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  Map<String, dynamic>();
+    final Map<String, dynamic> data =  <String, dynamic>{};
     data['quantity'] = quantity;
     data['imageURL'] = imageURL;
     if (variants != null) {
@@ -62,9 +62,9 @@ class Variants {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['color'] = this.color;
-    data['size'] = this.size;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['color'] = color;
+    data['size'] = size;
     return data;
   }
 }

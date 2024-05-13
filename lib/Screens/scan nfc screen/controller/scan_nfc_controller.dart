@@ -405,7 +405,6 @@ class ScanNFCController extends GetxController
 
 // Verify the PromoCode ..
   Future getEmployee(String couponCode) async {
-    //code::bbsimon578
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     try {
@@ -427,25 +426,34 @@ class ScanNFCController extends GetxController
                 ));
         promoCodeController.value.clear();
       } else {
+        videoURL.value = "";
         employeeDataModel = data;
         print(
             "ProductImage Length :: ${employeeDataModel.productImages!.length}");
+
+
         await prefs.setString(
             "RewardData", employeeDataModel.rewards!.toString());
         await prefs.setInt("ClientId", employeeDataModel.clientId!);
+
         logoPath.value = employeeDataModel.logoPath!;
         print("This is logo pathThis is logo path == ${logoPath.value}");
+
         employee_clientId.value = employeeDataModel.clientId.toString();
         clientName.value = employeeDataModel.client!;
         clientURl.value = employeeDataModel.clientURL!;
         videoURL.value = employeeDataModel.videoUrl!;
         serialNumber.value = employeeDataModel.serialNum!;
+
+
         print("This is video URL :: ${videoURL.value}");
         print("This is serial Nmber == ${serialNumber.value}");
+        List<String> imageList = employeeDataModel.productImages!;
         selected.value = false;
         hideNFCLoadingScreen(navigatorKey.currentState!.context);
+
         //! handle the cases ..
-        if (videoURL.isNotEmpty) {
+        if (videoURL.isNotEmpty && videoURL.endsWith("mp4")) {
           Get.to(
             () => ProductScreen(
               responseData: employeeDataModel,
@@ -457,10 +465,10 @@ class ScanNFCController extends GetxController
         } else if (employeeDataModel.clientId == 1966 ||
             employeeDataModel.is360 == 1) {
           Future.delayed(Duration.zero).then((value) => null);
-        }
-        else {
+        } else if (videoURL.value.isEmpty) {
           showDialog(
               context: navigatorKey.currentState!.context,
+              barrierDismissible: false,
               builder: (_) {
                 return ProductImageWidget(
                   responseData: employeeDataModel,
@@ -470,7 +478,7 @@ class ScanNFCController extends GetxController
               });
 
           promoCodeController.value.clear();
-        }
+        } else {}
       }
     } catch (exception) {
       log("Exception :: ${exception.toString()}");

@@ -1,11 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class CommonDropDownWidget extends StatefulWidget {
-  String dropdownvalue;
+  String dropDownValue;
   List valueList;
 
   CommonDropDownWidget(
-      {super.key, required this.dropdownvalue, required this.valueList});
+      {super.key, required this.dropDownValue, required this.valueList});
 
   @override
   State<CommonDropDownWidget> createState() => _CommonDropDownWidgetState();
@@ -24,10 +25,9 @@ class _CommonDropDownWidgetState extends State<CommonDropDownWidget> {
         // isExpanded: true,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         isDense: true,
-        validator: (value) {},
-        value: widget.dropdownvalue.isEmpty
+        value: widget.dropDownValue.isEmpty
             ? null
-            : widget.dropdownvalue.toString(),
+            : widget.dropDownValue.toString(),
         items: [
           ...widget.valueList.map((element) {
             return DropdownMenuItem(
@@ -36,9 +36,11 @@ class _CommonDropDownWidgetState extends State<CommonDropDownWidget> {
         ],
         onChanged: (newValue) {
           setState(() {
-            widget.dropdownvalue = newValue.toString();
+            widget.dropDownValue = newValue.toString();
           });
-          print("Value is :: ${widget.dropdownvalue}");
+          if (kDebugMode) {
+            print("Value is :: ${widget.dropDownValue}");
+          }
         });
   }
 }

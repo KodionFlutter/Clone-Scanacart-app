@@ -63,26 +63,26 @@ class EmployeeDataModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['rewards'] = this.rewards;
-    data['productImages'] = this.productImages;
-    data['activity_loc_id'] = this.activityLocId;
-    data['itemImage'] = this.itemImage;
-    data['large_logo'] = this.largeLogo;
-    data['shipTo'] = this.shipTo;
-    data['activity_id'] = this.activityId;
-    data['client'] = this.client;
-    data['logo_path'] = this.logoPath;
-    data['rewards_active'] = this.rewardsActive;
-    data['code'] = this.code;
-    data['serial_num'] = this.serialNum;
-    data['video_url'] = this.videoUrl;
-    data['client_id'] = this.clientId;
-    data['label_password_id'] = this.labelPasswordId;
-    data['is_360'] = this.is360;
-    data['getAllClientLabResults'] = this.getAllClientLabResults;
-    data['clientURL'] = this.clientURL;
-    data['itemName'] = this.itemName;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['rewards'] = rewards;
+    data['productImages'] = productImages;
+    data['activity_loc_id'] = activityLocId;
+    data['itemImage'] = itemImage;
+    data['large_logo'] = largeLogo;
+    data['shipTo'] = shipTo;
+    data['activity_id'] = activityId;
+    data['client'] = client;
+    data['logo_path'] = logoPath;
+    data['rewards_active'] = rewardsActive;
+    data['code'] = code;
+    data['serial_num'] = serialNum;
+    data['video_url'] = videoUrl;
+    data['client_id'] = clientId;
+    data['label_password_id'] = labelPasswordId;
+    data['is_360'] = is360;
+    data['getAllClientLabResults'] = getAllClientLabResults;
+    data['clientURL'] = clientURL;
+    data['itemName'] = itemName;
     return data;
   }
 }

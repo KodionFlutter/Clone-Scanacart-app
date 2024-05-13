@@ -31,13 +31,13 @@ class FloatingButtonPage extends StatelessWidget {
                 onTap: () {
                   Get.back();
                 },
-                child: Icon(Icons.arrow_back))
-            : SizedBox()),
+                child: const Icon(Icons.arrow_back))
+            :const SizedBox()),
         elevation: 0,
         centerTitle: true,
         title: Obx(() => floatingBarController.selectedIndex.value == 1
-            ? Text("Reward")
-            : Text("Order")),
+            ? const Text("Reward")
+            :const Text("Order")),
         actions: [
           Obx(() => floatingBarController.selectedIndex.value == 1
               ? const LogoutWidget()

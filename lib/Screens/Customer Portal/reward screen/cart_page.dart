@@ -89,54 +89,6 @@ class CartPage extends StatelessWidget {
                             currentQuantity:
                                 cartController.currentQuantity.value,
                             clientName: clientName,
-                            // widget: Container(
-                            //   height: 100,
-                            //   width: 100,
-                            //   color: cartController.colorsList.isNotEmpty
-                            //       ? cartController.colorsList[index].color
-                            //       : Colors.grey,
-                            // ),
-                            // widget: cartController.isImageLoading.value
-                            //     ? Center(
-                            //         child: CupertinoActivityIndicator())
-                            //     : Container(
-                            //         padding: const EdgeInsets.all(5),
-                            //         width: 100,
-                            //         height: 120,
-                            //         decoration: BoxDecoration(
-                            //           borderRadius: const BorderRadius.only(
-                            //             topLeft: Radius.circular(10),
-                            //             bottomLeft: Radius.circular(10),
-                            //           ),
-                            //           // color: cartController
-                            //           //         .colorsList.isNotEmpty
-                            //           //     ? cartController
-                            //           //         .colorsList[index].color
-                            //           //     :
-                            //         color:   Colors.grey,
-                            //         ),
-                            //         child: InkWell(
-                            //           onTap: () {
-                            //             Get.to(CategoryDetailsPage(
-                            //               productId: 0,
-                            //               clientId: clientId,
-                            //               clientName: clientName,
-                            //             ));
-                            //           },
-                            //           child: CachedNetworkImage(
-                            //             width: 80,
-                            //             imageUrl: cartController
-                            //                 .items[index]['imageURL'],
-                            //             fit: BoxFit.contain,
-                            //             placeholder: (context, url) =>
-                            //                 const CupertinoActivityIndicator(),
-                            //             errorWidget:
-                            //                 (context, url, error) =>
-                            //                     const Icon(Icons.error),
-                            //           ),
-                            //         ),
-                            //       ),
-                            widget: SizedBox(),
                           );
                         },
                       ),

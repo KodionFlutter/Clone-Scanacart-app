@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
-import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/order_details.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 
 class OrderWidget extends StatelessWidget {
@@ -39,7 +37,7 @@ class OrderWidget extends StatelessWidget {
               width: 10,
               decoration: BoxDecoration(
                   color: statusColor,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(10),
                       topLeft: Radius.circular(10))),
             ),
@@ -50,8 +48,8 @@ class OrderWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "$title",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  title.toString(),
+                  style:const TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
                 Text(
@@ -68,13 +66,13 @@ class OrderWidget extends StatelessWidget {
                 Text(
                   "POINTS: ${totalPoints.toString()}",
                 ),
-                SizedBox(height: 5),
+const                SizedBox(height: 5),
 
                 //! Here show the Date into ddd/mmm/yyyy
-                Text("${oderDate.toString()}")
+                Text(oderDate.toString())
               ],
             ),
-            SizedBox(width: 15),
+            const SizedBox(width: 15),
           ],
         ),
       ),

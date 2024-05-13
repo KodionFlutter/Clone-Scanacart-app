@@ -5,10 +5,12 @@ import 'package:scan_cart_clone/Screens/splash%20screen/splash_screen.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 
 void main() async {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
