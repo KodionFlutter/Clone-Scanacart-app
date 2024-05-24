@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/App%20Config/api_service_config.dart';
@@ -34,7 +35,7 @@ class APIServices {
         log("Response Data :: ${responseData.toString()}");
         log("Success :: ${responseData['success']}");
         if (responseData['success'] == true) {
-          log("Binded Data into Model :: ${responseData['token']}");
+          log("Bound Data into Model :: ${responseData['token']}");
           return AdminLoginModel.fromJson(responseData);
         } else {
           throw Exception(responseData['message']);
@@ -85,7 +86,7 @@ class APIServices {
   static Future verifyCouponCode(
       String token, int clientId, String procode_text) async {
     try {
-      log("Token :: ${token}\n Client id :: $clientId\n procode_text :: $procode_text");
+      log("Token :: $token\n Client id :: $clientId\n promcode_text :: $procode_text");
       String url =
           '${ApiServiceConfig.apiBaseUrl}/dashboard/CodeValidation?client_id=${clientId}&code=${procode_text}';
       log("Verify Coupon code URL :: ${url.toString()}");
@@ -197,7 +198,9 @@ class APIServices {
         if (decodedData['success'] == true) {
           return decodedData;
         } else {
-          print("Error occur during the Reward API Fetching");
+          if (kDebugMode) {
+            print("Error occur during the Reward API Fetching");
+          }
         }
       }
     } on SocketException {

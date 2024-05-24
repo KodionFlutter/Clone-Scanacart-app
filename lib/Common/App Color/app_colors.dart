@@ -9,7 +9,7 @@ class AppColors {
     end: Alignment.bottomCenter,
   );
 
-  //Varify button background Colors
+  //Verify button background Colors
   static var verifyLinearGradientColor = const LinearGradient(
     colors: [
       Color(0xFFBE6EFF),

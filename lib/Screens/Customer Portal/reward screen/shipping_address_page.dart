@@ -137,8 +137,9 @@ class ShippingAddressPage extends StatelessWidget {
                                       hintText: "Select Address",
                                       // filled: true,
                                       border: const OutlineInputBorder(),
-                                      contentPadding: EdgeInsets.symmetric(
-                                          vertical: 17, horizontal: 10),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 17, horizontal: 10),
                                     ),
                                     // isExpanded: true,
                                     autovalidateMode:
@@ -200,7 +201,7 @@ class ShippingAddressPage extends StatelessWidget {
                                     }),
                           ),
 
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           CommonTxtFieldWidget(
                             textEditController:
                                 shippingController.nameController.value,

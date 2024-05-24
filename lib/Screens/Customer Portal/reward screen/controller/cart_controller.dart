@@ -41,15 +41,6 @@ class CartController extends GetxController {
     }
   }
 
-  // Future refreshCartItems() async {
-  //   items.value = await DataBaseHelper.dataBaseHelper.fetchProduct();
-  //   print('CartItem : $items');
-  //
-  //   print('Client ID --: $sameClient');
-  //   cartItems.assignAll(items);
-  //   sameClient = items[0]['clientId'];
-  //   // update();
-  // }
 
   // RxInt totalQuantity = 0.obs;
   num get totalQuantity {

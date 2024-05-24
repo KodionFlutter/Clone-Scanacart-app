@@ -152,7 +152,7 @@ class ScanNFCController extends GetxController
                   String decodedData = utf8.decode(nPalyload.toList());
                   log("DecodedData :: ${decodedData}");
                   if (decodedData.isNotEmpty) {
-                    if (decodedData.contains("scanacart.com/nfc")) {
+                    if (decodedData.contains("scanacart.com/nfc") || decodedData.contains("trapapp.io/nfc")) {
                       log("Yes this contain");
                       nfcURL = decodedData.substring(1);
                       log("NFC URL :: $nfcURL");
@@ -347,7 +347,7 @@ class ScanNFCController extends GetxController
               String decodedData = utf8.decode(nPalyload.toList());
               log("DecodedData :: ${decodedData}");
               if (decodedData.isNotEmpty) {
-                if (decodedData.contains("scanacart.com/nfc")) {
+                if (decodedData.contains("scanacart.com/nfc") || decodedData.contains("trapapp.io/nfc")) {
                   log("Yes this contain");
                   nfcURL = decodedData.substring(1);
                   log("NFC URL :: $nfcURL");
