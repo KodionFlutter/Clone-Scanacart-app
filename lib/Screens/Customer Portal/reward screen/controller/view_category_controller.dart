@@ -31,7 +31,6 @@ class ViewCategoryController extends GetxController {
         viewCategoryList.addAll(viewCategoryModel.data!);
         categoryName.value = viewCategoryModel.categoryName!;
         isLoad.value = false;
-
       }
       // if (viewCategoryModel.data!.isEmpty) {
       //   viewCategoryList.clear();

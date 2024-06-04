@@ -168,7 +168,6 @@ class ShippingAddressController extends GetxController {
           : "Something went wrong";
     }
   }
-
 // Lets here get the all saved Address ..
 
   Future getAddressList() async {

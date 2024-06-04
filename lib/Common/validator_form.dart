@@ -20,4 +20,6 @@ class FormValidator {
   static String txtValidVerificationCode =
       "Please enter valid verification code";
   static String txtName = "Please enter name";
+  static String txtPassword = "Please enter password";
+
 }

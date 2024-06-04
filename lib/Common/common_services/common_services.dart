@@ -22,3 +22,41 @@ void showMessage(String message, Color color) {
     ),
   );
 }
+
+List drawerMenuList = [
+  // {
+  //   "name": "AppHome",
+  //   "icon": Icon(Icons.home_outlined, color: Colors.black),
+  // },
+  {
+    "name": "Dashboard",
+    "icon": Icon(Icons.dashboard_outlined, color: Colors.black),
+  },
+  {
+    "name": "Orders",
+    "icon": Icon(Icons.date_range, color: Colors.black),
+  },
+  {
+    "name": "Client List",
+    "icon": Icon(Icons.mail_outline, color: Colors.black),
+  },
+  {
+    "name": "Maps",
+    "icon": const Icon(Icons.share_location, color: Colors.black),
+  },
+  {
+    "name": "Rewards",
+    "icon": const Icon(Icons.card_giftcard, color: Colors.black),
+  }
+];
+
+List subMenu = [
+  {
+    "name": "Products",
+    "icon": const Icon(Icons.propane_tank_outlined, color: Colors.black),
+  },
+  {
+    "name": "Orders",
+    "icon": const Icon(Icons.shopping_cart_outlined, color: Colors.black),
+  },
+];

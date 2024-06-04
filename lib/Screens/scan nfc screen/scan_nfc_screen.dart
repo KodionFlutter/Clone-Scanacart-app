@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/common_services/common_services.dart';
+import 'package:scan_cart_clone/Screens/Client%20Portal/Pages/ClientHome%20Page/client_home_page.dart';
+import 'package:scan_cart_clone/Screens/Client%20Portal/auth/client_login_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/Floating%20bottom%20bar/floating_button.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/signin%20screen/customer_login_page.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/controller/scan_nfc_controller.dart';
@@ -58,7 +60,11 @@ class ScanNFCScreen extends StatelessWidget {
                       }
                     }),
                     //! Calling Client Login section
-                    ClientLoginWidget(onTap: () {}),
+                    ClientLoginWidget(onTap: () {
+                      print("This is client");
+                      // Get.to(ClientLoginPage());
+                      Get.to(ClientHomePage());
+                    }),
                   ],
                 ),
               ),
