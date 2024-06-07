@@ -46,28 +46,29 @@ class PopMenuWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       color: AppColors.whiteBackgroundColor,
                     ),
-                    child: CachedNetworkImage(
-                      imageUrl: productImage,
-                      fit: BoxFit.contain,
-                      placeholder: (context, url) {
-                        return const Center(
-                          child: CupertinoActivityIndicator(),
-                        );
-                      },
-                      errorWidget: (context, url, error) {
-                        return Material(
-                          color: Colors.transparent.withOpacity(0.8),
-                          child: const Center(
-                            child: Text('Could\'t load image',
-                                overflow: TextOverflow.visible,
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 10)),
-                          ),
-                        );
-                      },
-                    ),
+                    // child: CachedNetworkImage(
+                    //   imageUrl: productImage,
+                    //   fit: BoxFit.contain,
+                    //   placeholder: (context, url) {
+                    //     return const Center(
+                    //       child: CupertinoActivityIndicator(),
+                    //     );
+                    //   },
+                    //   errorWidget: (context, url, error) {
+                    //     return Material(
+                    //       color: Colors.transparent.withOpacity(0.8),
+                    //       child: const Center(
+                    //         child: Text('Could\'t load image',
+                    //             overflow: TextOverflow.visible,
+                    //             textAlign: TextAlign.center,
+                    //             maxLines: 2,
+                    //             style: TextStyle(
+                    //                 color: Colors.black, fontSize: 10)),
+                    //       ),
+                    //     );
+                    //   },
+                    // ),
+                    child: Image(image: AssetImage("assets/images/blkat.png")),
                   )
                   // Icon(Icons.percent),
                   ,

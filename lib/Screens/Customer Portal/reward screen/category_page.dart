@@ -24,6 +24,7 @@ class CategoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final redeemController = Get.put(CategoryController(clientId: clientId));
     return CommonAppbar(
+      isWant: true,
       clientId: clientId,
       clientName: clientName,
       title: clientName,

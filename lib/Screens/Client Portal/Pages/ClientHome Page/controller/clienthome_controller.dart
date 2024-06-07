@@ -24,21 +24,21 @@ class ClientHomeController extends GetxController {
       case 0:
         return const DashBoardPage();
       case 1:
-        return const ClientOrdersPage();
+        return ClientOrdersPage();
       case 2:
-        return const ClientListPage();
+        return ClientListPage();
       case 3:
         return const MapsPage();
       case 4:
         switch (subMenuSelectedIndex.value) {
           case 0:
-            return const ProductsPage();
+            return ProductsPage();
           case 1:
-            return const RewardOrderPage();
+            return RewardOrderPage();
           default:
             return Container();
         }
-      case 99 :
+      case 99:
         return const MyProfilePage();
       default:
         return Container();

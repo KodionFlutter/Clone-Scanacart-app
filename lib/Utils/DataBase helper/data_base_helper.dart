@@ -5,6 +5,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:developer' as developer;
+
 class DataBaseHelper {
   static const id = "id";
   static const clientId = "client_id";
@@ -24,8 +25,10 @@ class DataBaseHelper {
 
   //! Here first
   DataBaseHelper._private();
+
   static final dataBaseHelper = DataBaseHelper._private();
   Database? _database;
+
   //!  First we get the dataBase..
   Future<Database> get getDatabase async {
     if (_database != null) {
@@ -159,6 +162,4 @@ class DataBaseHelper {
     var db = await dataBaseHelper.getDatabase;
     await db.delete(_tableName);
   }
-
-
 }

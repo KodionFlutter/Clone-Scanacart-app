@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/widgets/common_scroll_behav_widget.dart';
+import 'package:scan_cart_clone/Screens/Client%20Portal/Pages/Dashboard%20Page/widgets/label_validation_location_widget.dart';
+import 'package:scan_cart_clone/Screens/Client%20Portal/Pages/Dashboard%20Page/widgets/label_validation_widget.dart';
+import 'package:scan_cart_clone/Screens/Client%20Portal/Pages/Dashboard%20Page/widgets/serial_validation_verified_widget.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/widgets/common_mail_listtile_widget.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/widgets/custom_container.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/widgets/custom_icon_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 
-class DashBoardPage extends StatelessWidget {
+class DashBoardPage extends StatefulWidget {
   const DashBoardPage({super.key});
+
+  @override
+  State<DashBoardPage> createState() => _DashBoardPageState();
+}
+
+class _DashBoardPageState extends State<DashBoardPage> {
+  TabController? tabController;
 
   @override
   Widget build(BuildContext context) {
@@ -97,11 +107,11 @@ class DashBoardPage extends StatelessWidget {
                       leading: CircleAvatar(
                         radius: 15,
                         backgroundColor: AppColors.transparentColor,
-                        child: Image(
+                        child: const Image(
                           image: AssetImage("assets/images/instagram.png"),
                         ),
                       ),
-                      title: Text(
+                      title: const Text(
                         "Instagram",
                         style: TextStyle(
                             fontSize: 13, fontWeight: FontWeight.w500),
@@ -114,15 +124,16 @@ class DashBoardPage extends StatelessWidget {
                     Divider(
                       thickness: 1,
                       color: AppColors.greyBackgroundColor,
-                    ) , ListTile(
+                    ),
+                    ListTile(
                       leading: CircleAvatar(
                         radius: 15,
                         backgroundColor: AppColors.transparentColor,
-                        child: Image(
+                        child: const Image(
                           image: AssetImage("assets/images/snapchat.png"),
                         ),
                       ),
-                      title: Text(
+                      title: const Text(
                         "Snapchat",
                         style: TextStyle(
                             fontSize: 13, fontWeight: FontWeight.w500),
@@ -135,15 +146,16 @@ class DashBoardPage extends StatelessWidget {
                     Divider(
                       thickness: 1,
                       color: AppColors.greyBackgroundColor,
-                    ) , ListTile(
+                    ),
+                    ListTile(
                       leading: CircleAvatar(
                         radius: 15,
                         backgroundColor: AppColors.transparentColor,
-                        child: Image(
+                        child: const Image(
                           image: AssetImage("assets/images/website.png"),
                         ),
                       ),
-                      title: Text(
+                      title: const Text(
                         "Web Site",
                         style: TextStyle(
                             fontSize: 13, fontWeight: FontWeight.w500),
@@ -156,12 +168,61 @@ class DashBoardPage extends StatelessWidget {
                     Divider(
                       thickness: 1,
                       color: AppColors.greyBackgroundColor,
-                    ) ,
-                    SizedBox(height: 25),
+                    ),
+                    const SizedBox(height: 25),
                   ],
                 )
               ],
-            ))
+            )),
+
+            //! Label Validations...
+            LabelValidationWidget(),
+            // DefaultTabController(
+            //   length: 2,
+            //   child: CustomContainerWidget(
+            //       child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       Text("Label Validations",
+            //           style:
+            //               TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+            //       //! Tabs..
+            //       TabBar(
+            //         dividerColor: AppColors.transparentColor,
+            //         padding: EdgeInsets.zero,
+            //         automaticIndicatorColorAdjustment: false,
+            //         tabs: [
+            //           Tab(
+            //             text: "tab1",
+            //           ),
+            //           Tab(
+            //             text: "tab2",
+            //           ),
+            //         ],
+            //       ),
+            //       Container(
+            //         height: 200,
+            //         width: double.maxFinite,
+            //         child: TabBarView(
+            //           controller: tabController,
+            //           children: [
+            //             Center(
+            //               child: Icon(Icons.home),
+            //             ),
+            //             Center(
+            //               child: Icon(Icons.account_circle),
+            //             ),
+            //           ],
+            //         ),
+            //       )
+            //     ],
+            //   )),
+            // ),
+
+            //!Serial Validation Verified
+            SerialValidationVerified(),
+            //! Label Validation Location ..
+            LabelValidationLocationWidget()
           ],
         ),
       ),

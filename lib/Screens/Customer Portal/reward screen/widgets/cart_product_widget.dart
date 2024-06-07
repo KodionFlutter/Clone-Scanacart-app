@@ -95,6 +95,7 @@ class CartProductWidget extends StatelessWidget {
                             productId: productId,
                             clientId: clientId,
                             clientName: clientName,
+                            isBool: true,
                           ));
                         },
                         child: CachedNetworkImage(

@@ -94,7 +94,7 @@ class ViewCategoryPage extends StatelessWidget {
                               padding: EdgeInsets.only(
                                   left: AppConstant.size.width * 0.03,
                                   bottom: 5),
-                              child:const CustomContainer(
+                              child: const CustomContainer(
                                 height: 20,
                                 width: 70,
                                 radius: 10,
@@ -134,7 +134,8 @@ class ViewCategoryPage extends StatelessWidget {
                 padding: EdgeInsets.only(left: AppConstant.size.width * 0.04),
                 child: Text(
                   categoryName.toString(),
-                  style:const  TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
               Expanded(
@@ -148,7 +149,7 @@ class ViewCategoryPage extends StatelessWidget {
                       crossAxisSpacing: AppConstant.size.width * 0.03,
                     ),
 
-                    padding:const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     // padding around the grid
                     itemCount: viewCategoryController.viewCategoryList.length,
                     // total number of items
@@ -169,6 +170,7 @@ class ViewCategoryPage extends StatelessWidget {
                                 .viewCategoryList[index].productId!,
                             clientId: clientId,
                             clientName: clientName,
+                            isBool: true,
                           ));
                         },
                       );
@@ -180,6 +182,7 @@ class ViewCategoryPage extends StatelessWidget {
           );
         }
       }),
+      isWant: true,
     );
   }
 }

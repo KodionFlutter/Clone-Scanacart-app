@@ -9,14 +9,12 @@ import 'package:scan_cart_clone/Common/App%20Config/api_service_config.dart';
 import 'package:scan_cart_clone/Common/common_services/common_services.dart';
 import 'package:scan_cart_clone/Models/address_model.dart';
 import 'package:scan_cart_clone/Models/admin_login_model.dart';
-import 'package:scan_cart_clone/Models/category_details_model.dart';
 import 'package:scan_cart_clone/Models/category_model.dart';
 import 'package:scan_cart_clone/Models/common_model.dart';
 import 'package:scan_cart_clone/Models/customer_signup_model.dart';
 import 'package:scan_cart_clone/Models/employee_data_model.dart';
 import 'package:scan_cart_clone/Models/order_details_model.dart';
 import 'package:scan_cart_clone/Models/order_model.dart';
-import 'package:scan_cart_clone/Models/reward_model.dart';
 import 'package:scan_cart_clone/Models/view_category_model.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/widget/nfc_enable_error_dailog_widget.dart';
 import 'package:scan_cart_clone/Utils/Base%20service/base_service.dart';
@@ -142,7 +140,7 @@ class APIServices {
       print("This is otp Response :: ${response.body.toString()}");
       if (response.statusCode == 200) {
         var decodeData = jsonDecode(response.body);
-        print("This is verify Decoded Data :: ${decodeData}");
+        print("This is verify Decoded Data :: $decodeData");
         var successflag = decodeData['success'];
         if (successflag == true) {
           showMessage(
