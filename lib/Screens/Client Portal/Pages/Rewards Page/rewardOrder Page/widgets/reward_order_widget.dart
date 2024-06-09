@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
+import 'package:scan_cart_clone/Screens/Client%20Portal/Pages/Rewards%20Page/rewardOrder%20Page/reward_order_details_page.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/widgets/common_text_widget.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/widgets/custom_container.dart';
 
@@ -68,8 +69,10 @@ class RewardOrderWidget extends StatelessWidget {
                     Align(
                       alignment: Alignment.bottomRight,
                       child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text(
+                          onPressed: () {
+                            Get.to(RewardOrderDetailsPage());
+                          },
+                          child: const Text(
                             "View details",
                             style: TextStyle(color: Colors.white),
                           )),

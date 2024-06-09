@@ -89,6 +89,7 @@ class PopMenuWidget extends StatelessWidget {
             )),
         PopupMenuItem(
           padding: const EdgeInsets.all(10),
+          onTap: onTap,
           child: ListTile(
             leading: const CustomIconWidget(
               margin: 0,

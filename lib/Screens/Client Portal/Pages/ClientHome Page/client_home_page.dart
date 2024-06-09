@@ -31,7 +31,7 @@ class ClientHomePage extends StatelessWidget {
             onTap: () {
               clientHomePageController.selectedIndex.value = 99;
               clientHomePageController.titleName.value = "My Profile";
-              Get.back();
+              // Get.back();
             },
           )
         ],
