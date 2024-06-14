@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
+import 'package:scan_cart_clone/Common/App%20Config/api_service_config.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/Pages/ClientHome%20Page/controller/clienthome_controller.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/widgets/drawer_widget.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/widgets/pop_menu_widget.dart';
@@ -8,9 +9,7 @@ import 'package:scan_cart_clone/Screens/Client%20Portal/widgets/pop_menu_widget.
 class ClientHomePage extends StatelessWidget {
   ClientHomePage({super.key});
 
-  final clientHomePageController = Get.put(
-    ClientHomeController(),
-  );
+  final clientHomePageController = Get.put(ClientHomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +25,9 @@ class ClientHomePage extends StatelessWidget {
             )),
         actions: [
           PopMenuWidget(
-            productName: 'Product Name',
-            productImage: clientHomePageController.imageUrl.value,
+            productName: clientHomePageController.adminClientName,
+            productImage:
+                "${ApiServiceConfig.logoLink}${clientHomePageController.adminClientLogo}",
             onTap: () {
               clientHomePageController.selectedIndex.value = 99;
               clientHomePageController.titleName.value = "My Profile";
@@ -36,7 +36,9 @@ class ClientHomePage extends StatelessWidget {
           )
         ],
       ),
-      drawer: DrawerWidget(),
+      drawer: DrawerWidget(
+        email: clientHomePageController.adminEmail.toString(),
+      ),
       body: Obx(() => clientHomePageController.getPages(
             clientHomePageController.selectedIndex.value,
           )),

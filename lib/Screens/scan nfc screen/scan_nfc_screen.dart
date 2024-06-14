@@ -60,10 +60,16 @@ class ScanNFCScreen extends StatelessWidget {
                       }
                     }),
                     //! Calling Client Login section
-                    ClientLoginWidget(onTap: () {
-                      print("This is client");
-                      // Get.to(ClientLoginPage());
-                      Get.to(ClientHomePage());
+                    ClientLoginWidget(onTap: () async {
+                      final SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      var adminToken = prefs.getString("admin_token");
+                      if (adminToken != null) {
+                        List<String>? data = prefs.getStringList("adminData");
+                        Get.to(ClientHomePage());
+                      } else {
+                        Get.to(ClientLoginPage());
+                      }
                     }),
                   ],
                 ),

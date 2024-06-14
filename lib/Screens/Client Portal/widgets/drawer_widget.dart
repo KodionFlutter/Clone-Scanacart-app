@@ -5,9 +5,12 @@ import 'package:scan_cart_clone/Common/common_services/common_services.dart';
 import 'package:scan_cart_clone/Common/widgets/common_scroll_behav_widget.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/Pages/ClientHome%20Page/controller/clienthome_controller.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/widgets/get_drawer_text.dart';
+import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/scan_nfc_screen.dart';
 
 class DrawerWidget extends StatelessWidget {
-  DrawerWidget({super.key});
+  final String email;
+
+  DrawerWidget({super.key, required this.email});
 
   final drawerController = Get.put(ClientHomeController());
 
@@ -27,7 +30,7 @@ class DrawerWidget extends StatelessWidget {
               ),
             ),
             accountEmail: Text(
-              "colors@scanacart.com",
+              email,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: AppColors.whiteBackgroundColor,
@@ -45,8 +48,7 @@ class DrawerWidget extends StatelessWidget {
               title: "App Home",
               icon: const Icon(Icons.home_outlined, color: Colors.black),
               onTap: () {
-                Get.back();
-                Get.back();
+                Get.offAll(ScanNFCScreen());
               }),
 
           Flexible(

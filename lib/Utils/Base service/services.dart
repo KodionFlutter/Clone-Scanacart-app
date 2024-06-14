@@ -15,6 +15,8 @@ import 'package:scan_cart_clone/Models/customer_signup_model.dart';
 import 'package:scan_cart_clone/Models/employee_data_model.dart';
 import 'package:scan_cart_clone/Models/order_details_model.dart';
 import 'package:scan_cart_clone/Models/order_model.dart';
+import 'package:scan_cart_clone/Models/recent_email_model.dart';
+import 'package:scan_cart_clone/Models/serial_validation_model.dart';
 import 'package:scan_cart_clone/Models/view_category_model.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/widget/nfc_enable_error_dailog_widget.dart';
 import 'package:scan_cart_clone/Utils/Base%20service/base_service.dart';
@@ -466,5 +468,119 @@ class APIServices {
     } on SocketException {
       throw Exception("No Connection");
     }
+  }
+
+  static hitClientLogin(Map<String, dynamic> map) async {
+    var apiURL = "${ApiServiceConfig.apiBaseUrl}/authenticate";
+    print("This is client Login API: $apiURL");
+    try {
+      var response = await BaseService.postMethod(apiURL, map);
+      print("Client Login Response : ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodedData = json.decode(response.body);
+        if (decodedData['success'] == true) {
+          return AdminLoginModel.fromJson(decodedData);
+        } else {
+          showMessage(
+              "${decodedData['message']}", AppColors.whiteBackgroundColor);
+          // throw Exception(decodedData['message'].toString());
+        }
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    }
+  }
+
+  //! Hit Most Recent Emails.
+  static hitMostRecentEmail(int clientID, String token) async {
+    var apiURL =
+        "${ApiServiceConfig.apiBaseUrl}?endpoint=%2Fdashboard%2FmostRecent&client_id=$clientID";
+    print("Most Recent Emails: $apiURL");
+    try {
+      var response = await BaseService.getMethod(apiURL, token);
+      log("Most Recent Email Response :: ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodeData = json.decode(response.body);
+        if (decodeData['success'] == true) {
+          return RecentEmailModel.fromJson(decodeData);
+        } else {
+          return "Field";
+        }
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    }
+  }
+
+  //! Hit the Social Media
+
+  static hitSocialMedialAPI(int clientId, token) async {
+    var apiURL =
+        '${ApiServiceConfig.apiBaseUrl}?endpoint=%2Fdashboard%2FsocialMediaClick&client_id=${clientId}';
+    try {
+      var response = await BaseService.getMethod(apiURL, token);
+      log("Social Medial Response :: ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodeData = json.decode(response.body);
+        if (decodeData["success"] == true) {
+          return decodeData["socialMediaClicks"];
+        } else {
+          return "Error";
+        }
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    }
+  }
+
+  // ! Label Validations API...
+  static hitSerialValidations(clientID, token, value) async {
+    var apiURL =
+        "${ApiServiceConfig.apiBaseUrl}?endpoint=/maps/nfcGraphdays&client_id=$clientID&type=$value";
+    log("Serial Validations API :: $apiURL");
+    try {
+      var response = await BaseService.getMethod(apiURL, token);
+      log("Serial Validations API Response:: ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodedData = json.decode(response.body);
+        if (decodedData['success'] == true) {
+          return decodedData;
+        } else {
+          return "Error occur";
+        }
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    }
+  }
+
+  //! Hit Serial Validations Verified ..
+  static hitSerialValidationVerified(int clientID, token) async {
+    final String apiURL =
+        "${ApiServiceConfig.apiBaseUrl}?endpoint=%2Fdashboard%2FserialValidationVerified&client_id=$clientID";
+    print("SerialValidationVerified API : $apiURL");
+    try {
+      var response = await BaseService.getMethod(apiURL, token);
+      print(
+          "Serial Validation Verified response : ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodedData = json.decode(response.body);
+        return decodedData;
+      } else {
+        print("Exception is working");
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    }
+  }
+
+  //! Label Validations Location ....
+
+  static hitLabelValidationLocation(int clientID, token) async {
+    var apiURL =
+        '${ApiServiceConfig.apiBaseUrl}/dashboard/labelValidation?client_id=$clientID';
+    log("Label validation Location :: $apiURL");
+    var response = await BaseService.getMethod(apiURL, token);
+    log("Label Validation Location :: ${response.body.toString()}");
   }
 }

@@ -1,6 +1,12 @@
 class SerialValidationModel {
-  final String months;
-  final double values;
+  final String? label;
+  final double? values;
 
-  SerialValidationModel(this.months, this.values);
+  SerialValidationModel({this.label, this.values});
+
+  factory SerialValidationModel.fromJson(Map<String, dynamic> json) =>
+      SerialValidationModel(
+        label: json['label'],
+        values: json["values"],
+      );
 }

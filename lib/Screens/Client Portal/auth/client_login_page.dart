@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/validator_form.dart';
 import 'package:scan_cart_clone/Common/widgets/common_button.dart';
-import 'package:scan_cart_clone/Screens/Client%20Portal/Pages/ClientHome%20Page/client_home_page.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/auth/controller/client_login_controller.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/auth/forgot_password.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/widgets/common_TextField.dart';
@@ -37,7 +36,7 @@ class ClientLoginPage extends StatelessWidget {
                   clientLoginController.passwordController.value.clear();
                 },
               ),
-              SizedBox(height: 25),
+              const SizedBox(height: 25),
               //!
               Form(
                   key: clientLoginController.globalFormKey,
@@ -83,24 +82,39 @@ class ClientLoginPage extends StatelessWidget {
                       ),
 
                       //! Login Button ...
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 30, bottom: 30, right: 30, top: 20),
-                        child: CommonButtonWidget(
-                          isEnabled: clientLoginController.isEnable.value,
-                          onPressed: () async {
-                            // print("Working");
-                            if (clientLoginController
-                                .globalFormKey.currentState!
-                                .validate()) {
-                              Get.to(ClientHomePage());
-                            }
-                          },
-                          buttonTxt: 'Login',
-                          btnHeight: AppConstant.size.height * 0.06,
-                          btnWidth: AppConstant.size.width * 0.7,
-                          colors: AppColors.whiteBackgroundColor,
-                          txtColor: AppColors.blackColor,
+                      Obx(
+                        () => Padding(
+                          padding: const EdgeInsets.only(
+                              left: 30, bottom: 30, right: 30, top: 20),
+                          child: clientLoginController.isLoading.value
+                              ? const Center(child: CircularProgressIndicator())
+                              : CommonButtonWidget(
+                                  isEnabled:
+                                      clientLoginController.isEnable.value,
+                                  onPressed: () async {
+                                    // print("Working");
+                                    if (clientLoginController
+                                        .globalFormKey.currentState!
+                                        .validate()) {
+                                      //! call the client login method ..
+                                      var map = {
+                                        "email": clientLoginController
+                                            .emailController.value.text
+                                            .toString(),
+                                        "password": clientLoginController
+                                            .passwordController.value.text
+                                            .toString()
+                                      };
+
+                                      clientLoginController.clientLogin(map);
+                                    }
+                                  },
+                                  buttonTxt: 'Login',
+                                  btnHeight: AppConstant.size.height * 0.06,
+                                  btnWidth: AppConstant.size.width * 0.7,
+                                  colors: AppColors.whiteBackgroundColor,
+                                  txtColor: AppColors.blackColor,
+                                ),
                         ),
                       ),
 

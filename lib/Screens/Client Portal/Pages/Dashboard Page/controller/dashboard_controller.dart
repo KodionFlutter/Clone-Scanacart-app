@@ -1,54 +1,153 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
+import 'package:scan_cart_clone/Common/App%20Config/api_service_config.dart';
 import 'package:scan_cart_clone/Models/label_validations_location_model.dart';
+import 'package:scan_cart_clone/Models/recent_email_model.dart';
+import 'package:scan_cart_clone/Models/serial_vali_model.dart';
 import 'package:scan_cart_clone/Models/serial_validation_model.dart';
+import 'package:scan_cart_clone/Utils/Base%20service/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 
 class DashboardController extends GetxController {
   RxList cartData = <SerialValidationModel>[].obs;
+  RxList cartData1 = <SerialValidationModel>[].obs;
   Rx<TooltipBehavior> tooltipBehavior = TooltipBehavior().obs;
   RxString lastDays = "7".obs;
 
-  RxList<SerialValidationModel> getSerialValidationData(
-      String lastDays, RxList<SerialValidationModel> serialValidation) {
-    final RxList<SerialValidationModel> serialValidationData = serialValidation;
-    return serialValidationData;
-  }
-
   late List<LabelValidationLocationModel> labelValidationData;
-  late RxList sevenDaysModel = <SerialValidationModel>[].obs;
-  late RxList thirtyDaysModel = <SerialValidationModel>[].obs;
-  RxList severnDays = [
-    SerialValidationModel("Jan", 1450),
-    SerialValidationModel("Fab", 1700),
-    SerialValidationModel("Mar", 1780),
-    SerialValidationModel("Apr", 2200),
-    SerialValidationModel("May", 2100),
-    SerialValidationModel("Jun", 1420),
-  ].obs;
-  RxList thirtyDays = [
-    SerialValidationModel("Wednesdays", 20),
-    SerialValidationModel("10", 24),
-    SerialValidationModel("32", 80),
-    SerialValidationModel("16", 20),
-    SerialValidationModel("19", 30),
-    SerialValidationModel("60", 40),
-    SerialValidationModel("32", 70),
-    SerialValidationModel("16", 50),
-    SerialValidationModel("19", 70),
-    SerialValidationModel("Today", 20),
-  ].obs;
+
   late MapShapeSource mapSource;
 
   RxBool isSelected = true.obs;
+  String adminClientLogo = "";
+  RxString logo = "".obs;
+  RecentEmailModel recentEmailModel = RecentEmailModel();
+  RxList emailList = <RecentEmailList>[].obs;
+  RxBool isLoading = false.obs;
+  RxBool isSocialLoading = false.obs;
+  RxBool isVerifiedLoading = false.obs;
+  RxBool isLabelLoading = false.obs;
+  RxList socialList = [].obs;
+  RxList labelValidationList = <SerialValiModel>[].obs;
+  RxString totalVerified = ''.obs;
+  SerialValiModel serialValiModel = SerialValiModel();
+
+  //!
+  Future getLabelValidationLocation() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString("admin_token");
+    int? clientID = prefs.getInt("client_id");
+    var data = APIServices.hitLabelValidationLocation(clientID!, token);
+  }
+
+  //! Most RecentEmails..
+  Future getMostRecentEmails() async {
+    isLoading.value = true;
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString("admin_token");
+    int? clientID = prefs.getInt("client_id");
+    print("Client id: $clientID");
+    recentEmailModel = await APIServices.hitMostRecentEmail(clientID!, token!);
+    print("ooo =: ${recentEmailModel.success}");
+    emailList.addAll(recentEmailModel.recentEmailList!);
+    print("List is ${emailList.length}");
+    isLoading.value = false;
+  }
+
+  //! Getting the Label Validations here../!
+
+  Future getLabelValidation(String days) async {
+    isLabelLoading.value = true;
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString("admin_token");
+    int? clientID = prefs.getInt("client_id");
+    labelValidationList.clear();
+    var data = await APIServices.hitSerialValidations(clientID!, token, days);
+    print("laa :: ${data}");
+    if (data['success'] == true) {
+      if (days == "days") {
+        for (final items in data['data'].entries) {
+          print("Items : ${items.value}");
+          labelValidationList.add(SerialValiModel(
+            x: items.key,
+            y: items.value.toDouble(),
+          ));
+        }
+        isLabelLoading.value = false;
+        print("list is days ::${labelValidationList}");
+      } else {
+        for (int i = 0; i < data['data'].length; i++) {
+          labelValidationList.add(SerialValiModel(
+            x: data['data'][i]['date'],
+            y: data["data"][i]['value'].toDouble(),
+          ));
+        }
+        isLabelLoading.value = false;
+        print("list is month ::${labelValidationList}");
+      }
+    }
+  }
+
+  //! Get the social Media List
+  Future getSocialMediaList() async {
+    isSocialLoading.value = true;
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString("admin_token");
+    int? clientID = prefs.getInt("client_id");
+    var data = await APIServices.hitSocialMedialAPI(clientID!, token);
+    socialList.addAll(data);
+    print("d : ${socialList[0]["instagram"]}");
+    isSocialLoading.value = false;
+  }
+
+  //! Get the Admin Details
+  getAdminDetails() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    adminClientLogo = prefs.getString("admin_client_logo")!;
+    logo.value = "${ApiServiceConfig.logoLink}$adminClientLogo";
+    print("Logo : $logo");
+  }
+
+  //! Get serial validation verify
+
+  Future getSerialValidationVerify() async {
+    isVerifiedLoading.value = true;
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString("admin_token");
+    int? clientID = prefs.getInt("client_id");
+    var data = await APIServices.hitSerialValidationVerified(clientID!, token);
+    // print("daa::: $data");
+    for (int i = 0; i < data['serialValVerifiedData'].length; i++) {
+      cartData.value.add(SerialValidationModel(
+        label: data['serialValVerifiedData'][i]['label'],
+        values: data['serialValVerifiedData'][i]['value'].toDouble(),
+      ));
+    }
+    var s = data['verifiedOutOf'];
+    totalVerified.value = s.toString().split('/')[0];
+    // print(" dd : ${cartData}");
+    isVerifiedLoading.value = false;
+    update();
+    refresh();
+  }
 
   @override
-  void onInit() {
+  void onInit() async {
+    getMostRecentEmails();
+    getAdminDetails();
+    getSocialMediaList();
+    getLabelValidation("days");
+    getSerialValidationVerify();
+    getLabelValidationLocation();
     super.onInit();
-    sevenDaysModel.addAll(severnDays);
-    cartData = getSerialValidationData(
-        lastDays.value, thirtyDays as RxList<SerialValidationModel>);
+    // sevenDaysModel.addAll(severnDays);
+    // cartData = getSerialValidationData(
+    //     lastDays.value, thirtyDays as RxList<SerialValidationModel>);
     tooltipBehavior.value = TooltipBehavior(
         enable: true,
         builder: (dynamic serialValidationData, dynamic point, dynamic series,
@@ -59,7 +158,7 @@ class DashboardController extends GetxController {
                 color: Colors.black,
                 child: Text(
                   '${serialValidationData.months.toString()} : ${serialValidationData.values.toInt()}',
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 )),
           );
         });

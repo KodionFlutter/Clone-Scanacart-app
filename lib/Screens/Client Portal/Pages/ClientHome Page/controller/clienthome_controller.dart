@@ -7,6 +7,7 @@ import 'package:scan_cart_clone/Screens/Client%20Portal/Pages/Orders%20Page/orde
 import 'package:scan_cart_clone/Screens/Client%20Portal/Pages/Profile%20Page/my_profile_page.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/Pages/Rewards%20Page/Products%20Page/products_page.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/Pages/Rewards%20Page/rewardOrder%20Page/reward_order_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ClientHomeController extends GetxController {
   RxInt selectedIndex = 0.obs;
@@ -17,12 +18,17 @@ class ClientHomeController extends GetxController {
       "https://www.roblaceyphotographer.co.uk/wp-content/uploads/2020/03/featured.jpg"
           .obs;
 
+  String adminEmail = "";
+  String adminToken = "";
+  String adminClientName = "";
+  String adminClientLogo = "";
+
 //! Here we make a function for dynamic change ....
 
   getPages(selectedIndex) {
     switch (selectedIndex) {
       case 0:
-        return const DashBoardPage();
+        return DashBoardPage();
       case 1:
         return ClientOrdersPage();
       case 2:
@@ -46,7 +52,14 @@ class ClientHomeController extends GetxController {
   }
 
   @override
-  void onInit() {
+  void onInit() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    adminToken = prefs.getString("admin_token")!;
+    adminEmail = prefs.getString("admin_email")!;
+    adminClientName = prefs.getString("admin_client_name")!;
+    adminClientLogo = prefs.getString("admin_client_logo")!;
+    print("admin : $adminClientLogo");
+
     super.onInit();
     getPages(selectedIndex);
   }

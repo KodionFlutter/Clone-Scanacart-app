@@ -5,6 +5,7 @@ class AdminLoginModel {
   bool? success;
   int? clientId;
   int? userId;
+  String? clientName;
   String? email;
   String? clientLogo;
   bool? resetPassword;
@@ -12,15 +13,16 @@ class AdminLoginModel {
 
   AdminLoginModel(
       {this.role,
-        this.superAdmin,
-        this.message,
-        this.success,
-        this.clientId,
-        this.userId,
-        this.email,
-        this.clientLogo,
-        this.resetPassword,
-        this.token});
+      this.superAdmin,
+      this.message,
+      this.success,
+      this.clientId,
+      this.clientName,
+      this.userId,
+      this.email,
+      this.clientLogo,
+      this.resetPassword,
+      this.token});
 
   AdminLoginModel.fromJson(Map<String, dynamic> json) {
     role = json['role'];
@@ -28,6 +30,7 @@ class AdminLoginModel {
     message = json['message'];
     success = json['success'];
     clientId = json['client_id'];
+    clientName = json['client_name'];
     userId = json['user_id'];
     email = json['email'];
     clientLogo = json['clientLogo'];
@@ -36,13 +39,14 @@ class AdminLoginModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  <String, dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['role'] = role;
     data['super_admin'] = superAdmin;
-    data['message'] =message;
+    data['message'] = message;
     data['success'] = success;
     data['client_id'] = clientId;
     data['user_id'] = userId;
+    data['client_name'] = clientName;
     data['email'] = email;
     data['clientLogo'] = clientLogo;
     data['reset_password'] = resetPassword;

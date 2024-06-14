@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/Pages/Dashboard%20Page/controller/dashboard_controller.dart';
+import 'package:scan_cart_clone/Screens/Client%20Portal/widgets/common_text_widget.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/widgets/custom_container.dart';
+import 'package:scan_cart_clone/Utils/constant.dart';
 import 'package:syncfusion_flutter_maps/maps.dart';
 
 class LabelValidationLocationWidget extends StatelessWidget {
@@ -41,18 +43,20 @@ class LabelValidationLocationWidget extends StatelessWidget {
                       width: labelValidationController
                                   .labelValidationData[index].dout !=
                               0.0
-                          ? 140
-                          : 190,
+                          ? AppConstant.size.width * 0.4
+                          : AppConstant.size.width * 0.5,
                       child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                labelValidationController
-                                    .labelValidationData[index].state
-                                    .toString(),
-                                style: TextStyle(color: Colors.white),
+                              Expanded(
+                                child: Text(
+                                  labelValidationController
+                                      .labelValidationData[index].state
+                                      .toString(),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
                               ),
                               const Divider(
                                 thickness: 1,
@@ -60,12 +64,25 @@ class LabelValidationLocationWidget extends StatelessWidget {
                                 endIndent: 4,
                                 indent: 2,
                               ),
-                              Text(
-                                "Validation : ${labelValidationController.labelValidationData[index].dout != 0.0 ? labelValidationController.labelValidationData[index].dout : "undefined"} %",
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "Validation : ",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Expanded(
+                                    child: CommonTextWidget(
+                                      title:
+                                          '${labelValidationController.labelValidationData[index].dout != 0.0 ? labelValidationController.labelValidationData[index].dout : "undefined"} %',
+                                      size: 14,
+                                      color: AppColors.whiteBackgroundColor,
+                                    ),
+                                  )
+                                ],
                               )
                             ],
                           )),

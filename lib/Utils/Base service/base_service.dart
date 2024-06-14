@@ -82,7 +82,7 @@ class BaseService {
             },
             body: map)
         .timeout(Duration(seconds: 40));
-    print("======> ${res}");
+    print(":  ${res}");
     return res;
   }
 

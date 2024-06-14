@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/widgets/custom_icon_widget.dart';
+import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/scan_nfc_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PopMenuWidget extends StatelessWidget {
   final String productName;
@@ -46,29 +48,21 @@ class PopMenuWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       color: AppColors.whiteBackgroundColor,
                     ),
-                    // child: CachedNetworkImage(
-                    //   imageUrl: productImage,
-                    //   fit: BoxFit.contain,
-                    //   placeholder: (context, url) {
-                    //     return const Center(
-                    //       child: CupertinoActivityIndicator(),
-                    //     );
-                    //   },
-                    //   errorWidget: (context, url, error) {
-                    //     return Material(
-                    //       color: Colors.transparent.withOpacity(0.8),
-                    //       child: const Center(
-                    //         child: Text('Could\'t load image',
-                    //             overflow: TextOverflow.visible,
-                    //             textAlign: TextAlign.center,
-                    //             maxLines: 2,
-                    //             style: TextStyle(
-                    //                 color: Colors.black, fontSize: 10)),
-                    //       ),
-                    //     );
-                    //   },
-                    // ),
-                    child: Image(image: AssetImage("assets/images/blkat.png")),
+                    child: CachedNetworkImage(
+                      imageUrl: productImage,
+                      fit: BoxFit.contain,
+                      placeholder: (context, url) {
+                        return const Center(
+                          child: CupertinoActivityIndicator(),
+                        );
+                      },
+                      errorWidget: (context, url, error) {
+                        return Material(
+                            color: Colors.transparent.withOpacity(0.8),
+                            child: const Center(child: Text("Filed")));
+                      },
+                    ),
+                    // child: Image(image: AssetImage("assets/images/blkat.png")),
                   )
                   // Icon(Icons.percent),
                   ,
@@ -113,9 +107,12 @@ class PopMenuWidget extends StatelessWidget {
           ),
         ),
         PopupMenuItem(
-          onTap: () {
-            Get.back();
-            Get.back();
+          onTap: () async {
+            final SharedPreferences prefs =
+                await SharedPreferences.getInstance();
+            prefs.remove("admin_token");
+            prefs.clear();
+            Get.offAll(ScanNFCScreen());
           },
           padding: const EdgeInsets.all(10),
           child: const ListTile(

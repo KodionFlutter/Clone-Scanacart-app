@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
+import 'package:scan_cart_clone/Models/serial_vali_model.dart';
 import 'package:scan_cart_clone/Models/serial_validation_model.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/Pages/Dashboard%20Page/controller/dashboard_controller.dart';
+import 'package:scan_cart_clone/Screens/Client%20Portal/widgets/common_text_widget.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/widgets/custom_container.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -18,9 +20,16 @@ class LabelValidationWidget extends StatelessWidget {
         child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("Label Validations",
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-        //! Tabs..
+        CommonTextWidget(
+          title: "Label Validations",
+          size: 14,
+          color: AppColors.blackColor,
+          fontWeight: FontWeight.w500,
+        ),
+        Divider(
+            thickness: 1,
+            color: AppColors.blackBackgroundColor.withOpacity(0.3)),
+        //! Buttons..
         Row(
           children: [
             Obx(() => ElevatedButton(
@@ -39,10 +48,7 @@ class LabelValidationWidget extends StatelessWidget {
                       )),
                   onPressed: () {
                     labelValidationController.isSelected.value = true;
-                    labelValidationController.getSerialValidationData(
-                        "7",
-                        labelValidationController.sevenDaysModel
-                            as RxList<SerialValidationModel>);
+                    labelValidationController.getLabelValidation("days");
                   },
                   child: Text(
                     "Last 7 Days",
@@ -68,12 +74,7 @@ class LabelValidationWidget extends StatelessWidget {
                     )),
                 onPressed: () {
                   labelValidationController.isSelected.value = false;
-                  labelValidationController.thirtyDaysModel
-                      .addAll(labelValidationController.thirtyDays);
-                  labelValidationController.getSerialValidationData(
-                      "30",
-                      labelValidationController.thirtyDaysModel
-                          as RxList<SerialValidationModel>);
+                  labelValidationController.getLabelValidation("month");
                 },
                 child: Text(
                   "Last 30 Days",
@@ -89,30 +90,32 @@ class LabelValidationWidget extends StatelessWidget {
 
         Container(
             padding: const EdgeInsets.all(10.0),
-            height: AppConstant.size.height * 0.3,
+            height: AppConstant.size.height * 0.35,
             width: AppConstant.size.width * 1,
             // decoration: BoxDecoration(color: Colors.red),
-            child: Obx(() => SfCartesianChart(
-                  tooltipBehavior:
-                      labelValidationController.tooltipBehavior.value,
-                  primaryXAxis: const CategoryAxis(),
-                  primaryYAxis: const NumericAxis(labelFormat: '{value}'),
-                  series: [
-                    ColumnSeries<SerialValidationModel, String>(
-                      dataSource: labelValidationController.cartData
-                          as List<SerialValidationModel>,
-                      xValueMapper: (SerialValidationModel serialModel, _) =>
-                          serialModel.months,
-                      yValueMapper: (SerialValidationModel serialModel, _) =>
-                          serialModel.values,
-                      enableTooltip: true,
-                      color: Colors.blue,
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(15),
-                          topRight: Radius.circular(15)),
-                    ),
-                  ],
-                )))
+            child: Obx(() => labelValidationController.isLabelLoading.value
+                ? const Center(child: CircularProgressIndicator())
+                : SfCartesianChart(
+                    tooltipBehavior:
+                        labelValidationController.tooltipBehavior.value,
+                    primaryXAxis: const CategoryAxis(),
+                    primaryYAxis: const NumericAxis(labelFormat: '{value}'),
+                    series: [
+                      ColumnSeries<SerialValiModel, String>(
+                        dataSource: labelValidationController
+                            .labelValidationList as List<SerialValiModel>,
+                        xValueMapper: (SerialValiModel serialModel, _) =>
+                            serialModel.x,
+                        yValueMapper: (SerialValiModel serialModel, _) =>
+                            serialModel.y,
+                        enableTooltip: true,
+                        color: Colors.blue,
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15)),
+                      ),
+                    ],
+                  )))
       ],
     ));
   }
