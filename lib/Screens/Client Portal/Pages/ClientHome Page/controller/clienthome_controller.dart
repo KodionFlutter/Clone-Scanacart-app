@@ -34,7 +34,7 @@ class ClientHomeController extends GetxController {
       case 2:
         return ClientListPage();
       case 3:
-        return const MapsPage();
+        return MapsPage();
       case 4:
         switch (subMenuSelectedIndex.value) {
           case 0:

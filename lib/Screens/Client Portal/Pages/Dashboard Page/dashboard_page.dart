@@ -105,18 +105,18 @@ class DashBoardPage extends StatelessWidget {
                     )),
               ],
             )),
-            //! Here Social Media Click Thru ...!
+            //! Calling Social Media Click Thru widgets...!
             SocialMediaWidget(
               onTap: () {
                 clientHomeController.selectedIndex.value = 3;
                 clientHomeController.titleName.value = "Maps";
               },
             ),
-            //! Label Validations...!
+            //! Calling Label Validations widgets...!
             LabelValidationWidget(),
-            //!   Serial Validation Verified.....!
+            //! Calling Serial Validation Verified widgets.....!
             SerialValidationVerified(),
-            //! Label Validation Location .....!
+            //! Calling Label Validation Location widgets.....!
             LabelValidationLocationWidget()
           ],
         ),

@@ -580,7 +580,74 @@ class APIServices {
     var apiURL =
         '${ApiServiceConfig.apiBaseUrl}/dashboard/labelValidation?client_id=$clientID';
     log("Label validation Location :: $apiURL");
-    var response = await BaseService.getMethod(apiURL, token);
-    log("Label Validation Location :: ${response.body.toString()}");
+    try {
+      var response = await BaseService.getMethod(apiURL, token);
+      log("Label Validation Location Response :: ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodedData = json.decode(response.body);
+        if (decodedData['success'] == true) {
+          return decodedData['labelValidation'];
+        } else {
+          return "Load Filed";
+        }
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    }
+  }
+
+  //! Top Countries
+  static hitTopCountries(clientID, token) async {
+    var apiURL =
+        "${ApiServiceConfig.apiBaseUrl}?endpoint=%2Fmaps%2FtopCountries&client_id=$clientID";
+    log("Top Countries API : $apiURL");
+    try {
+      var response = await BaseService.getMethod(apiURL, token);
+      log("Top Countries Response :: ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodedData = json.decode(response.body);
+        return decodedData;
+      } else {
+        throw Exception("Failed ");
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    }
+  }
+
+  //! Top Countries
+  static hitTopUSState(clientID, token) async {
+    var apiURL =
+        "${ApiServiceConfig.apiBaseUrl}?endpoint=%2Fmaps%2FtopUSStates&client_id=$clientID";
+    try {
+      var response = await BaseService.getMethod(apiURL, token);
+      log("Top US State Response :: ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodedData = json.decode(response.body);
+        return decodedData;
+      } else {
+        throw Exception("Failed ");
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    }
+  }
+
+  //! Top Countries
+  static hitTopCities(clientID, token) async {
+    var apiURL =
+        "${ApiServiceConfig.apiBaseUrl}?endpoint=%2Fmaps%2FtopCities&client_id=$clientID";
+    try {
+      var response = await BaseService.getMethod(apiURL, token);
+      log("Top Cities Response :: ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodedData = json.decode(response.body);
+        return decodedData;
+      } else {
+        throw Exception("Failed ");
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    }
   }
 }
