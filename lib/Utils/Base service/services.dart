@@ -2,16 +2,21 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/App%20Config/api_service_config.dart';
 import 'package:scan_cart_clone/Common/common_services/common_services.dart';
+import 'package:scan_cart_clone/Models/address_model.dart';
 import 'package:scan_cart_clone/Models/admin_login_model.dart';
-import 'package:scan_cart_clone/Models/category_details_model.dart';
 import 'package:scan_cart_clone/Models/category_model.dart';
+import 'package:scan_cart_clone/Models/common_model.dart';
 import 'package:scan_cart_clone/Models/customer_signup_model.dart';
 import 'package:scan_cart_clone/Models/employee_data_model.dart';
-import 'package:scan_cart_clone/Models/reward_model.dart';
+import 'package:scan_cart_clone/Models/order_details_model.dart';
+import 'package:scan_cart_clone/Models/order_model.dart';
+import 'package:scan_cart_clone/Models/recent_email_model.dart';
+import 'package:scan_cart_clone/Models/serial_validation_model.dart';
 import 'package:scan_cart_clone/Models/view_category_model.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/widget/nfc_enable_error_dailog_widget.dart';
 import 'package:scan_cart_clone/Utils/Base%20service/base_service.dart';
@@ -30,7 +35,7 @@ class APIServices {
         log("Response Data :: ${responseData.toString()}");
         log("Success :: ${responseData['success']}");
         if (responseData['success'] == true) {
-          log("Binded Data into Model :: ${responseData['token']}");
+          log("Bound Data into Model :: ${responseData['token']}");
           return AdminLoginModel.fromJson(responseData);
         } else {
           throw Exception(responseData['message']);
@@ -81,7 +86,7 @@ class APIServices {
   static Future verifyCouponCode(
       String token, int clientId, String procode_text) async {
     try {
-      log("Token :: ${token}\n Client id :: $clientId\n procode_text :: $procode_text");
+      log("Token :: $token\n Client id :: $clientId\n promcode_text :: $procode_text");
       String url =
           '${ApiServiceConfig.apiBaseUrl}/dashboard/CodeValidation?client_id=${clientId}&code=${procode_text}';
       log("Verify Coupon code URL :: ${url.toString()}");
@@ -137,7 +142,7 @@ class APIServices {
       print("This is otp Response :: ${response.body.toString()}");
       if (response.statusCode == 200) {
         var decodeData = jsonDecode(response.body);
-        print("This is verify Decoded Data :: ${decodeData}");
+        print("This is verify Decoded Data :: $decodeData");
         var successflag = decodeData['success'];
         if (successflag == true) {
           showMessage(
@@ -193,7 +198,9 @@ class APIServices {
         if (decodedData['success'] == true) {
           return decodedData;
         } else {
-          print("Error occur during the Reward API Fetching");
+          if (kDebugMode) {
+            print("Error occur during the Reward API Fetching");
+          }
         }
       }
     } on SocketException {
@@ -307,14 +314,13 @@ class APIServices {
 
 //! Here we hitting the place order...
 
-  static Future productPlaceOrder(
-      Map<String, dynamic> map, String? token) async {
+  static Future productPlaceOrder(Map<String, dynamic> map) async {
     var url =
         '${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/customerShipping';
     print("This is Shipping URL :: ${url}");
     try {
-      var response = await BaseService.postRewardMethod(url, map, token);
-      log('Response of Shipping  :: ${response.body.toString()}');
+      var response = await BaseService.baseServiceGet(url, map, "");
+      log('Response of Shipping  :: ${response.body}');
       if (response.statusCode == 200) {
         var decodedData = json.decode(response.body);
         if (decodedData['success'] == true) {
@@ -326,5 +332,255 @@ class APIServices {
     } on SocketException {
       throw Exception('No Connection');
     }
+  }
+
+  //!  Shipping and Place order ..
+
+  static hitPlaceOrder(Map<String, dynamic> map) async {
+    try {
+      var response = await BaseService.baseServiceGet(
+          '${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/customerShipping',
+          map,
+          "");
+      log('place order : = ${response.body.toString()}');
+      if (response.statusCode == 200) {
+        var parseData = json.decode(response.body);
+        if (parseData['success'] == true) {
+          return parseData;
+        } else {
+          print("There is Problem");
+          throw Exception(parseData['message']);
+        }
+      }
+    } on SocketException {
+      throw Exception('No Connection');
+    }
+  }
+
+  //! Hit here for address List ...
+
+  static hitAddressList(int? customerId, String? token) async {
+    var url =
+        '${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/customerShipping&customer_id=$customerId';
+
+    try {
+      final response = await BaseService.getMethod(url, token);
+      print("This is Address response : ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodedData = jsonDecode(response.body);
+        if (decodedData['success'] == true) {
+          return AddressModel.fromJson(decodedData);
+        } else {
+          print("There is Problem  to get the Address API");
+          throw Exception(decodedData['message']);
+        }
+      }
+    } on SocketException {
+      throw Exception('No Connection');
+    }
+  }
+
+  //! Hit the Order List
+
+  static hitOrderList(customerId, status) async {
+    var url =
+        '${ApiServiceConfig.apiBaseUrl}?endpoint=/rewards/rewardOrders&customer_id=$customerId&order_status=$status';
+    print("OrderList API : $url");
+    try {
+      final response = await BaseService.getAPI(url);
+      log("This is Order List response : ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodedData = jsonDecode(response.body);
+        if (decodedData['success'] == true) {
+          return OrderModel.fromJson(decodedData);
+        } else {
+          throw Exception(decodedData['message']);
+        }
+      }
+    } on SocketException {
+      throw Exception('No Connection');
+    }
+  }
+
+  //! Here we hit the ViewOrderDetails
+
+  static hitViewOrderDetails(orderId) async {
+    var url =
+        "${ApiServiceConfig.apiBaseUrl}?endpoint=/rewards/rewardOrderDetail&order_id=$orderId";
+    print("This is View Order details API : $url");
+    try {
+      final response = await BaseService.getAPI(url);
+      log("View Order Details : ${response.body.toString()}");
+
+      if (response.statusCode == 200) {
+        var decodedData = jsonDecode(response.body.toString());
+        if (decodedData['success'] == true) {
+          return OrderDetailsModel.fromJson(decodedData);
+        } else {
+          throw Exception(decodedData['message']);
+        }
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    }
+  }
+
+  //! Hit the cancel product API
+
+  static hitCancelProduct(map, token) async {
+    var url = '${ApiServiceConfig.apiBaseUrl}?endpoint=/rewards/cancelOrder';
+    print("This is cancel order URL : $url");
+    try {
+      var response = await BaseService.baseServiceGet(url, map, token);
+      log("Cancel response : ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodedData = jsonDecode(response.body);
+        if (decodedData['success'] == true) {
+          return CommonModel.fromJson(decodedData);
+        } else {
+          throw Exception(decodedData['message']);
+        }
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    }
+  }
+
+  //! hit here add note of product
+
+  static Future hitAddNotes(map) async {
+    var url = '${ApiServiceConfig.apiBaseUrl}?endpoint=/rewards/addOrderNotes';
+    print("Add notes in product details : $url");
+    try {
+      var response = null;
+      response = await BaseService.putMethod(url, map);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        var decodedData = jsonDecode(response.body);
+        if (decodedData['success'] == true) {
+          log("Add note response : ${decodedData}");
+          return CommonModel.fromJson(decodedData);
+        } else {
+          print("Exception is working");
+          throw Exception(decodedData['message']);
+        }
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    }
+  }
+
+  static hitClientLogin(Map<String, dynamic> map) async {
+    var apiURL = "${ApiServiceConfig.apiBaseUrl}/authenticate";
+    print("This is client Login API: $apiURL");
+    try {
+      var response = await BaseService.postMethod(apiURL, map);
+      print("Client Login Response : ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodedData = json.decode(response.body);
+        if (decodedData['success'] == true) {
+          return AdminLoginModel.fromJson(decodedData);
+        } else {
+          showMessage(
+              "${decodedData['message']}", AppColors.whiteBackgroundColor);
+          // throw Exception(decodedData['message'].toString());
+        }
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    }
+  }
+
+  //! Hit Most Recent Emails.
+  static hitMostRecentEmail(int clientID, String token) async {
+    var apiURL =
+        "${ApiServiceConfig.apiBaseUrl}?endpoint=%2Fdashboard%2FmostRecent&client_id=$clientID";
+    print("Most Recent Emails: $apiURL");
+    try {
+      var response = await BaseService.getMethod(apiURL, token);
+      log("Most Recent Email Response :: ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodeData = json.decode(response.body);
+        if (decodeData['success'] == true) {
+          return RecentEmailModel.fromJson(decodeData);
+        } else {
+          return "Field";
+        }
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    }
+  }
+
+  //! Hit the Social Media
+
+  static hitSocialMedialAPI(int clientId, token) async {
+    var apiURL =
+        '${ApiServiceConfig.apiBaseUrl}?endpoint=%2Fdashboard%2FsocialMediaClick&client_id=${clientId}';
+    try {
+      var response = await BaseService.getMethod(apiURL, token);
+      log("Social Medial Response :: ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodeData = json.decode(response.body);
+        if (decodeData["success"] == true) {
+          return decodeData["socialMediaClicks"];
+        } else {
+          return "Error";
+        }
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    }
+  }
+
+  // ! Label Validations API...
+  static hitSerialValidations(clientID, token, value) async {
+    var apiURL =
+        "${ApiServiceConfig.apiBaseUrl}?endpoint=/maps/nfcGraphdays&client_id=$clientID&type=$value";
+    log("Serial Validations API :: $apiURL");
+    try {
+      var response = await BaseService.getMethod(apiURL, token);
+      log("Serial Validations API Response:: ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodedData = json.decode(response.body);
+        if (decodedData['success'] == true) {
+          return decodedData;
+        } else {
+          return "Error occur";
+        }
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    }
+  }
+
+  //! Hit Serial Validations Verified ..
+  static hitSerialValidationVerified(int clientID, token) async {
+    final String apiURL =
+        "${ApiServiceConfig.apiBaseUrl}?endpoint=%2Fdashboard%2FserialValidationVerified&client_id=$clientID";
+    print("SerialValidationVerified API : $apiURL");
+    try {
+      var response = await BaseService.getMethod(apiURL, token);
+      print(
+          "Serial Validation Verified response : ${response.body.toString()}");
+      if (response.statusCode == 200) {
+        var decodedData = json.decode(response.body);
+        return decodedData;
+      } else {
+        print("Exception is working");
+      }
+    } on SocketException {
+      throw Exception("No Connection");
+    }
+  }
+
+  //! Label Validations Location ....
+
+  static hitLabelValidationLocation(int clientID, token) async {
+    var apiURL =
+        '${ApiServiceConfig.apiBaseUrl}/dashboard/labelValidation?client_id=$clientID';
+    log("Label validation Location :: $apiURL");
+    var response = await BaseService.getMethod(apiURL, token);
+    log("Label Validation Location :: ${response.body.toString()}");
   }
 }

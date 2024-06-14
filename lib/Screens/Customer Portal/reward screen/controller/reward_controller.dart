@@ -1,12 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Models/reward_model.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/category_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/reward_collect_widget.dart';
-import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/pages/product_image_widget.dart';
-import 'dart:math' as math;
 
 import 'package:scan_cart_clone/Utils/Base%20service/services.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
@@ -14,10 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class RewardController extends GetxController
     with GetSingleTickerProviderStateMixin {
-  final int id;
-
-  RewardController({required this.id});
-
   //! Variable declare
 
   RewardModel rewardModel = RewardModel();
@@ -49,8 +41,10 @@ class RewardController extends GetxController
 
 //! Get Reward
   Future<void> getReward() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    int? id = preferences.getInt("customer_id");
     try {
-      rewardData = await APIServices.customerReward(id);
+      rewardData = await APIServices.customerReward(id!);
       data.addAll(rewardData['data']);
 
       // print("Reward Data => ${rewardData['data']}");
@@ -155,30 +149,15 @@ class RewardController extends GetxController
     }
   }
 
-  @override
-  void onInit() {
-    creditRewards();
-    Future.delayed(
+  Future getAlleMethod() async {
+    await Future.delayed(
             Duration.zero, () => getReward().then((value) => creditRewards()))
         .then((value) => getCardPath());
-    animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 400),
-    );
-    rotateAnimation = Tween<double>(
-      begin: 0,
-      end: math.pi * 2,
-    ).animate(CurvedAnimation(
-      parent: animationController,
-      curve: Curves.bounceInOut,
-    ));
-    super.onInit();
   }
 
   @override
   void dispose() {
     animationController.dispose();
-
     super.dispose();
   }
 

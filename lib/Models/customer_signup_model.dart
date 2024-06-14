@@ -12,10 +12,10 @@ class CustomerSignUpModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    data['success'] = this.success;
-    data['customer_id'] = this.customerId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
+    data['success'] = success;
+    data['customer_id'] = customerId;
     return data;
   }
 }

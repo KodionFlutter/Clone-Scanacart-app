@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App Color/app_colors.dart';
-import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/cart_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/controller/cart_controller.dart';
 
 class CartCounterWidget extends StatelessWidget {
   final int clientId;
   final String clientName;
-
+  final VoidCallback onTap;
   CartCounterWidget({
-    Key? key,
+    super.key,
     required this.clientId,
     required this.clientName,
-  }) : super(key: key);
+    required this.onTap,
+  });
 
   final cartController = Get.put(CartController());
 
@@ -25,12 +25,7 @@ class CartCounterWidget extends StatelessWidget {
         width: 30.0,
         child: InkWell(
           //! for going to cart page.
-          onTap: () {
-            Get.to(CartPage(
-              clientId: clientId,
-              clientName: clientName,
-            ));
-          },
+          onTap: onTap,
           child: Obx(
             () => Stack(
               clipBehavior: Clip.none,

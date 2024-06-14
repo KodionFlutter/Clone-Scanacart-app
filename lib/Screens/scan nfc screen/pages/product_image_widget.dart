@@ -8,7 +8,6 @@ import 'package:scan_cart_clone/Common/widgets/common_web_view.dart';
 import 'package:scan_cart_clone/Models/employee_data_model.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/Floating%20bottom%20bar/floating_button.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/signin%20screen/customer_login_page.dart';
-import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/reward_screen.dart';
 import 'package:scan_cart_clone/Screens/product%20screen/controller/product_controller.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -55,6 +54,7 @@ class ProductImageWidget extends StatelessWidget {
                         top: AppConstant.size.width * 0.04),
                     child: GestureDetector(
                         onTap: () {
+                          productController.videoUrl.value = "";
                           Get.back();
                         },
                         child: Icon(Icons.cancel_outlined,
@@ -158,17 +158,15 @@ class ProductImageWidget extends StatelessWidget {
                           var id = prefs.getInt("customer_id");
                           if (id != null) {
                             productController.showPopUp();
-
-                            // Get.off(RewardScreen(
-                            //   customerId: id,
-                            // ));
                             Get.off(FloatingButtonPage(
                               customerId: id,
                               state: true,
                             ));
+                            productController.videoUrl.value = "";
                             productController.videoPlayerController!.pause();
                           } else {
                             Get.off(CustomerLoginPage());
+                            productController.videoUrl.value = "";
                             productController.videoPlayerController!.pause();
                           }
                         },

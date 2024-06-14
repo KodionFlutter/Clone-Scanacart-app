@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class CommonWebView extends StatefulWidget {
-  String title;
-  String url;
+ final String title;
+ final String url;
 
-  CommonWebView({super.key, required this.title, required this.url});
+  const CommonWebView({super.key, required this.title, required this.url});
 
   @override
   State<CommonWebView> createState() => _CommonWebViewState();

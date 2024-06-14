@@ -10,6 +10,7 @@ class CommonTxtFieldWidget extends StatelessWidget {
   final String? preFixText;
   final int? maxLength;
   final String? Function(String?)? validator;
+  final Color? iconColor;
 
   CommonTxtFieldWidget({
     super.key,
@@ -20,6 +21,7 @@ class CommonTxtFieldWidget extends StatelessWidget {
     this.preFixText,
     required this.validator,
     this.maxLength,
+    this.iconColor,
   });
 
   @override
@@ -34,7 +36,7 @@ class CommonTxtFieldWidget extends StatelessWidget {
       validator: validator,
       maxLength: maxLength,
       decoration: InputDecoration(
-        counter: SizedBox(),
+        counter:const SizedBox(),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: Colors.white),
@@ -69,7 +71,7 @@ class CommonTxtFieldWidget extends StatelessWidget {
         ),
         prefixIcon: Icon(
           icons,
-          color: Colors.black,
+          color: iconColor,
         ),
       ),
     );

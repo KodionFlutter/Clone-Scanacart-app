@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 
 class CommonButtonWidget extends StatelessWidget {
   final VoidCallback onPressed;

@@ -6,12 +6,12 @@ class RewardModel {
 
   RewardModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
-    data = json['data'] != null ? new RewardData.fromJson(json['data']) : null;
+    data = json['data'] != null ?  RewardData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -30,7 +30,7 @@ class RewardData {
     if (json['rewards'] != null) {
       rewards = <Rewards>[];
       json['rewards'].forEach((v) {
-        rewards!.add(new Rewards.fromJson(v));
+        rewards!.add(Rewards.fromJson(v));
       });
     }
     customerName = json['customer_name'];
@@ -38,12 +38,12 @@ class RewardData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.rewards != null) {
-      data['rewards'] = this.rewards!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (rewards != null) {
+      data['rewards'] = rewards!.map((v) => v.toJson()).toList();
     }
-    data['customer_name'] = this.customerName;
-    data['customer_id'] = this.customerId;
+    data['customer_name'] = customerName;
+    data['customer_id'] = customerId;
     return data;
   }
 }
@@ -70,19 +70,19 @@ class Rewards {
     if (json['card_detail'] != null) {
       cardDetail = <CardDetail>[];
       json['card_detail'].forEach((v) {
-        cardDetail!.add(new CardDetail.fromJson(v));
+        cardDetail!.add( CardDetail.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['reward_points'] = this.rewardPoints;
-    data['client_id'] = this.clientId;
-    data['client_name'] = this.clientName;
-    data['client_logo'] = this.clientLogo;
-    if (this.cardDetail != null) {
-      data['card_detail'] = this.cardDetail!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['reward_points'] = rewardPoints;
+    data['client_id'] = clientId;
+    data['client_name'] = clientName;
+    data['client_logo'] = clientLogo;
+    if (cardDetail != null) {
+      data['card_detail'] = cardDetail!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -111,12 +111,12 @@ class CardDetail {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['card_text'] = this.cardText;
-    data['max_range'] = this.maxRange;
-    data['card_name'] = this.cardName;
-    data['card_image'] = this.cardImage;
-    data['min_range'] = this.minRange;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['card_text'] = cardText;
+    data['max_range'] = maxRange;
+    data['card_name'] = cardName;
+    data['card_image'] = cardImage;
+    data['min_range'] = minRange;
     return data;
   }
 }

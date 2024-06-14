@@ -8,6 +8,8 @@ class CommonAppbar extends StatelessWidget {
   Widget? bottomNavigationBar;
   final int clientId;
   final String clientName;
+  final VoidCallback onTap;
+  final bool isWant;
 
   CommonAppbar(
       {super.key,
@@ -15,7 +17,9 @@ class CommonAppbar extends StatelessWidget {
       required this.body,
       this.bottomNavigationBar,
       required this.clientId,
-      required this.clientName});
+      required this.clientName,
+      required this.onTap,
+      required this.isWant});
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +33,13 @@ class CommonAppbar extends StatelessWidget {
           title,
         )),
         actions: [
-          CartCounterWidget(
-            clientId: clientId,
-            clientName: clientName,
-          )
+          isWant
+              ? CartCounterWidget(
+                  clientId: clientId,
+                  clientName: clientName,
+                  onTap: onTap,
+                )
+              : SizedBox(),
         ],
       ),
       body: body,

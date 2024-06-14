@@ -23,7 +23,7 @@ class BaseService {
   //!
   //! BaseService Post Method
   static Future postRewardMethod(
-      String baseUrl, Map<String, dynamic> map ,String? token) async {
+      String baseUrl, Map<String, dynamic> map, String? token) async {
     var data = await http
         .post(
           Uri.parse(baseUrl),
@@ -68,6 +68,34 @@ class BaseService {
       'Content-Type': 'application/json',
     }).timeout(const Duration(seconds: 20));
     log("GetMethod Data :: ${data}");
+    return data;
+  }
+
+  //! Here we are can ...
+  static baseServiceGet(
+      String url, Map<String, dynamic> map, String? token) async {
+    var res = await http
+        .post(Uri.parse(url),
+            headers: <String, String>{
+              // 'Content-Type': 'application/json; charset=UTF-8',
+              'authorization': token.toString(),
+            },
+            body: map)
+        .timeout(Duration(seconds: 40));
+    print(":  ${res}");
+    return res;
+  }
+
+  //! Put Method
+
+  static putMethod(String url, Map<String, dynamic> map) async {
+    var data = await http
+        .put(Uri.parse(url),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(map))
+        .timeout(Duration(seconds: 30));
     return data;
   }
 }

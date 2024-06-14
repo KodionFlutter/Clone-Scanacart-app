@@ -1,7 +1,3 @@
-import 'dart:ui';
-
-import 'package:flutter/animation.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:scan_cart_clone/Utils/DataBase%20helper/data_base_helper.dart';
@@ -9,42 +5,49 @@ import 'package:scan_cart_clone/Utils/DataBase%20helper/data_base_helper.dart';
 class CartController extends GetxController {
 //! Declare the variable ..
 
-  var itemLength = 0.obs;
   var items = [].obs;
   var cartItems = [].obs;
-  var currentClientID;
   var currentQuantity = 0.obs;
+  RxBool isLoading = false.obs;
+  var colorList = ''.obs;
+  var sizeList = ''.obs;
+  RxString size = ''.obs;
+
+  var sameClient = 0.obs;
+  var colorsList = <PaletteColor>[].obs;
+  RxBool isImageLoading = false.obs;
 
   @override
   void onInit() {
-    refreshItems();
+    refreshCartItems();
     super.onInit();
   }
 
+// Here we make the update the palette
+
 //! Here fetch the cart Item ..
-  Future refreshItems() async {
+  Future refreshCartItems() async {
+    // items.clear();
     items.value = await DataBaseHelper.dataBaseHelper.fetchProduct();
-    print('CartItem : $items');
-    itemLength.value = items.length;
-    print("Item Length :: ${itemLength}");
-    currentClientID = items[0]['clientId'];
-    print('Client ID --: $currentClientID');
-    cartItems.assignAll(items);
-    // update();
+    if (items.length > 0) {
+      // isLoading.value = true;
+      print('CartItem : $items');
+      cartItems.assignAll(items);
+      isLoading.value = false;
+      totalQuantity;
+      sameClient.value = items[0]['client_id'];
+    } else {
+      isLoading.value = false;
+    }
   }
 
-  //! Get the current client
-  // getCurrentClient(){
-  //   var c =items[0]['id'];
-  //   print('c: $c');
-  // }
 
   // RxInt totalQuantity = 0.obs;
   num get totalQuantity {
     num total = 0;
     for (var item in cartItems) {
-      print("Total ==> ${item['productQuantity']}");
-      total += item['productQuantity'] ?? 0;
+      print("Total ==> ${item['quantity']}");
+      total += item['quantity'] ?? 0;
     }
 
     print("Total : ${total}");
@@ -54,45 +57,34 @@ class CartController extends GetxController {
   num get totalPoints {
     num total = 0;
     for (var item in cartItems) {
-      total += item['productQuantity'] * item['productPoints'];
+      total += item['quantity'] * item['points'];
     }
     return total;
   }
 
   // Method to increase quantity of an item
-  Future<void> increaseQuantity(
-      id, String? productColor, String? productSize) async {
+  Future<void> increaseQuantity(id, variants) async {
     print("increase the value");
-    await DataBaseHelper.dataBaseHelper
-        .updateProductQuantity(id, 1, productColor, productSize);
-    refreshItems();
+    await DataBaseHelper.dataBaseHelper.updateProductQuantity(id, 1, variants);
+    refreshCartItems();
   }
 
   // Method to decrease quantity of an item
-  Future<void> decreaseQuantity(
-      id, String? productColor, String? productSize) async {
+  Future<void> decreaseQuantity(id, variants) async {
     var cartDataList = await DataBaseHelper.dataBaseHelper.fetchProduct();
 
-    var currentItem = cartDataList.firstWhere((item) =>
-        (item['id'] == id) &&
-        item['productColor'] == productColor &&
-        item['productSize'] == productSize);
-    currentQuantity.value = currentItem['productQuantity'];
+    var currentItem = cartDataList.firstWhere(
+        (item) => (item['id'] == id) && item['variants'] == variants);
+
+    currentQuantity.value = currentItem['quantity'];
     print("yyyyyy => $currentQuantity");
     if (currentQuantity.value > 1) {
       await DataBaseHelper.dataBaseHelper
-          .updateProductQuantity(id, -1, productColor, productSize);
-      refreshItems();
+          .updateProductQuantity(id, -1, variants);
+      refreshCartItems();
     } else {
       print('Cannot decrease quantity further.');
     }
-    //  if(number> 1){
-    //    await DataBaseHelper.dataBaseHelper
-    //        .updateProductQuantity(id, -1, productColor, productSize);
-    //    refreshItems();
-    //  }else{
-    //    print('Cannot decrease quantity further.');
-    //  }
   }
 
   Future deleteProductData(id) async {
@@ -104,10 +96,4 @@ class CartController extends GetxController {
       print("Error deleting item: $e");
     }
   }
-
-  // getColor(ImageProvider imagePath) async {
-  //   var d = await PaletteGenerator.fromImageProvider(imagePath);
-  //   final palette = d.dominantColor?.color;
-  //   print("p ::$palette");
-  // }
 }
