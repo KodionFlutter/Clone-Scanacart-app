@@ -5,6 +5,25 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ]
+    ],
+    "headers": [{
+      "source": "/.well-known/apple-app-site-association",
+      "headers": [{
+        "key": "Content-Type",
+        "value": "application/json"
+      }]
+    }],
+    "rewrites": [
+      {
+        "source": "/share/**",
+        "dynamicLinks": true
+      }
+    ],
+    "redirects": [{
+      "source": "/apple-app-site-association",
+      "destination": "/.well-known/apple-app-site-association",
+      "type": 302
+    }],
+    "appAssociation": "NONE"
   }
 }

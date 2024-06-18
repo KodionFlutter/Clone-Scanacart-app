@@ -1,0 +1,10 @@
+{
+  "applinks": {"apps": [],"details": [{"appID": "D9LJ29G388.com.io.scan_cart_clone",
+        "paths": ["NOT /_/*","/*"]
+      }]},
+  "appclips": {
+    "apps": [
+      "D9LJ29G388.com.io.scan_cart_clone"
+    ]
+  }
+}

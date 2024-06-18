@@ -7,6 +7,7 @@ import 'package:scan_cart_clone/Models/label_validations_location_model.dart';
 import 'package:scan_cart_clone/Models/recent_email_model.dart';
 import 'package:scan_cart_clone/Models/serial_vali_model.dart';
 import 'package:scan_cart_clone/Models/serial_validation_model.dart';
+import 'package:scan_cart_clone/Utils/Base%20service/dio_client.dart';
 import 'package:scan_cart_clone/Utils/Base%20service/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -27,6 +28,7 @@ class DashboardController extends GetxController {
   String adminClientLogo = "";
   RxString logo = "".obs;
   RxString totalVerified = ''.obs;
+  var errorMessage = ''.obs;
 
   RxList emailList = <RecentEmailList>[].obs;
   RxList socialList = [].obs;
@@ -73,15 +75,29 @@ class DashboardController extends GetxController {
   //! Most RecentEmails..
   Future getMostRecentEmails() async {
     isLoading.value = true;
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString("admin_token");
-    int? clientID = prefs.getInt("client_id");
-    print("Client id: $clientID");
-    recentEmailModel = await APIServices.hitMostRecentEmail(clientID!, token!);
-    print("ooo =: ${recentEmailModel.success}");
-    emailList.addAll(recentEmailModel.recentEmailList!);
-    print("List is ${emailList.length}");
-    isLoading.value = false;
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString("admin_token");
+      int? clientID = prefs.getInt("client_id");
+      print("Client id: $clientID");
+      DioService dioService = DioService(
+        baseUrl: "${ApiServiceConfig.apiBaseUrl}",
+        clientId: "$clientID",
+        token: "$token",
+      );
+      // recentEmailModel = await APIServices.hitMostRecentEmail(clientID!, token!);
+      recentEmailModel = await dioService.hitMostRecentEmail();
+      print("ooo =: ${recentEmailModel.success}");
+      emailList.addAll(recentEmailModel.recentEmailList!);
+      print("List is ${emailList.length}");
+      isLoading.value = false;
+    } catch (e) {
+      isLoading.value = false;
+      errorMessage(e.toString());
+    } finally {
+      isLoading.value = false;
+      isLoading(false);
+    }
   }
 
   //! Getting the Label Validations here../!

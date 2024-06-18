@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/Pages/Orders%20Page/controller/clinet_order_controller.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/Pages/Orders%20Page/orders_product_list.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/widgets/custom_search_bar_widget.dart';
+import 'package:scan_cart_clone/Utils/Base%20service/dio_client.dart';
 
 class ClientOrdersPage extends StatelessWidget {
   ClientOrdersPage({super.key});
