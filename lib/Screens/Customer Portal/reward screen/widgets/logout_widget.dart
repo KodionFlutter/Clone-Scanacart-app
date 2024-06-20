@@ -16,30 +16,30 @@ class LogoutWidget extends StatelessWidget {
             showDialog(
               context: context,
               builder: (_) => AlertDialog(
-                title: Text('Logout Confirmation'),
-                content: Text('Are you sure you want to logout?'),
+                title: const Text('Logout Confirmation'),
+                content: const Text('Are you sure you want to logout?'),
                 actions: [
                   TextButton(
                     onPressed: () {
                       Get.back(); // No button pressed
                     },
-                    child: Text('No'),
+                    child: const Text('No'),
                   ),
                   TextButton(
                     onPressed: () async {
                       SharedPreferences preferences =
                           await SharedPreferences.getInstance();
-                      var data = preferences.remove("customer_id");
+                      preferences.remove("customer_id");
                       // Navigator.of(context).pop(true); // Yes button pressed
                       Get.offAll(ScanNFCScreen());
                     },
-                    child: Text('Yes'),
+                    child: const Text('Yes'),
                   ),
                 ],
               ),
             );
           },
-          child: Icon(Icons.power_settings_new_outlined)),
+          child: const Icon(Icons.power_settings_new_outlined)),
     );
   }
 }

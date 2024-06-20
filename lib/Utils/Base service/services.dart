@@ -16,7 +16,6 @@ import 'package:scan_cart_clone/Models/employee_data_model.dart';
 import 'package:scan_cart_clone/Models/order_details_model.dart';
 import 'package:scan_cart_clone/Models/order_model.dart';
 import 'package:scan_cart_clone/Models/recent_email_model.dart';
-import 'package:scan_cart_clone/Models/serial_validation_model.dart';
 import 'package:scan_cart_clone/Models/view_category_model.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/widget/nfc_enable_error_dailog_widget.dart';
 import 'package:scan_cart_clone/Utils/Base%20service/base_service.dart';
@@ -84,11 +83,11 @@ class APIServices {
 
 //! Product Coupon code
   static Future verifyCouponCode(
-      String token, int clientId, String procode_text) async {
+      String token, int clientId, String procodeText) async {
     try {
-      log("Token :: $token\n Client id :: $clientId\n promcode_text :: $procode_text");
+      log("Token :: $token\n Client id :: $clientId\n promcode_text :: $procodeText");
       String url =
-          '${ApiServiceConfig.apiBaseUrl}/dashboard/CodeValidation?client_id=${clientId}&code=${procode_text}';
+          '${ApiServiceConfig.apiBaseUrl}/dashboard/CodeValidation?client_id=$clientId&code=$procodeText';
       log("Verify Coupon code URL :: ${url.toString()}");
       var response = await BaseService.getMethod(url, token);
       log("Verify coupon code response :: ${response.body}");
@@ -120,7 +119,7 @@ class APIServices {
       print("Customer signup Response :: ${response.body.toString()}");
       if (response.statusCode == 200) {
         var decodedData = jsonDecode(response.body);
-        print("decoded Data :: ${decodedData}");
+        print("decoded Data :: $decodedData");
         return CustomerSignUpModel.fromJson(decodedData);
       }
     } on SocketException {
@@ -136,7 +135,7 @@ class APIServices {
     String url =
         "${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/verifyLoginCode&code=${otp.toString()}&customer_id=${customerID.toString()}";
 
-    log("Verification mail :: ${url}");
+    log("Verification mail :: $url");
     try {
       final response = await BaseService.getAPI(url);
       print("This is otp Response :: ${response.body.toString()}");
@@ -151,7 +150,7 @@ class APIServices {
         } else {
           showMessage("Invalid code", AppColors.whiteBackgroundColor);
         }
-        print("${decodeData}");
+        print("$decodeData");
       }
     } on SocketException {
       throw Exception("No Connection");
@@ -164,15 +163,15 @@ class APIServices {
 
   static Future customerLoginMethod(String email, String phone) async {
     String url =
-        '${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/loginCustomer&email=${email.toString()}&phone=${phone}';
-    print("Login url :: ${url}");
+        '${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/loginCustomer&email=${email.toString()}&phone=$phone';
+    print("Login url :: $url");
     try {
       final response = await BaseService.getAPI(url);
       print("Customer signin Response :: ${response.body.toString()}");
-      log("message :: ${response}");
+      log("message :: $response");
       if (response.statusCode == 200) {
         var decodedData = jsonDecode(response.body);
-        print("decoded Data :: ${decodedData}");
+        print("decoded Data :: $decodedData");
         return CustomerSignUpModel.fromJson(decodedData);
       }
     } on SocketException {
@@ -187,14 +186,14 @@ class APIServices {
   static Future customerReward(int customerId) async {
     String url =
         "${ApiServiceConfig.apiBaseUrl}?endpoint=%2Frewards%2FcustomerRewards&customer_id=$customerId";
-    print("Customer Reward Point :: ${url}");
+    print("Customer Reward Point :: $url");
 
     try {
       final response = await BaseService.getAPI(url);
       log("Reward response == ${response.body.toString()}");
       if (response.statusCode == 200) {
         var decodedData = json.decode(response.body);
-        log("Reward Decoded Data :: ${decodedData}");
+        log("Reward Decoded Data :: $decodedData");
         if (decodedData['success'] == true) {
           return decodedData;
         } else {
@@ -213,7 +212,7 @@ class APIServices {
   static Future hitProductCategory(clientId) async {
     String url =
         "${ApiServiceConfig.apiBaseUrl}?endpoint=/rewards/categories&client_id=$clientId";
-    print("Product Category :: ${url}");
+    print("Product Category :: $url");
     try {
       final response = await BaseService.getAPI(url);
       log("Category List :: ${response.body.toString()}");
@@ -235,7 +234,7 @@ class APIServices {
   //! Hit view Category ..
   static Future hitViewCategory(categoryId, clientId) async {
     String url =
-        "${ApiServiceConfig.apiBaseUrl}?endpoint=/rewards/categoryProducts&category_id=${categoryId}&client_id=${clientId}";
+        "${ApiServiceConfig.apiBaseUrl}?endpoint=/rewards/categoryProducts&category_id=$categoryId&client_id=$clientId";
     print("HitView Category url:: $url");
     try {
       final response = await BaseService.getAPI(url);
@@ -258,8 +257,8 @@ class APIServices {
   //! hit CategoryDetails
   static hitCategoryDetails(clientId, productId) async {
     String url =
-        "${ApiServiceConfig.apiBaseUrl}?endpoint=/rewards/clientProducts&client_id=${clientId}&product_id=${productId}";
-    print("This is Category details url :: ${url}");
+        "${ApiServiceConfig.apiBaseUrl}?endpoint=/rewards/clientProducts&client_id=$clientId&product_id=$productId";
+    print("This is Category details url :: $url");
     try {
       final response = await BaseService.getAPI(url);
       log("This is Category Details response :: ${response.body.toString()}");
@@ -285,7 +284,7 @@ class APIServices {
   static Future hitCreditRewards(
       int clientId, String? productRewards, int customerId, token) async {
     var url = '${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/rewardsCredit';
-    print(" This is Credit Rewards :: ${url}");
+    print(" This is Credit Rewards :: $url");
 
     final Map<String, dynamic> requestData = {
       'client_id': clientId,
@@ -317,7 +316,7 @@ class APIServices {
   static Future productPlaceOrder(Map<String, dynamic> map) async {
     var url =
         '${ApiServiceConfig.apiBaseUrl}?endpoint=/customer/customerShipping';
-    print("This is Shipping URL :: ${url}");
+    print("This is Shipping URL :: $url");
     try {
       var response = await BaseService.baseServiceGet(url, map, "");
       log('Response of Shipping  :: ${response.body}');
@@ -452,13 +451,13 @@ class APIServices {
     var url = '${ApiServiceConfig.apiBaseUrl}?endpoint=/rewards/addOrderNotes';
     print("Add notes in product details : $url");
     try {
-      var response = null;
+      var response;
       response = await BaseService.putMethod(url, map);
       print(response.statusCode);
       if (response.statusCode == 200) {
         var decodedData = jsonDecode(response.body);
         if (decodedData['success'] == true) {
-          log("Add note response : ${decodedData}");
+          log("Add note response : $decodedData");
           return CommonModel.fromJson(decodedData);
         } else {
           print("Exception is working");
@@ -516,7 +515,7 @@ class APIServices {
 
   static hitSocialMedialAPI(int clientId, token) async {
     var apiURL =
-        '${ApiServiceConfig.apiBaseUrl}?endpoint=%2Fdashboard%2FsocialMediaClick&client_id=${clientId}';
+        '${ApiServiceConfig.apiBaseUrl}?endpoint=%2Fdashboard%2FsocialMediaClick&client_id=$clientId';
     try {
       var response = await BaseService.getMethod(apiURL, token);
       log("Social Medial Response :: ${response.body.toString()}");

@@ -8,7 +8,7 @@ import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/widget/order_widg
 import 'package:scan_cart_clone/Utils/constant.dart';
 
 class OrderPage extends StatelessWidget {
-  OrderPage({Key? key}) : super(key: key);
+  OrderPage({super.key});
 
   final orderController = Get.put(OrderController());
 

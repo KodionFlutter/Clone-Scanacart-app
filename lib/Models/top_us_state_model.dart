@@ -15,11 +15,11 @@ class TopUSStateModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['cnt'] = this.cnt;
-    data['total'] = this.total;
-    data['state'] = this.stateName;
-    data['percent_cnt'] = this.percentCnt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['cnt'] = cnt;
+    data['total'] = total;
+    data['state'] = stateName;
+    data['percent_cnt'] = percentCnt;
     return data;
   }
 }

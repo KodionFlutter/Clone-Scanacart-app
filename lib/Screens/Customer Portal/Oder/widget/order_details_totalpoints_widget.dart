@@ -20,8 +20,8 @@ class OrderDetailsTotalPointsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(5),
-      padding: EdgeInsets.all(15),
+      margin: const EdgeInsets.all(5),
+      padding: const EdgeInsets.all(15),
       width: AppConstant.size.width * 1,
       // height: AppConstant.size.height*1,
       decoration: BoxDecoration(
@@ -33,13 +33,13 @@ class OrderDetailsTotalPointsWidget extends StatelessWidget {
         children: [
           //! Order Details
           Text("Total Points".toUpperCase(),
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
           const SizedBox(height: 10),
           //! Points amount
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
+              const Expanded(
                 child: Text(
                   "Points Amount",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
@@ -47,17 +47,17 @@ class OrderDetailsTotalPointsWidget extends StatelessWidget {
               ),
               Text(
                 "$pointsAmount",
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.bold, color: Colors.black54),
               ),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           //! Caching Conversion
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
+              const Expanded(
                 child: Text(
                   "Caching Conversion",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
@@ -65,17 +65,17 @@ class OrderDetailsTotalPointsWidget extends StatelessWidget {
               ),
               Text(
                 "$cachingCon",
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.bold, color: Colors.black54),
               ),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           //! Discount..
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
+              const Expanded(
                 child: Text(
                   "Discount",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
@@ -83,19 +83,19 @@ class OrderDetailsTotalPointsWidget extends StatelessWidget {
               ),
               Text(
                 "$discount",
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.bold, color: Colors.black54),
               ),
             ],
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           //! Divider ..
-          Divider(thickness: 1, color: Colors.black54),
-          SizedBox(height: 5),
+          const Divider(thickness: 1, color: Colors.black54),
+          const SizedBox(height: 5),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
+              const Expanded(
                 child: Text(
                   "Total Amout",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
@@ -103,14 +103,14 @@ class OrderDetailsTotalPointsWidget extends StatelessWidget {
               ),
               Text(
                 "$totalAmount",
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.bold, color: Colors.black54),
               ),
             ],
           ),
-          SizedBox(height: 5),
-          Divider(thickness: 1, color: Colors.black54),
-          SizedBox(height: 10),
+          const SizedBox(height: 5),
+          const Divider(thickness: 1, color: Colors.black54),
+          const SizedBox(height: 10),
           Container(child: button)
         ],
       ),

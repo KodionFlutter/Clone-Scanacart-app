@@ -45,17 +45,17 @@ class NotAvailableWidget extends StatelessWidget {
             backgroundColor: AppColors.blackBackgroundColor.withOpacity(0.3),
             radius: AppConstant.size.height * 0.055,
             child: Image(
-                image: AssetImage('assets/images/2error.png'),
+                image: const AssetImage('assets/images/2error.png'),
                 width: AppConstant.size.width * 0.8,
                 height: AppConstant.size.height * 0.15),
           ),
           SizedBox(height: AppConstant.size.height * 0.02),
 
           title == null
-              ? SizedBox()
+              ? const SizedBox()
               : Text(
                   "Serial #$title".toUpperCase(),
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                       fontFamily: 'Poppins'),

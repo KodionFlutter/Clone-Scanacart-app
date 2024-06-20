@@ -21,7 +21,7 @@ class ClientListPage extends StatelessWidget {
         child: Column(
           children: [
             //! Show the Email List ..
-            EmailListWidget(),
+            const EmailListWidget(),
 
             //! HtmlEditor..
             CustomContainerWidget(
@@ -37,7 +37,7 @@ class ClientListPage extends StatelessWidget {
                     htmlEditorController:
                         clientListController.htmlController.value,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
                       ElevatedButton(
@@ -48,16 +48,16 @@ class ClientListPage extends StatelessWidget {
                           color: AppColors.whiteBackgroundColor,
                         ),
                       ),
-                      SizedBox(width: 15),
+                      const SizedBox(width: 15),
                       ElevatedButton(
                         onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                        ),
                         child: CommonTextWidget(
                           title: 'Clean',
                           size: 14,
                           color: AppColors.blueColor,
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
                         ),
                       ),
                     ],

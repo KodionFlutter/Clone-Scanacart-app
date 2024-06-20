@@ -30,19 +30,19 @@ class ProductStatusWidget extends StatelessWidget {
                 color: AppColors.whiteBackgroundColor,
               ),
             ),
-            SizedBox(width: 5),
+            const SizedBox(width: 5),
             Container(
               height: 3,
               width: width,
               color: statusColor,
             ),
-            SizedBox(width: 5),
+            const SizedBox(width: 5),
           ],
         ),
         const SizedBox(height: 10),
         Text(
           statusName,
-          style: TextStyle(fontSize: 12),
+          style: const TextStyle(fontSize: 12),
         )
       ],
     );

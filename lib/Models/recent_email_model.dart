@@ -9,17 +9,17 @@ class RecentEmailModel {
     if (json['recentEmailList'] != null) {
       recentEmailList = <RecentEmailList>[];
       json['recentEmailList'].forEach((v) {
-        recentEmailList!.add(new RecentEmailList.fromJson(v));
+        recentEmailList!.add(RecentEmailList.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    if (this.recentEmailList != null) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    if (recentEmailList != null) {
       data['recentEmailList'] =
-          this.recentEmailList!.map((v) => v.toJson()).toList();
+          recentEmailList!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -39,10 +39,10 @@ class RecentEmailList {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['create_dt'] = this.createDt;
-    data['email_time_display'] = this.emailTimeDisplay;
-    data['email_addr'] = this.emailAddr;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['create_dt'] = createDt;
+    data['email_time_display'] = emailTimeDisplay;
+    data['email_addr'] = emailAddr;
     return data;
   }
 }

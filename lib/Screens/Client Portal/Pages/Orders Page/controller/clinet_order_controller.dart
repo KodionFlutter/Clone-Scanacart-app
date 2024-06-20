@@ -1,9 +1,5 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/state_manager.dart';
 import 'package:scan_cart_clone/Common/App%20Config/api_service_config.dart';
 import 'package:scan_cart_clone/Utils/Base%20service/dio_client.dart';
@@ -59,15 +55,15 @@ class ClientOrdersController extends GetxController {
     String? token = prefs.getString("admin_token");
     int? clientID = prefs.getInt("client_id");
     DioService dioService = DioService(
-      baseUrl: "${ApiServiceConfig.apiBaseUrl}",
+      baseUrl: ApiServiceConfig.apiBaseUrl,
       clientId: "$clientID",
       token: "$token",
     );
     try {
       final response = await dioService.hitClientOrder(true);
-      print("Res :: ${response}");
+      print("Res :: $response");
       trackingList.addAll(response['trackingList']);
-      print("Order trackingList -:: ${trackingList}");
+      print("Order trackingList -:: $trackingList");
     } catch (e) {
       errorMessage(e.toString());
     } finally {

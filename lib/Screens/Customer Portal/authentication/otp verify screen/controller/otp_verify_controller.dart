@@ -40,7 +40,7 @@ class OTPVrifyController extends GetxController {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       var data = await APIServices.verificationCode(otp, id.toString());
-      print("verify data :: ${data}");
+      print("verify data :: $data");
       if (data == true) {
         await prefs.setInt('customer_id', id);
         hideLoadingScreen(context);

@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/widgets/common_button.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
@@ -32,7 +31,7 @@ class CommonPageViewWidget extends StatelessWidget {
               imageUrl: categoryImage,
               fit: BoxFit.cover,
               placeholder: (context, url) {
-                return Center(child: CupertinoActivityIndicator(),);
+                return const Center(child: CupertinoActivityIndicator(),);
               },
               errorWidget: (context, url, error) {
                 return const Center(
@@ -56,7 +55,7 @@ class CommonPageViewWidget extends StatelessWidget {
             top: AppConstant.size.height * 0.03,
             left: AppConstant.size.width * 0.05,
             child: Text(
-              "${categoryName}",
+              categoryName,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -72,7 +71,7 @@ class CommonPageViewWidget extends StatelessWidget {
             child: SizedBox(
               width: AppConstant.size.width*0.9,
               child: Text(
-                "${categoryDescription}",
+                categoryDescription,
                 softWrap: true,
                 // maxLines: 5,
                 // overflow: TextOverflow.ellipsis,

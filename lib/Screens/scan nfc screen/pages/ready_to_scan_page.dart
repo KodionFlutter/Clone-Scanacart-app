@@ -9,7 +9,7 @@ class ReadyToScanPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Expanded(child: SizedBox()),
+        const Expanded(child: SizedBox()),
         ReadyToScanWidget(),
       ],
     );

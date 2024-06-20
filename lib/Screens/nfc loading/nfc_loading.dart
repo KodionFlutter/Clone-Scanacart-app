@@ -1,7 +1,10 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class NfcLoadingScreen extends StatelessWidget {
+  const NfcLoadingScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Dialog.fullscreen(

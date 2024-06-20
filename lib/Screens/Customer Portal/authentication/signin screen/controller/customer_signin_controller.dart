@@ -77,7 +77,7 @@ class CustomerAuthController extends GetxController {
         Get.back();
         print("No");
       }
-      log("Customer login data :: ${customerData}");
+      log("Customer login data :: $customerData");
     } catch (error) {
       "Error :: ${error.toString()}";
     }

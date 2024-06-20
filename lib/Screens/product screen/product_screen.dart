@@ -9,11 +9,9 @@ import 'package:scan_cart_clone/Common/widgets/common_web_view.dart';
 import 'package:scan_cart_clone/Models/employee_data_model.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/Floating%20bottom%20bar/floating_button.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/signin%20screen/customer_login_page.dart';
-import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/reward_screen.dart';
 import 'package:scan_cart_clone/Screens/product%20screen/controller/product_controller.dart';
 import 'package:scan_cart_clone/Screens/product%20screen/widget/app_bar_widget.dart';
 import 'package:scan_cart_clone/Screens/product%20screen/widget/display_videos_widget.dart';
-import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/widgets/reward_collect_widget.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,12 +20,12 @@ class ProductScreen extends StatelessWidget {
   final String serialNumber;
   final String? couponCode;
 
-  ProductScreen({
-    Key? key,
+  const ProductScreen({
+    super.key,
     required this.responseData,
     required this.serialNumber,
     this.couponCode,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

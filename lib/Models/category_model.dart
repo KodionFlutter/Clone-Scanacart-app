@@ -17,10 +17,8 @@ class CategoryModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['success'] = success;
-    if (data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
-    }
-    return data;
+    data['data'] = this.data!.map((v) => v.toJson()).toList();
+      return data;
   }
 }
 

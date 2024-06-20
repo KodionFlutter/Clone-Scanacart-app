@@ -45,7 +45,7 @@ class DashboardController extends GetxController {
     String? token = prefs.getString("admin_token");
     int? clientID = prefs.getInt("client_id");
     var data = await APIServices.hitLabelValidationLocation(clientID!, token);
-    print("This is data :: ${data}");
+    print("This is data :: $data");
     labelValidationData.clear();
     for (int i = 0; i < data.length; i++) {
       var color = int.parse(data[i]['color']);
@@ -81,7 +81,7 @@ class DashboardController extends GetxController {
       int? clientID = prefs.getInt("client_id");
       print("Client id: $clientID");
       DioService dioService = DioService(
-        baseUrl: "${ApiServiceConfig.apiBaseUrl}",
+        baseUrl: ApiServiceConfig.apiBaseUrl,
         clientId: "$clientID",
         token: "$token",
       );
@@ -109,7 +109,7 @@ class DashboardController extends GetxController {
     int? clientID = prefs.getInt("client_id");
     labelValidationList.clear();
     var data = await APIServices.hitSerialValidations(clientID!, token, days);
-    print("laa :: ${data}");
+    print("laa :: $data");
     if (data['success'] == true) {
       if (days == "days") {
         for (final items in data['data'].entries) {
@@ -120,7 +120,7 @@ class DashboardController extends GetxController {
           ));
         }
         isLabelLoading.value = false;
-        print("list is days ::${labelValidationList}");
+        print("list is days ::$labelValidationList");
       } else {
         for (int i = 0; i < data['data'].length; i++) {
           labelValidationList.add(SerialValiModel(
@@ -129,7 +129,7 @@ class DashboardController extends GetxController {
           ));
         }
         isLabelLoading.value = false;
-        print("list is month ::${labelValidationList}");
+        print("list is month ::$labelValidationList");
       }
     }
   }
@@ -163,7 +163,7 @@ class DashboardController extends GetxController {
     int? clientID = prefs.getInt("client_id");
     var data = await APIServices.hitSerialValidationVerified(clientID!, token);
     for (int i = 0; i < data['serialValVerifiedData'].length; i++) {
-      cartData.value.add(SerialValidationModel(
+      cartData.add(SerialValidationModel(
         label: data['serialValVerifiedData'][i]['label'],
         values: data['serialValVerifiedData'][i]['value'].toDouble(),
       ));

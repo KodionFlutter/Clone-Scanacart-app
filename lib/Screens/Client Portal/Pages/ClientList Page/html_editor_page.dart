@@ -35,7 +35,7 @@ class HtmlEditorPage extends StatelessWidget {
           autoAdjustHeight: true,
           hint: "Your text here..",
           androidUseHybridComposition: true),
-      otherOptions: OtherOptions(height: 370),
+      otherOptions: const OtherOptions(height: 370),
       callbacks: Callbacks(onBeforeCommand: (String? currentHtml) {
         print('html before change is $currentHtml');
       }, onChangeContent: (String? changed) {

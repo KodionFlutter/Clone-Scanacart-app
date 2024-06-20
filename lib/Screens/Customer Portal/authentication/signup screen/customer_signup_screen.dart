@@ -150,7 +150,7 @@ class CustomerSignUpScreen extends StatelessWidget {
                         child: CommonButtonWidget(
                           isEnabled: true,
                           onPressed: () async {
-                            log("${signUpController.customerPhoneController.value.text}");
+                            log(signUpController.customerPhoneController.value.text);
 
                             if (signUpController
                                 .customerNameController.value.text.isEmpty) {
@@ -171,8 +171,7 @@ class CustomerSignUpScreen extends StatelessWidget {
                               showMessage(
                                   FormValidator.txtValidMail, Colors.white);
                             } else if ((signUpController.customerPhoneController
-                                        .value.text.length >
-                                    0 &&
+                                        .value.text.isNotEmpty &&
                                 signUpController.customerPhoneController.value
                                         .text.length <
                                     10)) {

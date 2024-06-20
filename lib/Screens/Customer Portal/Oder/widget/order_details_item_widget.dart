@@ -14,14 +14,14 @@ class OrderDetailsItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  ListTile(
-      leading: Image(
+      leading: const Image(
         height: 45,
         image: AssetImage('assets/images/point.png'),
       ),
-      title: Text("$title"),
+      title: Text(title),
       subtitle: Text("Quantity: $quantity ,"),
       trailing:
-      Text("$points", style: TextStyle(fontWeight: FontWeight.bold)),
+      Text("$points", style: const TextStyle(fontWeight: FontWeight.bold)),
     );
   }
 }

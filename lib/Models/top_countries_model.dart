@@ -10,9 +10,9 @@ class TopCountriesModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['cnt'] = this.cnt;
-    data['country_name'] = this.countryName;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['cnt'] = cnt;
+    data['country_name'] = countryName;
     return data;
   }
 }

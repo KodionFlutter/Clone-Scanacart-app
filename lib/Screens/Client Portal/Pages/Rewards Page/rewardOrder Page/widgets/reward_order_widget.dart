@@ -21,7 +21,7 @@ class RewardOrderWidget extends StatelessWidget {
               height: 106,
               decoration: BoxDecoration(
                   color: AppColors.greenColor,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(10),
                       bottomLeft: Radius.circular(10))),
             ),
@@ -48,7 +48,7 @@ class RewardOrderWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

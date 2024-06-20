@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 class DioExceptions implements Exception {
-  DioExceptions.fromDioError(DioError dioError) {
+  DioExceptions.fromDioError(DioException dioError) {
     switch (dioError.type) {
       case DioExceptionType.cancel:
         message = 'Request to API server was cancelled';

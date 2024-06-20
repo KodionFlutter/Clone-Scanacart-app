@@ -73,7 +73,7 @@ class CustomerSignupController extends GetxController {
         Get.back();
         print("No");
       }
-      log("Customer SignUP d :: ${customerData}");
+      log("Customer SignUP d :: $customerData");
     } catch (error) {
       "Exception :: ${error.toString()}";
     }

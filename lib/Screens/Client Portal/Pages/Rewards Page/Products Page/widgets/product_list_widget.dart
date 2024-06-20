@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/Pages/Rewards%20Page/Products%20Page/widgets/edit_reward_product.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/widgets/common_text_widget.dart';
@@ -56,14 +54,14 @@ class RewardProductListWidget extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         CommonTextWidget(
           title: "ProductId : 203",
           size: 15,
           color: AppColors.blackBackgroundColor,
           fontWeight: FontWeight.w400,
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         CommonTextWidget(
           title: "Product Quantity : 11",
           size: 15,
@@ -78,7 +76,7 @@ class RewardProductListWidget extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.transparentColor,
                   elevation: 0,
-                  side: BorderSide(color: Colors.black, width: 1)),
+                  side: const BorderSide(color: Colors.black, width: 1)),
               onPressed: () {
                 showDialog(
                     context: context,
@@ -86,7 +84,7 @@ class RewardProductListWidget extends StatelessWidget {
                       return EditRewardProduct();
                     });
               },
-              child: Row(
+              child: const Row(
                 children: [
                   Icon(
                     Icons.edit,

@@ -66,7 +66,7 @@ class FlitterDialogBoxWidget extends StatelessWidget {
                   controller.selectedEndDate.value = time.end.toString();
                 },
                 decoration: InputDecoration(
-                  suffixIcon: Icon(Icons.date_range),
+                  suffixIcon: const Icon(Icons.date_range),
                   hintText:
                       "${controller.selectedStartDate.value} - ${controller.selectedEndDate.value}",
                   hintStyle: TextStyle(color: AppColors.blackColor),

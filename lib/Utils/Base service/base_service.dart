@@ -16,7 +16,7 @@ class BaseService {
           body: jsonEncode(map),
         )
         .timeout(const Duration(seconds: 20));
-    log("Data is :: ${data}");
+    log("Data is :: $data");
     return data;
   }
 
@@ -48,7 +48,7 @@ class BaseService {
           'Content-Type': 'application/json; charset=UTF-8',
           'authorization': token.toString()
         }).timeout(const Duration(seconds: 20));
-    log("GetReplacedMethod :: ${data}");
+    log("GetReplacedMethod :: $data");
     return data;
   }
 
@@ -59,7 +59,7 @@ class BaseService {
       'Content-Type': 'application/json',
       "authorization": token.toString(),
     }).timeout(const Duration(seconds: 20));
-    log("GetMethod Data :: ${data}");
+    log("GetMethod Data :: $data");
     return data;
   }
 
@@ -67,7 +67,7 @@ class BaseService {
     var data = await http.get(Uri.parse(baseUrl), headers: {
       'Content-Type': 'application/json',
     }).timeout(const Duration(seconds: 20));
-    log("GetMethod Data :: ${data}");
+    log("GetMethod Data :: $data");
     return data;
   }
 
@@ -81,8 +81,8 @@ class BaseService {
               'authorization': token.toString(),
             },
             body: map)
-        .timeout(Duration(seconds: 40));
-    print(":  ${res}");
+        .timeout(const Duration(seconds: 40));
+    print(":  $res");
     return res;
   }
 
@@ -95,7 +95,7 @@ class BaseService {
               'Content-Type': 'application/json; charset=UTF-8',
             },
             body: jsonEncode(map))
-        .timeout(Duration(seconds: 30));
+        .timeout(const Duration(seconds: 30));
     return data;
   }
 }

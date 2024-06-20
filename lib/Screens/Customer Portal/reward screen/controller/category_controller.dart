@@ -16,7 +16,7 @@ class CategoryController extends GetxController {
   Future getProductCategory() async {
     categoryModel = await APIServices.hitProductCategory(clientId);
     categoryList.addAll(categoryModel.data!);
-    print("This is category List :: ${categoryList}");
+    print("This is category List :: $categoryList");
     print("Image path :: ${categoryList[0].categoryImage!}");
     update();
   }

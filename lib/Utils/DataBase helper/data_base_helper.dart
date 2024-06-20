@@ -1,10 +1,10 @@
 import 'dart:async';
+import 'dart:developer' as developer;
 import 'dart:io';
 
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'dart:developer' as developer;
 
 class DataBaseHelper {
   static const id = "id";
@@ -79,7 +79,7 @@ class DataBaseHelper {
         await database.query(_tableName);
     print("This is into Db length is : ${productCartRecords.length}");
     // Check if record isNotEmpty .
-    if (productCartRecords.length > 0 && productCartRecords.isNotEmpty) {
+    if (productCartRecords.isNotEmpty && productCartRecords.isNotEmpty) {
       print("No empty");
       //! Here if same client is...
       List<Map<String, dynamic>> cartRecords = await database.query(

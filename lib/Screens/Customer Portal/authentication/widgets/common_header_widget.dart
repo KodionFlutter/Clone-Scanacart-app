@@ -23,10 +23,10 @@ class CommonHeaderWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Padding(
+              const Padding(
                 padding: EdgeInsets.only(top: 0),
               ),
-              Expanded(
+              const Expanded(
                 child: Column(
                   children: [
                     Padding(
@@ -70,9 +70,9 @@ class CommonHeaderWidget extends StatelessWidget {
 
         //! Text here
         Text(
-          "$title",
+          title,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 30,
             fontFamily: 'Montserrat',
@@ -84,7 +84,7 @@ class CommonHeaderWidget extends StatelessWidget {
           child: Text(
             "$subtitle",
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 16,
               fontFamily: 'Montserrat',

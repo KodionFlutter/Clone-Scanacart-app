@@ -11,12 +11,13 @@ import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/widget/order_deta
 import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/widget/order_details_item_widget.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/widget/order_details_totalpoints_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../../Utils/constant.dart';
 
 class OrderDetails extends StatelessWidget {
   final int oderId;
 
-  OrderDetails({Key? key, required this.oderId}) : super(key: key);
+  OrderDetails({super.key, required this.oderId});
 
   OrderDetailsController? orderDetailsController;
 
@@ -37,7 +38,7 @@ class OrderDetails extends StatelessWidget {
               child: OrderDetailsLoadingWidget(),
             );
           } else if (orderDetailsController!.orderDetailsDataList.isEmpty ||
-              orderDetailsController!.orderDetailsDataList.length == 0) {
+              orderDetailsController!.orderDetailsDataList.isEmpty) {
             return Column(
               children: [
                 SizedBox(height: AppConstant.size.height * 0.1),

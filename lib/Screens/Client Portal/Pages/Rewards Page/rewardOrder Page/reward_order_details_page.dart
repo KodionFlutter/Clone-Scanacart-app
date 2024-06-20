@@ -67,7 +67,7 @@ class RewardOrderDetailsPage extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: 2,
                     itemBuilder: (ctx, i) {
-                      return OrderDetailsItemWidget(
+                      return const OrderDetailsItemWidget(
                         title: "ee",
                         quantity: 2,
                         points: 10,

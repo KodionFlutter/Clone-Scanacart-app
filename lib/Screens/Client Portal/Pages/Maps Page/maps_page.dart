@@ -37,7 +37,7 @@ class MapsPage extends StatelessWidget {
                     height: 300,
                     child: Obx(
                       () => mapController.isCountries.value
-                          ? Center(child: CircularProgressIndicator())
+                          ? const Center(child: CircularProgressIndicator())
                           : ListView.builder(
                               padding: EdgeInsets.zero,
                               itemCount: mapController.topCountriesList.length,
@@ -74,7 +74,7 @@ class MapsPage extends StatelessWidget {
                     height: 300,
                     child: Obx(
                       () => mapController.isState.value
-                          ? Center(child: CircularProgressIndicator())
+                          ? const Center(child: CircularProgressIndicator())
                           : ListView.builder(
                               padding: EdgeInsets.zero,
                               itemCount: mapController.topStateList.length,
@@ -112,7 +112,7 @@ class MapsPage extends StatelessWidget {
                     height: 300,
                     child: Obx(
                       () => mapController.isCities.value
-                          ? Center(child: CircularProgressIndicator())
+                          ? const Center(child: CircularProgressIndicator())
                           : ListView.builder(
                               padding: EdgeInsets.zero,
                               itemCount: mapController.topCitiesList.length,

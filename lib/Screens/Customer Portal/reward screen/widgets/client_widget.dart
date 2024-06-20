@@ -45,7 +45,7 @@ class ClientWidget extends StatelessWidget {
                 imageUrl: imageUrl,
                 fit: BoxFit.contain,
                 placeholder: (context, url) {
-                  return Center(
+                  return const Center(
                     child: CupertinoActivityIndicator(),
                   );
                 },
@@ -65,7 +65,7 @@ class ClientWidget extends StatelessWidget {
             ),
           ),
           title: Text(
-            "$clientName",
+            clientName,
             style: TextStyle(
               fontSize: AppConstant.size.width * 0.035,
               fontWeight: FontWeight.bold,

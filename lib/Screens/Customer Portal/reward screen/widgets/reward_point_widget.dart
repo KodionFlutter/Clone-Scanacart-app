@@ -31,7 +31,7 @@ class RewardPointWidget extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(AppConstant.size.width * 0.03),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                   color: Colors.black12, blurRadius: 2, offset: Offset(2, 2))
             ]),
@@ -86,7 +86,7 @@ class RewardPointWidget extends StatelessWidget {
                 top: 0,
                 bottom: 0,
               ),
-              child: LinearProgressIndicator(
+              child: const LinearProgressIndicator(
                 value: 0.1,
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
                 color: Colors.grey,
@@ -129,7 +129,7 @@ class RewardPointWidget extends StatelessWidget {
               ),
               child: Center(
                   child: Text(
-                "${clientName}".toUpperCase(),
+                clientName.toUpperCase(),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(

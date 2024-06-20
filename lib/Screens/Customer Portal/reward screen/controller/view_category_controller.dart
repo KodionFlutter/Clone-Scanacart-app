@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:scan_cart_clone/Models/view_category_model.dart';
 import 'package:scan_cart_clone/Utils/Base%20service/services.dart';
 
@@ -36,7 +35,7 @@ class ViewCategoryController extends GetxController {
       //   viewCategoryList.clear();
       // } else {
       // }
-      print("View category List == ${viewCategoryList}");
+      print("View category List == $viewCategoryList");
     } catch (e) {
       isLoad.value = false;
       "Exception :: ${e.toString()}";

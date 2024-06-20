@@ -7,12 +7,12 @@ class OrderDetailsDialogBoxWidget extends StatelessWidget {
   final Widget widget;
 
   const OrderDetailsDialogBoxWidget({
-    Key? key,
+    super.key,
     required this.title,
     required this.subTitle,
     required this.textEditingController,
     required this.widget,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class OrderDetailsDialogBoxWidget extends StatelessWidget {
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 3,
               blurRadius: 7,
-              offset: Offset(0, 3), // changes position of shadow
+              offset: const Offset(0, 3), // changes position of shadow
             ),
           ],
         ),
@@ -40,21 +40,21 @@ class OrderDetailsDialogBoxWidget extends StatelessWidget {
           children: [
             Text(
               title.toUpperCase(),
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
               subTitle,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextFormField(
               controller: textEditingController,
               maxLines: 5,
@@ -65,7 +65,7 @@ class OrderDetailsDialogBoxWidget extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Center(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),

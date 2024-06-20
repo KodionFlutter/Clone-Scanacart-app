@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:get/state_manager.dart';
 import 'package:scan_cart_clone/Models/employee_data_model.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
@@ -62,7 +61,7 @@ class ProductController extends GetxController {
       clientUrl.value = responseData.clientURL!;
       videoUrl.value = responseData.videoUrl!;
       rewardsValue.value = responseData.rewards!;
-      print("Rewards Data :: ${rewardsValue}");
+      print("Rewards Data :: $rewardsValue");
       log("Video url path : ${videoUrl.value}");
 
       //! Playing The Video;
@@ -104,18 +103,18 @@ class ProductController extends GetxController {
     // refresh();
   }
 
-  ClipRect getBOXFitted(VideoPlayerController _controller) {
+  ClipRect getBOXFitted(VideoPlayerController controller) {
     final size = MediaQuery.of(navigatorKey.currentState!.context).size;
     return ClipRect(
         child: SizedBox.expand(
       child: FittedBox(
           fit: BoxFit.fill,
           alignment: Alignment.center,
-          child: Container(
+          child: SizedBox(
               //color: Colors.lightBlue,
               width: size.width,
               height: size.height,
-              child: VideoPlayer(_controller))),
+              child: VideoPlayer(controller))),
     ));
   }
 }

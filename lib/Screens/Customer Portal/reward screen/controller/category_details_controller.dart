@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Models/category_details_model.dart';
 import 'package:scan_cart_clone/Models/save_data_model.dart';
@@ -72,7 +71,7 @@ class CategoryDetailsController extends GetxController {
         deatilsImageList.value = categoryDetailsData['data']['images'];
         print("Ima :: ${deatilsImageList.length}");
         stockQuantity.value = categoryDetailsData['data']['stock_quantity'];
-        print("The total Stock Qunatity is :: ${stockQuantity}");
+        print("The total Stock Qunatity is :: $stockQuantity");
         productImage.value = categoryDetailsData['data']['product_image'];
         //! make two variable -> variantsKey , variantsValue,
         variants = categoryDetailsData['data']['variants'];
@@ -97,7 +96,6 @@ class CategoryDetailsController extends GetxController {
         // });
         // print("variantsValue : $variantsValue");
       }
-      ;
 
       color.value = categoryDetailsData['data']['variants']['color'];
       colorList.value = color.value.split(',');
@@ -105,13 +103,13 @@ class CategoryDetailsController extends GetxController {
       // colorList.value = du.map((e) => '"$e"').toList();
       // sizeList.value = duu.map((e) => '"$e"').toList();
 
-      print("Color :: ${colorList}");
+      print("Color :: $colorList");
       colorDropdownvalue.value = colorList[0];
       // print("ColorLength :: ${colorList.toString().length}");
       size.value = categoryDetailsData['data']['variants']['size'];
       sizeList.value = size.value.split(',');
       sizeDropdownValue.value = sizeList[0];
-      print("Size :: ${sizeList}");
+      print("Size :: $sizeList");
 
       // print("L = ${data.toString()}");
       // print("List :: => ${}");
@@ -132,15 +130,15 @@ class CategoryDetailsController extends GetxController {
     //   getVarId();
     // }
     print("Response of SQFLite : ${items.length}");
-    if (items.length == 0 || items.isEmpty) {
+    if (items.isEmpty || items.isEmpty) {
       var sameClient = await DataBaseHelper.dataBaseHelper.insert(data);
-      print("This is reposne for SQFLITE  :: ${sameClient}");
+      print("This is reposne for SQFLITE  :: $sameClient");
       ScaffoldMessenger.of(navigatorKey.currentState!.context).showSnackBar(
         SnackBar(
           content:
-              Text(textAlign: TextAlign.center, "Product added to the card"),
+              const Text(textAlign: TextAlign.center, "Product added to the card"),
           backgroundColor: AppColors.txtScanProductColor,
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10), topRight: Radius.circular(10)),
           ),
@@ -151,7 +149,7 @@ class CategoryDetailsController extends GetxController {
       currentClientID = items[0]['client_id'];
       if (currentClientID == clientId) {
         var sameClient = await DataBaseHelper.dataBaseHelper.insert(data);
-        print("This is response for sqfLite  :: ${sameClient}");
+        print("This is response for sqfLite  :: $sameClient");
         ScaffoldMessenger.of(navigatorKey.currentState!.context).showSnackBar(
           SnackBar(
             content: const Text(
@@ -189,12 +187,12 @@ class CategoryDetailsController extends GetxController {
       if (variantsData[i]['color'] == selectedVariants['color']) {
         if (variantsData[i]['size'] == selectedVariants['size']) {
           varId = variantsData[i]['variant_id'];
-          print("object%65675===>${varId}");
+          print("object%65675===>$varId");
           break;
         } else if (variantsData[i]['size'] == null ||
             variantsData[i]['size'] == "") {
           varId = variantsData[i]['variant_id'];
-          print("object%65675===>${varId}");
+          print("object%65675===>$varId");
           break;
         }
       } else if (variantsData[i]['color'] == null ||

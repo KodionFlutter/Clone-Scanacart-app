@@ -39,7 +39,7 @@ class CommonAppbar extends StatelessWidget {
                   clientName: clientName,
                   onTap: onTap,
                 )
-              : SizedBox(),
+              : const SizedBox(),
         ],
       ),
       body: body,

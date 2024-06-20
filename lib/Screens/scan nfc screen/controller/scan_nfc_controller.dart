@@ -150,7 +150,7 @@ class ScanNFCController extends GetxController
                 for (int i = 0; i < ndefRecords.length; i++) {
                   final nPalyload = ndefRecords[i].payload;
                   String decodedData = utf8.decode(nPalyload.toList());
-                  log("DecodedData :: ${decodedData}");
+                  log("DecodedData :: $decodedData");
                   if (decodedData.isNotEmpty) {
                     if (decodedData.contains("scanacart.com/nfc") || decodedData.contains("trapapp.io/nfc")) {
                       log("Yes this contain");
@@ -159,8 +159,8 @@ class ScanNFCController extends GetxController
                     } else {
                       log("This is Not contain to :: ");
                       buffer.writeln(
-                          "Record " + (i + 1).toString() + ". " + decodedData);
-                      log("Buffer Write :: ${buffer}");
+                          "Record ${i + 1}. $decodedData");
+                      log("Buffer Write :: $buffer");
                     }
                   } else {
                     log("$decodedData Is Empty");
@@ -189,7 +189,7 @@ class ScanNFCController extends GetxController
               showDialog(
                   context: navigatorKey.currentState!.context,
                   builder: (_) {
-                    return AlertDialogBoxWidget(
+                    return const AlertDialogBoxWidget(
                       title: 'Alert',
                       message: 'You are offline',
                     );
@@ -220,7 +220,7 @@ class ScanNFCController extends GetxController
       await prefs.setString("Token", loginModel.token!);
 
       adminTokenService.value = loginModel.token!;
-      log("Admin token :: ${adminTokenService}");
+      log("Admin token :: $adminTokenService");
       clientId.value = loginModel.clientId!;
 
       log("Client id :: ${loginModel.clientId}");
@@ -236,7 +236,7 @@ class ScanNFCController extends GetxController
       barrierDismissible: false,
       context: navigatorKey.currentState!.context,
       builder: (BuildContext context) {
-        return NfcLoadingScreen();
+        return const NfcLoadingScreen();
       },
     );
   }
@@ -266,10 +266,10 @@ class ScanNFCController extends GetxController
             .map((e) => e.toRadixString(16).padLeft(2, '0'))
             .join(':');
       }
-      print("Serial number " + identifier1);
+      print("Serial number $identifier1");
     } catch (e) {}
 
-    return "" + identifier1;
+    return identifier1;
   }
 
   //! Making a function for validate the NFC tag
@@ -283,8 +283,8 @@ class ScanNFCController extends GetxController
       );
     }
     final queryParameter = {
-      'serial_no': '${serialNumber}',
-      'product_page': 'https://www.${productPage}',
+      'serial_no': serialNumber,
+      'product_page': 'https://www.$productPage',
     };
     log("Token :: ${adminTokenService.value.toString()}");
     if (isShowingAnimationScreen.value) {
@@ -317,7 +317,7 @@ class ScanNFCController extends GetxController
       if (Platform.isAndroid) {
         showDialog(
             context: navigatorKey.currentState!.context,
-            builder: (_) => ReadyToScanPage());
+            builder: (_) => const ReadyToScanPage());
       }
     }
 
@@ -334,7 +334,7 @@ class ScanNFCController extends GetxController
           }
         }
 
-        final ndefTag = await Ndef.from(nfcTag);
+        final ndefTag = Ndef.from(nfcTag);
         String nfcURL = "";
         log("Ndef message :: ${ndefTag!.cachedMessage}");
         if (ndefTag.cachedMessage != null) {
@@ -345,7 +345,7 @@ class ScanNFCController extends GetxController
             for (int i = 0; i < ndefRecords.length; i++) {
               final nPalyload = ndefRecords[i].payload;
               String decodedData = utf8.decode(nPalyload.toList());
-              log("DecodedData :: ${decodedData}");
+              log("DecodedData :: $decodedData");
               if (decodedData.isNotEmpty) {
                 if (decodedData.contains("scanacart.com/nfc") || decodedData.contains("trapapp.io/nfc")) {
                   log("Yes this contain");
@@ -354,8 +354,8 @@ class ScanNFCController extends GetxController
                 } else {
                   log("Not contain");
                   buffer.writeln(
-                      "Record " + (i + 1).toString() + ". " + decodedData);
-                  log("Buffer Write :: ${buffer}");
+                      "Record ${i + 1}. $decodedData");
+                  log("Buffer Write :: $buffer");
                 }
               } else {
                 log("$decodedData Is Empty");
@@ -383,7 +383,7 @@ class ScanNFCController extends GetxController
           showDialog(
               context: navigatorKey.currentState!.context,
               builder: (_) {
-                return AlertDialogBoxWidget(
+                return const AlertDialogBoxWidget(
                   title: 'Alert',
                   message: 'You are offline here',
                 );

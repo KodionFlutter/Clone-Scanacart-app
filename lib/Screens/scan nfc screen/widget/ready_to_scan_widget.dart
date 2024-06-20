@@ -5,7 +5,7 @@ import 'package:scan_cart_clone/Common/widgets/common_button.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 
 class ReadyToScanWidget extends StatelessWidget {
-  ReadyToScanWidget({
+  const ReadyToScanWidget({
     super.key,
   });
 
@@ -25,7 +25,7 @@ class ReadyToScanWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                  padding: EdgeInsets.only(top: 20, left: 15, right: 15),
+                  padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
                   child: Text(
                     'Ready to scan',
                     textAlign: TextAlign.center,

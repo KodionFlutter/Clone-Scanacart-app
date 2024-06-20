@@ -30,8 +30,8 @@ class OrderDetailsAddressWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(5),
-      padding: EdgeInsets.all(15),
+      margin: const EdgeInsets.all(5),
+      padding: const EdgeInsets.all(15),
       width: AppConstant.size.width * 1,
       // height: AppConstant.size.height*1,
       decoration: BoxDecoration(
@@ -48,11 +48,11 @@ class OrderDetailsAddressWidget extends StatelessWidget {
               Expanded(
                 child: Text(
                   "Order No: $orderId",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ),
               Text(
-                "$status".toUpperCase(),
+                status.toUpperCase(),
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: status == "Pending"
@@ -61,22 +61,22 @@ class OrderDetailsAddressWidget extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           //! date of booking order .
-          Text("$date"),
-          SizedBox(height: 8),
-          Text("Address",
+          Text(date),
+          const SizedBox(height: 8),
+          const Text("Address",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          SizedBox(height: 8),
-          Text("$name"),
-          Text("$address"),
+          const SizedBox(height: 8),
+          Text(name),
+          Text(address),
           Text("$city, $zipCode"),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(child: Text("$email")),
+              Expanded(child: Text(email)),
               InkWell(
                 onTap: onTap,
                 child: Text("View Notes",
@@ -84,17 +84,17 @@ class OrderDetailsAddressWidget extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         color: Colors.blue..shade400)),
               ),
-              SizedBox(width: 5),
+              const SizedBox(width: 5),
               isFielded == true
                   ? Container(
                 height: 8,
                 width: 8,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.green,
                   shape: BoxShape.circle,
                 ),
               )
-                  : SizedBox(),
+                  : const SizedBox(),
             ],
           ),
           const SizedBox(height: 10),

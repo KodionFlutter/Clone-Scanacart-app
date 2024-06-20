@@ -97,7 +97,7 @@ class Data {
 class Variants {
   Variants();
 
-  Variants.fromJson(Map<String, dynamic> json) {}
+  Variants.fromJson(Map<String, dynamic> json);
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};

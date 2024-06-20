@@ -36,7 +36,7 @@ class RewardCollectWidget extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       backgroundColor: Colors.blue,
                       radius: 40.0,
                       child: Icon(
@@ -45,7 +45,7 @@ class RewardCollectWidget extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(height: 30.0),
+                    const SizedBox(height: 30.0),
                     Text(
                       'Congratulations !',
                       style: TextStyle(
@@ -53,13 +53,13 @@ class RewardCollectWidget extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
                     Text(
                       'You have unlocked ${rewardPoints.toString()} rewards!',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 14.0),
+                      style: const TextStyle(fontSize: 14.0),
                     ),
-                    SizedBox(height: 40.0),
+                    const SizedBox(height: 40.0),
                     CommonButtonWidget(
                       isEnabled: true,
                       onPressed: onPressed,
@@ -89,11 +89,11 @@ class RewardCollectWidget extends StatelessWidget {
                   child: Container(
                     width: AppConstant.size.width * 0.15,
                     height: AppConstant.size.height * 0.05,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.blue,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(
+                    child: const Icon(
                       Icons.close,
                       color: Colors.white,
                     ),

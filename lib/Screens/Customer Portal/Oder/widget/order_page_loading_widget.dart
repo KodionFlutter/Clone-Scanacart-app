@@ -10,7 +10,7 @@ class OrderPageLoadingPageWidget extends StatelessWidget {
     return ListView.builder(
         itemCount: 20,
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           return ShimmerWidget(
             child: Container(

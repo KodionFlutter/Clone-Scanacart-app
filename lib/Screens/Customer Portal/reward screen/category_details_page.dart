@@ -20,7 +20,7 @@ class CategoryDetailsPage extends StatelessWidget {
   final String clientName;
   final bool isBool;
 
-  CategoryDetailsPage({
+  const CategoryDetailsPage({
     super.key,
     required this.productId,
     required this.clientId,
@@ -244,9 +244,9 @@ class CategoryDetailsPage extends StatelessWidget {
                             List<String> list = variantEntry.value.split(",");
                             // Default value for the DropdownButton
                             var defaultValue;
-                            list.forEach((element) {
+                            for (var element in list) {
                               defaultValue = element;
-                            });
+                            }
                             categoryDeController.selectedVariants.putIfAbsent(
                                 variantEntry.key, () => defaultValue);
 
@@ -489,7 +489,7 @@ class CategoryDetailsPage extends StatelessWidget {
                     ),
                   )),
             )
-          : SizedBox(),
+          : const SizedBox(),
       isWant: isBool,
     );
   }

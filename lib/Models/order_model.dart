@@ -17,12 +17,12 @@ class OrderModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['order_count'] = this.orderCount;
+    data['order_count'] = orderCount;
     return data;
   }
 }
@@ -62,16 +62,16 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['COMPANY_NAME'] = this.cOMPANYNAME;
-    data['TOTAL_POINTS'] = this.tOTALPOINTS;
-    data['ORDER_ID'] = this.oRDERID;
-    data['ORDER_DATE'] = this.oRDERDATE;
-    data['client_id'] = this.clientId;
-    data['ADDRESS'] = this.aDDRESS;
-    data['order_status'] = this.orderStatus;
-    data['SHIPPING_ID'] = this.sHIPPINGID;
-    data['PHONE_NUMBER'] = this.pHONENUMBER;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['COMPANY_NAME'] = cOMPANYNAME;
+    data['TOTAL_POINTS'] = tOTALPOINTS;
+    data['ORDER_ID'] = oRDERID;
+    data['ORDER_DATE'] = oRDERDATE;
+    data['client_id'] = clientId;
+    data['ADDRESS'] = aDDRESS;
+    data['order_status'] = orderStatus;
+    data['SHIPPING_ID'] = sHIPPINGID;
+    data['PHONE_NUMBER'] = pHONENUMBER;
     return data;
   }
 }

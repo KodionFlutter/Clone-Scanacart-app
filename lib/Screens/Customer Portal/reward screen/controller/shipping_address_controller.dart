@@ -53,11 +53,11 @@ class ShippingAddressController extends GetxController {
     //! Getting the Local DataBase
     SharedPreferences preferences = await SharedPreferences.getInstance();
     int? customerId = preferences.getInt('customer_id');
-    print("CustomerID :: ${customerId}");
+    print("CustomerID :: $customerId");
     //! Getting the Data From The DataBase ..
     cartItemsJson = await DataBaseHelper.dataBaseHelper.fetchProduct();
     storeData = await DataBaseHelper.dataBaseHelper.fetchProduct();
-    print('CartItem :=>> ${cartItemsJson}');
+    print('CartItem :=>> $cartItemsJson');
     // sendOrderData = jsonEncode(cartItemsJson);
 
     // You need to get the variants and decode to this ...
@@ -67,19 +67,19 @@ class ShippingAddressController extends GetxController {
     for (var items in cartItemsJson) {
       variants = items['variants'];
     }
-    print("The variants all  :${variants}");
+    print("The variants all  :$variants");
     //! Here i convert the data into sending form...
 
     if (variants != null) {
       String extractedData = variants.split('{')[1].split('}')[0];
       List<String> keyValuePairs = extractedData.split(', ');
 
-      keyValuePairs.forEach((pair) {
+      for (var pair in keyValuePairs) {
         List<String> parts = pair.split('=');
         String key = parts[0].trim();
         String value = parts[1].replaceAll('"', '').trim();
         variantsMap[key] = value;
-      });
+      }
     } else {
       // Handle the case where variants is null, for example:
       print('Variants is null');
@@ -112,7 +112,7 @@ class ShippingAddressController extends GetxController {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       int? customerId = preferences.getInt('customer_id');
       int? backFlag = preferences.getInt("BackFlag");
-      print("CustomerID :: ${customerId}");
+      print("CustomerID :: $customerId");
       print("This is map : $mapData");
       await APIServices.hitPlaceOrder(mapData);
       // showMessage("${data['message']}", AppColors.whiteBackgroundColor);
@@ -173,8 +173,8 @@ class ShippingAddressController extends GetxController {
   Future getAddressList() async {
     isLoading.value = true;
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    var token = await preferences.getString("Token");
-    var customerId = await preferences.getInt("customer_id");
+    var token = preferences.getString("Token");
+    var customerId = preferences.getInt("customer_id");
     addressModel = await APIServices.hitAddressList(customerId, token);
     // addressList.clear();
     print("This is responseData of Address : ${addressModel.data!.length}");

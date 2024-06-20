@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/order_page.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/reward_screen.dart';
 import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/scan_nfc_screen.dart';

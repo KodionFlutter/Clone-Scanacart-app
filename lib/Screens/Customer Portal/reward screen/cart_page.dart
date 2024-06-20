@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
@@ -12,8 +11,7 @@ class CartPage extends StatelessWidget {
   final int clientId;
   final String clientName;
 
-  CartPage({Key? key, required this.clientId, required this.clientName})
-      : super(key: key);
+  CartPage({super.key, required this.clientId, required this.clientName});
 
   final CartController cartController = Get.put(CartController());
 
@@ -32,7 +30,7 @@ class CartPage extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         } else {
-          return cartController.items.length == 0
+          return cartController.items.isEmpty
               ? Column(
                   children: [
                     SizedBox(height: AppConstant.size.height * 0.1),
@@ -94,12 +92,12 @@ class CartPage extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(right: 20),
+                      padding: const EdgeInsets.only(right: 20),
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: Text(
                           "Total Points : ${cartController.totalPoints}",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           ),
@@ -118,7 +116,7 @@ class CartPage extends StatelessWidget {
               int? backFlag = preferences.getInt("BackFlag");
               // Check if cart is empty and navigate accordingly
               if (cartController.items.isEmpty &&
-                  cartController.items.length == 0) {
+                  cartController.items.isEmpty) {
                 if (backFlag == 1) {
                   Get.back();
                 } else if (backFlag == 2) {

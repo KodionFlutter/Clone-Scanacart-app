@@ -37,7 +37,7 @@ class RewardCardWidget extends StatelessWidget {
           child: Stack(
             children: [
               Center(
-                child: Text("${customerName.toString()}".toUpperCase(),
+                child: Text(customerName.toString().toUpperCase(),
                     style: TextStyle(
                       color: AppColors.txtWhiteColor,
                       fontSize: AppConstant.size.width * 0.06,
@@ -47,7 +47,7 @@ class RewardCardWidget extends StatelessWidget {
               Positioned(
                   top: AppConstant.size.height * 0.03,
                   left: AppConstant.size.width * 0.03,
-                  child: Text("${cartType.toString().toUpperCase()}",
+                  child: Text(cartType.toString().toUpperCase(),
                       style: TextStyle(
                         color: AppColors.txtWhiteColor,
                         fontSize: AppConstant.size.width * 0.045,

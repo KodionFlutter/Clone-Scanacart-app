@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 
@@ -13,7 +12,7 @@ class CommonTxtFieldWidget extends StatelessWidget {
   final Color? iconColor;
   final bool obscureText;
 
-  CommonTxtFieldWidget({
+  const CommonTxtFieldWidget({
     super.key,
     required this.textEditController,
     required this.textInputType,
@@ -29,7 +28,7 @@ class CommonTxtFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      style: TextStyle(
+      style: const TextStyle(
         color: Colors.black,
       ),
       controller: textEditController,
@@ -42,10 +41,10 @@ class CommonTxtFieldWidget extends StatelessWidget {
         counter: const SizedBox(),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: Colors.white),
+          borderSide: const BorderSide(color: Colors.white),
         ),
         hintText: hinText,
-        hintStyle: TextStyle(
+        hintStyle: const TextStyle(
             fontFamily: "Montserrat",
             fontWeight: FontWeight.w400,
             fontSize: 16),
@@ -56,7 +55,7 @@ class CommonTxtFieldWidget extends StatelessWidget {
             fontSize: 12),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(width: 0),
+          borderSide: const BorderSide(width: 0),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),

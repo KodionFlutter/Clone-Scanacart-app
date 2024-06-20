@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Screens/Customer%20Portal/Floating%20bottom%20bar/floating_btn_bar_controller.dart';
-import 'package:scan_cart_clone/Screens/scan%20nfc%20screen/scan_nfc_screen.dart';
 
 class CustomeFloatingButtonWidget extends StatefulWidget {
   final int customerId;
@@ -125,9 +124,9 @@ class FlowMenuDelegate extends FlowDelegate {
       if (kDebugMode) {
         print("Last item $isLastItem");
       }
-      final setValue = (value) {
+      setValue(value) {
         return isLastItem ? 0.0 : value;
-      };
+      }
       double theta = 0;
 
       if (n == 1) {

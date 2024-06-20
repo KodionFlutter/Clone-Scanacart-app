@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 
 class AppbarWidget extends StatelessWidget {
   final String imagePath;
 
-  AppbarWidget({Key? key, required this.imagePath});
+  const AppbarWidget({super.key, required this.imagePath});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class AppbarWidget extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).pop();
                   },
-                  child: CircleAvatar(
+                  child: const CircleAvatar(
                     maxRadius: 50,
                     backgroundColor: Colors.white,
                     child: Icon(

@@ -5,6 +5,7 @@ import 'package:scan_cart_clone/Screens/Customer%20Portal/authentication/widgets
 import 'package:scan_cart_clone/Screens/Customer%20Portal/reward%20screen/controller/shipping_address_controller.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'widgets/cart_counter_widget.dart';
 
 class ShippingAddressPage extends StatelessWidget {
@@ -57,7 +58,7 @@ class ShippingAddressPage extends StatelessWidget {
                 shippingController.message.value = '';
                 Get.back();
               },
-              child: Icon(
+              child: const Icon(
                 Icons.arrow_back,
               ),
             ),
@@ -87,7 +88,7 @@ class ShippingAddressPage extends StatelessWidget {
                         children: [
                           //! Address List ..
                           Obx(
-                            () => shippingController.addressList.length == 0
+                            () => shippingController.addressList.isEmpty
                                 ? const SizedBox()
                                 : DropdownButtonFormField(
                                     decoration: InputDecoration(

@@ -8,26 +8,35 @@ class BuysButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      margin: const EdgeInsets.only(right: 5),
       width: 125,
+      decoration: const BoxDecoration(boxShadow: [
+        BoxShadow(
+          color: Colors.black12,
+          offset: Offset(-1, -1),
+          blurRadius: 3,
+        ),
+        BoxShadow(
+          color: Colors.black12,
+          offset: Offset(1, 1),
+          blurRadius: 3,
+        )
+      ]),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.all(10),
-            backgroundColor: Colors.yellow,
-            elevation: 0,
-            // backgroundColor: Colors.yellow.withOpacity(0.8),
-            side: BorderSide(
-              color: Colors.black,
-              width: 1,
-            )),
+          padding: const EdgeInsets.all(10),
+          backgroundColor: Colors.yellow,
+          elevation: 0,
+        ),
         onPressed: onPressed,
         child: Row(
           children: [
-            Icon(
+            const Icon(
               Icons.sync,
               color: Colors.black,
             ),
-            SizedBox(width: 5),
+            const SizedBox(width: 5),
             // Text("Buy It Again" , style: TextStyle(),),
             CommonTextWidget(
                 title: "Buy It Again", size: 14, color: Colors.black)

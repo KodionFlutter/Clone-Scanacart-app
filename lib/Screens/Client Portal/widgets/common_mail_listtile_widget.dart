@@ -21,16 +21,16 @@ class CommonMailListTileWidget extends StatelessWidget {
       leading: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           CircleAvatar(
             radius: 9,
             backgroundColor: colors,
             child: Padding(
-              padding: EdgeInsets.all(3),
+              padding: const EdgeInsets.all(3),
               child: CircleAvatar(
                 backgroundColor: AppColors.txtWhiteColor,
                 child: Padding(
-                  padding: EdgeInsets.all(3),
+                  padding: const EdgeInsets.all(3),
                   child: CircleAvatar(
                     backgroundColor: colors,
                   ),
@@ -41,7 +41,7 @@ class CommonMailListTileWidget extends StatelessWidget {
         ],
       ),
       title: Text(txtTitle.toString(),
-        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
       ),
       subtitle: txtSubTitle,
       trailing: trailing,

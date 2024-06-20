@@ -38,17 +38,17 @@ class LoadingWidget extends StatelessWidget {
                       width: AppConstant.size.width * 0.1,
                       radius: 50,
                     ),
-                    title: CustomContainer(
+                    title: const CustomContainer(
                       height: 10,
                       radius: 20,
                       width: 150,
                     ),
-                    subtitle: CustomContainer(
+                    subtitle: const CustomContainer(
                       height: 10,
                       radius: 20,
                       width: 150,
                     ),
-                    trailing:CustomContainer(
+                    trailing:const CustomContainer(
                       height: 40,
                       radius: 10,
                       width: 90,
@@ -59,8 +59,8 @@ class LoadingWidget extends StatelessWidget {
                     radius: 20,
                     width: AppConstant.size.width,
                   ),
-                  SizedBox(height: 10),
-                  Row(
+                  const SizedBox(height: 10),
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomContainer(
@@ -75,8 +75,8 @@ class LoadingWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
-                  CustomContainer(
+                  const SizedBox(height: 10),
+                  const CustomContainer(
                     height: 40,
                     radius: 10,
                     width: 120,
@@ -97,17 +97,17 @@ class LoadingWidget extends StatelessWidget {
                  width: AppConstant.size.width * 0.1,
                  radius: 50,
                ),
-               title: CustomContainer(
+               title: const CustomContainer(
                  height: 10,
                  radius: 20,
                  width: 150,
                ),
-               subtitle: CustomContainer(
+               subtitle: const CustomContainer(
                  height: 10,
                  radius: 20,
                  width: 150,
                ),
-               trailing:CustomContainer(
+               trailing:const CustomContainer(
                  height: 40,
                  radius: 10,
                  width: 90,

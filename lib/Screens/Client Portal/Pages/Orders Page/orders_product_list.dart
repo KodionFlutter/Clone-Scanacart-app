@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
-import 'package:scan_cart_clone/Common/widgets/common_button.dart';
-import 'package:scan_cart_clone/Screens/Client%20Portal/Pages/Orders%20Page/widgets/buy_again_dialogbox_widget.dart';
-import 'package:scan_cart_clone/Screens/Client%20Portal/Pages/Orders%20Page/widgets/buy_button_widget.dart';
-import 'package:scan_cart_clone/Screens/Client%20Portal/Pages/Orders%20Page/widgets/product_status_widget.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/widgets/common_text_widget.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/widgets/custom_container.dart';
-import 'package:scan_cart_clone/Screens/Customer%20Portal/Oder/widget/order_details_dialogbox_widget.dart';
-import 'package:scan_cart_clone/Utils/constant.dart';
 
 class OrdersProductList extends StatelessWidget {
   final TextEditingController addCommentController;
@@ -83,7 +77,7 @@ class OrdersProductList extends StatelessWidget {
             ElevatedButton(
               onPressed: onPressed,
               child: CommonTextWidget(
-                title: '$status',
+                title: status,
                 size: 14,
                 color: AppColors.whiteBackgroundColor,
               ),
@@ -91,7 +85,7 @@ class OrdersProductList extends StatelessWidget {
           ],
         ),
         CommonTextWidget(
-          title: "$trackingNum",
+          title: trackingNum,
           size: 14,
           color: AppColors.blueColor.withOpacity(0.8),
           fontWeight: FontWeight.bold,
@@ -114,7 +108,7 @@ class OrdersProductList extends StatelessWidget {
           dense: true,
           tilePadding: EdgeInsets.zero,
           title: CommonTextWidget(
-              title: '$updateDt', size: 14, color: Colors.grey),
+              title: updateDt, size: 14, color: Colors.grey),
           children: [
             //! Status..
             Padding(

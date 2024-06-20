@@ -166,9 +166,7 @@ class CustomerLoginPage extends StatelessWidget {
                               } else if ((customerLoginController
                                           .customerPhoneNumberController
                                           .value
-                                          .text
-                                          .length >
-                                      0 &&
+                                          .text.isNotEmpty &&
                                   customerLoginController
                                           .customerPhoneNumberController
                                           .value

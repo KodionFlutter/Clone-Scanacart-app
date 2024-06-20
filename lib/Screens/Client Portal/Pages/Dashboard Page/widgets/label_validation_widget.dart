@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Models/serial_vali_model.dart';
-import 'package:scan_cart_clone/Models/serial_validation_model.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/Pages/Dashboard%20Page/controller/dashboard_controller.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/widgets/common_text_widget.dart';
 import 'package:scan_cart_clone/Screens/Client%20Portal/widgets/custom_container.dart';

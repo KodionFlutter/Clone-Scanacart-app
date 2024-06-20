@@ -1,10 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:scan_cart_clone/Common/App%20Color/app_colors.dart';
 import 'package:scan_cart_clone/Common/widgets/common_button.dart';
-import 'package:scan_cart_clone/Screens/Customer%20Portal/Floating%20bottom%20bar/floating_button.dart';
-import 'package:scan_cart_clone/Utils/constant.dart';
 
 class OrderSuccessWidget extends StatelessWidget {
   final int customerId;
@@ -23,7 +19,7 @@ class OrderSuccessWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             //! Here i show the Image of booking ..
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             CircleAvatar(
               maxRadius: 40,
               backgroundColor: Colors.black12,
@@ -32,7 +28,7 @@ class OrderSuccessWidget extends StatelessWidget {
                 height: 60,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
               'Your order has been placed!',
               style: TextStyle(
@@ -40,12 +36,12 @@ class OrderSuccessWidget extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: AppColors.blackColor),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               'Thank you for shopping with us.',
               style: TextStyle(fontSize: 15, color: AppColors.blackColor),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             //! Here we make a button ..
             CommonButtonWidget(
@@ -57,7 +53,7 @@ class OrderSuccessWidget extends StatelessWidget {
               isEnabled: true,
               colors: Colors.lightBlueAccent,
             ),
-            SizedBox(height: 25),
+            const SizedBox(height: 25),
           ],
         ),
       ),

@@ -33,7 +33,7 @@ class LabelValidationLocationWidget extends StatelessWidget {
               height: 250,
               child: Obx(
                 () => labelValidationController.isLabelLocationLoading.value
-                    ? Center(child: CircularProgressIndicator())
+                    ? const Center(child: CircularProgressIndicator())
                     : SfMaps(
                         layers: <MapShapeLayer>[
                           MapShapeLayer(

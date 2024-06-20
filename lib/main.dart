@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:scan_cart_clone/Screens/splash%20screen/splash_screen.dart';
 import 'package:scan_cart_clone/Utils/constant.dart';
+
 import 'firebase_options.dart';
 
 void main() async {
