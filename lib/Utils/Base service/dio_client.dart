@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:scan_cart_clone/Common/App%20Config/api_service_config.dart';
 import 'package:scan_cart_clone/Models/recent_email_model.dart';
 
@@ -26,13 +27,13 @@ class DioService {
   Future hitMostRecentEmail() async {
     var apiURL =
         "${ApiServiceConfig.apiBaseUrl}?endpoint=%2Fdashboard%2FmostRecent&client_id=$clientId";
-    print("Most Recent Emails: $apiURL");
+    debugPrint("Most Recent Emails: $apiURL");
     try {
       final response = await _dio().get(
         '$baseUrl?endpoint=%2Fdashboard%2FmostRecent&client_id=$clientId',
       );
-      print("Most Recent Email Response :: ${response.data}");
-      print("Response code :: ${response.statusCode}");
+      debugPrint("Most Recent Email Response :: ${response.data}");
+      // print("Response code :: ${response.statusCode}");
       if (response.statusCode == 200) {
         // var decodedData = json.decode(response.data.toString());
         if (response.data['success'] == true) {
@@ -43,11 +44,11 @@ class DioService {
       }
     } on DioException catch (e) {
       if (e.response != null) {
-        print('Error: ${e.response?.data}');
+        debugPrint('Error: ${e.response?.data}');
         throw Exception(
             'Failed to load Most Recent Email: ${e.response?.data}');
       } else {
-        print('Error: ${e.message}');
+        debugPrint('Error: ${e.message}');
         throw Exception('Failed to load Most Recent Email: ${e.message}');
       }
     }
@@ -58,17 +59,17 @@ class DioService {
     try {
       final response = await _dio()
           .get('$baseUrl?endpoint=%2Fmaps%2FtopUSStates&client_id=$clientId');
-      print("Response of To Us State :: ${response.data}");
+      debugPrint("Response of To Us State :: ${response.data}");
       if (response.statusCode == 200) {
         var decodedData = json.decode(response.data);
         return decodedData;
       }
     } on DioException catch (e) {
       if (e.response != null) {
-        print('Error: ${e.response?.data}');
+        debugPrint('Error: ${e.response?.data}');
         throw Exception('Failed to load US States: ${e.response?.statusCode}');
       } else {
-        print('Error: ${e.message}');
+        debugPrint('Error: ${e.message}');
         throw Exception('Failed to load US States: ${e.message}');
       }
     }
@@ -79,30 +80,29 @@ class DioService {
   Future hitClientOrder(bool show) async {
     var apiURL =
         "${ApiServiceConfig.apiBaseUrl}//order?client_id=${clientId.toString()}&showAll=$show";
-    print("This is ClientOrder URL : $apiURL");
+    debugPrint("This is ClientOrder URL : $apiURL");
     try {
       final response = await _dio()
           .get('//order?client_id=${clientId.toString()}&showAll=$show');
-      print("Response of Client Order :: ${response.data}");
-
-      print("code : ${response.statusCode}");
+      debugPrint("Response of Client Order :: ${response.data}");
+      // print("code : ${response.statusCode}");
       if (response.statusCode == 200) {
         // print("Working");
         // var decodedData = json.decode(response.data);
         // print("Decoed === > $decodedData");
         return response.data;
       } else {
-        print("Filed to Load Data ");
+        debugPrint("Filed to Load Data ");
       }
 
       return response.data;
     } on DioException catch (e) {
       if (e.response != null) {
-        print('Error: ${e.response?.data}');
+        debugPrint('Error: ${e.response?.data}');
         throw Exception(
             'Failed to load Client Order: ${e.response?.statusCode}');
       } else {
-        print('Error: ${e.message}');
+        debugPrint('Error: ${e.message}');
         throw Exception('Failed to load Client Order : ${e.message}');
       }
     }

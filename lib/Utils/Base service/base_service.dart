@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class BaseService {
@@ -16,7 +16,7 @@ class BaseService {
           body: jsonEncode(map),
         )
         .timeout(const Duration(seconds: 20));
-    log("Data is :: $data");
+    debugPrint("Post Data  :: $data");
     return data;
   }
 
@@ -34,7 +34,7 @@ class BaseService {
           body: jsonEncode(map),
         )
         .timeout(const Duration(seconds: 20));
-    log("Data is :: ${data.toString()}");
+    debugPrint("Post Data  :: $data");
     return data;
   }
 
@@ -48,7 +48,8 @@ class BaseService {
           'Content-Type': 'application/json; charset=UTF-8',
           'authorization': token.toString()
         }).timeout(const Duration(seconds: 20));
-    log("GetReplacedMethod :: $data");
+    debugPrint("GetReplacedMethod Data  :: $data");
+
     return data;
   }
 
@@ -59,7 +60,7 @@ class BaseService {
       'Content-Type': 'application/json',
       "authorization": token.toString(),
     }).timeout(const Duration(seconds: 20));
-    log("GetMethod Data :: $data");
+    debugPrint("GetMethod Data :: $data");
     return data;
   }
 
@@ -67,7 +68,7 @@ class BaseService {
     var data = await http.get(Uri.parse(baseUrl), headers: {
       'Content-Type': 'application/json',
     }).timeout(const Duration(seconds: 20));
-    log("GetMethod Data :: $data");
+    debugPrint("GetMethod Data :: $data");
     return data;
   }
 
@@ -82,7 +83,7 @@ class BaseService {
             },
             body: map)
         .timeout(const Duration(seconds: 40));
-    print(":  $res");
+    debugPrint("GetData :$res");
     return res;
   }
 

@@ -77,7 +77,8 @@ class APIServices {
         throw Exception(response['message']);
       }
     } catch (exception) {
-      log("Exception :: ${exception.toString()}\n Exception code :: ${exception.hashCode}");
+      debugPrint(
+          "Exception :: ${exception.toString()}\n Exception code :: ${exception.hashCode}");
     }
   }
 
