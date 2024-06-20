@@ -1,22 +1,29 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/state_manager.dart';
 import 'package:scan_cart_clone/Common/App%20Config/api_service_config.dart';
 import 'package:scan_cart_clone/Utils/Base%20service/dio_client.dart';
-import 'package:scan_cart_clone/Utils/Base%20service/exception_dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ClientOrdersController extends GetxController {
   Rx<TextEditingController> searchController = TextEditingController().obs;
   Rx<TextEditingController> addCommentController = TextEditingController().obs;
+  Rx<ExpansionTileController> expansionTileControllerLanguage =
+      ExpansionTileController().obs;
 
-  var trackingList = [].obs;
+  RxList trackingList = [].obs;
+  RxList searchResults = [].obs;
+
   var isLoading = false.obs;
   var errorMessage = ''.obs;
+  int selected = -1.obs;
 
   @override
   void onInit() {
-    // fetchTopCities();
     fetchClientOrder();
     super.onInit();
   }
@@ -58,12 +65,22 @@ class ClientOrdersController extends GetxController {
     );
     try {
       final response = await dioService.hitClientOrder(true);
-      trackingList.assignAll(response.data['trackingList']);
+      print("Res :: ${response}");
+      trackingList.addAll(response['trackingList']);
       print("Order trackingList -:: ${trackingList}");
     } catch (e) {
       errorMessage(e.toString());
     } finally {
       isLoading(false);
     }
+  }
+
+  //! search
+
+  void onQueryChanged(String query) {
+    searchResults.value = trackingList
+        .where((item) => item.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+    print("Search List :: $searchResults");
   }
 }

@@ -43,6 +43,7 @@ class OtpVerifyScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(10.0),
                 child: CommonTxtFieldWidget(
                   textEditController: otpController.otpVerifyController.value,
+                  obscureText: false,
                   textInputType: TextInputType.number,
                   icons: Icons.lock,
                   hinText: "Verification Code",

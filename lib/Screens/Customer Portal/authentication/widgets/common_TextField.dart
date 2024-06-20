@@ -11,6 +11,7 @@ class CommonTxtFieldWidget extends StatelessWidget {
   final int? maxLength;
   final String? Function(String?)? validator;
   final Color? iconColor;
+  final bool obscureText;
 
   CommonTxtFieldWidget({
     super.key,
@@ -22,6 +23,7 @@ class CommonTxtFieldWidget extends StatelessWidget {
     required this.validator,
     this.maxLength,
     this.iconColor,
+    required this.obscureText,
   });
 
   @override
@@ -34,9 +36,10 @@ class CommonTxtFieldWidget extends StatelessWidget {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: textInputType,
       validator: validator,
+      obscureText: obscureText,
       maxLength: maxLength,
       decoration: InputDecoration(
-        counter:const SizedBox(),
+        counter: const SizedBox(),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: Colors.white),

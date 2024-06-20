@@ -32,6 +32,7 @@ class ClientLoginPage extends StatelessWidget {
                 subtitle: 'Welcome back to Scanacart!',
                 voidCallback: () {
                   Get.back();
+                  clientLoginController.isLoading.value = false;
                   clientLoginController.emailController.value.clear();
                   clientLoginController.passwordController.value.clear();
                 },
@@ -45,6 +46,7 @@ class ClientLoginPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: CommonTxtFieldWidget(
+                          obscureText: false,
                           textEditController:
                               clientLoginController.emailController.value,
                           icons: Icons.email,
@@ -68,6 +70,7 @@ class ClientLoginPage extends StatelessWidget {
                         child: CommonTxtFieldWidget(
                           textEditController:
                               clientLoginController.passwordController.value,
+                          obscureText: true,
                           icons: Icons.lock_outline,
                           textInputType: TextInputType.visiblePassword,
                           hinText: "Password",

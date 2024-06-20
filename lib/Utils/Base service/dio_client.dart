@@ -84,9 +84,18 @@ class DioService {
       final response = await _dio()
           .get('//order?client_id=${clientId.toString()}&showAll=$show');
       print("Response of Client Order :: ${response.data}");
-      var decodedData = json.decode(response.data);
-      print("Decoed === > $decodedData");
-      return decodedData;
+
+      print("code : ${response.statusCode}");
+      if (response.statusCode == 200) {
+        // print("Working");
+        // var decodedData = json.decode(response.data);
+        // print("Decoed === > $decodedData");
+        return response.data;
+      } else {
+        print("Filed to Load Data ");
+      }
+
+      return response.data;
     } on DioException catch (e) {
       if (e.response != null) {
         print('Error: ${e.response?.data}');

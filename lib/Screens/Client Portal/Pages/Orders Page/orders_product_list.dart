@@ -11,8 +11,32 @@ import 'package:scan_cart_clone/Utils/constant.dart';
 
 class OrdersProductList extends StatelessWidget {
   final TextEditingController addCommentController;
+  final String trackingID;
+  final String trackingNum;
+  final String updateDt;
+  final String status;
+  final String eta;
+  final VoidCallback onPressed;
+  final Widget buysButton;
+  final Function(bool)? onExpansionChanged;
+  final List<Widget> statusWidget;
+  final String keys;
+  final bool initiallyExpanded;
 
-  const OrdersProductList({super.key, required this.addCommentController});
+  const OrdersProductList(
+      {super.key,
+      required this.addCommentController,
+      required this.trackingID,
+      required this.trackingNum,
+      required this.updateDt,
+      required this.status,
+      required this.onPressed,
+      required this.eta,
+      required this.buysButton,
+      this.onExpansionChanged,
+      required this.statusWidget,
+      required this.keys,
+      required this.initiallyExpanded});
 
   @override
   Widget build(BuildContext context) {
@@ -24,42 +48,50 @@ class OrdersProductList extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             CommonTextWidget(
-              title: "Order #4",
+              title: "Order #$trackingID",
               size: 14,
               color: AppColors.greyWithOpacity,
             ),
-            CommonButtonWidget(
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (_) {
-                      return OrderDetailsDialogBoxWidget(
-                        title: 'Add Comment',
-                        subTitle: '',
-                        textEditingController: addCommentController,
-                        widget: CommonButtonWidget(
-                          onPressed: () async {},
-                          buttonTxt: 'Submit',
-                          btnHeight: AppConstant.size.height * 0.06,
-                          btnWidth: AppConstant.size.width * 0.5,
-                          txtColor: AppColors.txtWhiteColor,
-                          colors: Colors.lightBlue,
-                          isEnabled: true,
-                        ),
-                      );
-                    });
-              },
-              buttonTxt: "Delivered",
-              btnHeight: 35,
-              btnWidth: 120,
-              txtColor: Colors.white,
-              colors: Colors.blue,
-              isEnabled: true,
-            )
+            // CommonButtonWidget(
+            //   onPressed: () {
+            //     showDialog(
+            //         context: context,
+            //         builder: (_) {
+            //           return OrderDetailsDialogBoxWidget(
+            //             title: 'Add Comment',
+            //             subTitle: '',
+            //             textEditingController: addCommentController,
+            //             widget: CommonButtonWidget(
+            //               onPressed: () async {},
+            //               buttonTxt: 'Submit',
+            //               btnHeight: AppConstant.size.height * 0.06,
+            //               btnWidth: AppConstant.size.width * 0.5,
+            //               txtColor: AppColors.txtWhiteColor,
+            //               colors: Colors.lightBlue,
+            //               isEnabled: true,
+            //             ),
+            //           );
+            //         });
+            //   },
+            //   buttonTxt: "$status",
+            //   btnHeight: 35,
+            //   btnWidth: AppConstant.size.width * 0.2,
+            //   txtColor: Colors.white,
+            //   colors: Colors.blue,
+            //   isEnabled: true,
+            // ) ,
+            ElevatedButton(
+              onPressed: onPressed,
+              child: CommonTextWidget(
+                title: '$status',
+                size: 14,
+                color: AppColors.whiteBackgroundColor,
+              ),
+            ),
           ],
         ),
         CommonTextWidget(
-          title: "Cart Packaging V1",
+          title: "$trackingNum",
           size: 14,
           color: AppColors.blueColor.withOpacity(0.8),
           fontWeight: FontWeight.bold,
@@ -68,11 +100,13 @@ class OrdersProductList extends StatelessWidget {
         //! There we make ExpansionTile
 
         ExpansionTile(
+          key: Key(keys),
           collapsedShape: const RoundedRectangleBorder(side: BorderSide.none),
           shape: const RoundedRectangleBorder(side: BorderSide.none),
+          onExpansionChanged: onExpansionChanged,
           childrenPadding: EdgeInsets.zero,
           enabled: true,
-          initiallyExpanded: false,
+          initiallyExpanded: initiallyExpanded,
           expandedCrossAxisAlignment: CrossAxisAlignment.start,
           maintainState: true,
           expandedAlignment: Alignment.topLeft,
@@ -80,9 +114,7 @@ class OrdersProductList extends StatelessWidget {
           dense: true,
           tilePadding: EdgeInsets.zero,
           title: CommonTextWidget(
-              title: 'November , 29 2022 14:54:23',
-              size: 14,
-              color: Colors.grey),
+              title: '$updateDt', size: 14, color: Colors.grey),
           children: [
             //! Status..
             Padding(
@@ -90,36 +122,7 @@ class OrdersProductList extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ProductStatusWidget(
-                    statusColor: AppColors.blueColor,
-                    width: 25,
-                    statusName: 'Design',
-                    iconData: Icons.edit_off_rounded,
-                    backGroundColor: Colors.blue,
-                  ),
-                  ProductStatusWidget(
-                    statusColor: AppColors.blueColor,
-                    width: 25,
-                    statusName: 'Production',
-                    iconData: Icons.pix_rounded,
-                    backGroundColor: Colors.blue,
-                  ),
-                  ProductStatusWidget(
-                    statusColor: AppColors.greenColor,
-                    width: 25,
-                    statusName: "on it's Way",
-                    iconData: Icons.fire_truck_outlined,
-                    backGroundColor: Colors.blue,
-                  ),
-                  ProductStatusWidget(
-                    statusColor: AppColors.greenColor,
-                    width: 0,
-                    statusName: 'Delivered',
-                    iconData: Icons.done,
-                    backGroundColor: Colors.green,
-                  )
-                ],
+                children: statusWidget,
               ),
             ),
 
@@ -129,24 +132,13 @@ class OrdersProductList extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 15, bottom: 15, top: 5),
               child: CommonTextWidget(
-                title: "Expected Date : Dec 20th 2022",
+                title: "Expected Date : $eta",
                 size: 15,
                 color: AppColors.blackBackgroundColor,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: BuysButtonWidget(
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (_) {
-                        return BuyAgainDialogBoxWidget();
-                      });
-                },
-              ),
-            ),
+            Align(alignment: Alignment.centerRight, child: buysButton),
           ],
         )
       ],

@@ -203,6 +203,7 @@ class ShippingAddressPage extends StatelessWidget {
 
                           const SizedBox(height: 10),
                           CommonTxtFieldWidget(
+                            obscureText: false,
                             textEditController:
                                 shippingController.nameController.value,
                             textInputType: TextInputType.name,
@@ -223,6 +224,7 @@ class ShippingAddressPage extends StatelessWidget {
                           const SizedBox(height: 8),
                           //! Email
                           CommonTxtFieldWidget(
+                            obscureText: false,
                             textEditController:
                                 shippingController.emailController.value,
                             textInputType: TextInputType.emailAddress,
@@ -250,6 +252,7 @@ class ShippingAddressPage extends StatelessWidget {
                             icons: Icons.phone,
                             iconColor: AppColors.blueColor,
                             hinText: 'Phone Number',
+                            obscureText: false,
                             maxLength: 10,
                             preFixText: '',
                             validator: (String? value) {
@@ -270,6 +273,7 @@ class ShippingAddressPage extends StatelessWidget {
                             textInputType: TextInputType.streetAddress,
                             icons: Icons.place_rounded,
                             iconColor: AppColors.blueColor,
+                            obscureText: false,
                             hinText: 'Address',
                             preFixText: '',
                             validator: (String? value) {
@@ -290,6 +294,7 @@ class ShippingAddressPage extends StatelessWidget {
                                       shippingController.cityController.value,
                                   textInputType: TextInputType.text,
                                   icons: Icons.location_city,
+                                  obscureText: false,
                                   iconColor: AppColors.blueColor,
                                   hinText: 'City',
                                   preFixText: '',
@@ -307,6 +312,7 @@ class ShippingAddressPage extends StatelessWidget {
                                 child: CommonTxtFieldWidget(
                                   textEditController:
                                       shippingController.stateController.value,
+                                  obscureText: false,
                                   textInputType: TextInputType.text,
                                   icons: Icons.location_city,
                                   iconColor: AppColors.blueColor,
@@ -331,6 +337,7 @@ class ShippingAddressPage extends StatelessWidget {
                             icons: Icons.numbers,
                             iconColor: AppColors.blueColor,
                             maxLength: 5,
+                            obscureText: false,
                             hinText: 'Zip Code',
                             preFixText: '',
                             validator: (String? value) {

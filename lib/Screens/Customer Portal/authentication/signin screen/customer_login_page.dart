@@ -56,6 +56,7 @@ class CustomerLoginPage extends StatelessWidget {
                             icons: Icons.email,
                             textInputType: TextInputType.emailAddress,
                             hinText: "Email",
+                            obscureText: false,
                             preFixText: "",
                             validator: (val) {
                               // var reg = RegExp(FormValidator.emailReg);
@@ -110,6 +111,7 @@ class CustomerLoginPage extends StatelessWidget {
                                 .customerPhoneNumberController.value,
                             icons: Icons.phone,
                             maxLength: 10,
+                            obscureText: false,
                             textInputType: TextInputType.phone,
                             hinText: "Phone",
                             preFixText: "+1 ",
